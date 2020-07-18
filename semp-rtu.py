@@ -8,7 +8,7 @@ import sys
 import threading
 import time
 
-from pymodbus.server.asynchronous import StartSerialServer
+from pymodbus.server.sync import StartSerialServer
 from pymodbus.constants import Endian
 from pymodbus.device import ModbusDeviceIdentification
 from pymodbus.transaction import ModbusRtuFramer
@@ -17,12 +17,17 @@ from pymodbus.datastore import ModbusServerContext
 from pymodbus.payload import BinaryPayloadBuilder
 
 
-def t_update(ctx, config, stop, module, device):
+def t_update(ctx, stop, module, device):
+
+    this_t = threading.currentThread()
+    logger = logging.getLogger()
+
     while not stop.is_set():
         try:
             values = module.values(device)
 
             if not values:
+                logger.debug(f"{this_t.name}: no new values")
                 continue
 
             block_1001 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
@@ -141,7 +146,7 @@ if __name__ == "__main__":
 
     if args.verbose:
         logger.setLevel(logging.DEBUG)
-    
+
     slaves = {}
     threads = []
     thread_stops = []
@@ -151,8 +156,6 @@ if __name__ == "__main__":
             address = confparser[meter].getint("dst_address", fallback=default_config["meters"]["dst_address"])
             meter_type = confparser[meter].get("type", fallback=default_config["meters"]["type"])
             meter_module = importlib.import_module(f"devices.{meter_type}")
-            
-            logger.debug(f"Meter defined: {address} {meter_type} {meter_module}")
 
             meter_device = meter_module.device(
                 host=confparser[meter].get("host", fallback=False),
