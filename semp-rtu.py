@@ -277,4 +277,3 @@ if __name__ == "__main__":
             t_stop.set()
         for t in threads:
             t.join()
-    
