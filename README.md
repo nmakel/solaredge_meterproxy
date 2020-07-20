@@ -17,10 +17,12 @@ Todo.
 
 ## Creating Device Scripts
 
-Support for various kWh meters can be added by creating a Python script in the `devices` directory which conforms to two guidelines:
+Support for various kWh meters can be added by creating a Python script in the `devices` directory, which adheres to the following:
 
-* A device handle, active connection object, or any other unique identifier, is returned by the `device()` function.
-* A `dict` containing new meter values is returned when the device handle is passed to a `values()` function.
+* It is named according to the device it masquerades, after which it can be used as a `type` when configuring meters.
+* It contains a `device()` function, which returns a device handle, active connection object, or other unique identifier.
+* It contains a `values()` function, which returns a `dict` containing new meter values when passed the result of `device()`.
+* The `device()` and `values()` functions adhere to their function prototypes in `/devices/generic.py`.
 
 For a skeleton implementation, see `/devices/generic.py`.
 
