@@ -17,7 +17,7 @@ from pymodbus.datastore import ModbusServerContext
 from pymodbus.payload import BinaryPayloadBuilder
 
 
-def t_update(ctx, stop, module, device):
+def t_update(ctx, stop, module, device, refresh):
 
     this_t = threading.currentThread()
     logger = logging.getLogger()
@@ -96,7 +96,7 @@ def t_update(ctx, stop, module, device):
         except Exception as e:
             logger.critical(f"{this_t.name}: {e}")
         finally:
-            time.sleep(1)
+            time.sleep(refresh)
 
 
 if __name__ == "__main__":
@@ -108,7 +108,8 @@ if __name__ == "__main__":
     default_config = {
         "server": {
             "device": "/dev/ttyUSB0",
-            "log_file": "semp.log",
+            "baud": 9600,
+            "timeout": 0.1,
             "log_level": "INFO",
             "meters": ''
         },
@@ -122,12 +123,10 @@ if __name__ == "__main__":
             "timeout": 1,
             "retries": 3,
             "ct_current": 5,
-            "p1_ct_current": 5,
-            "p2_ct_current": 5,
-            "p3_ct_current": 5,
             "ct_inverted": 0,
             "phase_offset": 120,
-            "serial_number": 987654
+            "serial_number": 987654,
+            "refresh_rate": 5
         }
     }
 
@@ -239,13 +238,25 @@ if __name__ == "__main__":
             block_1701.add_16bit_int(0) # error status 8
             slave_ctx.setValues(3, 1700, block_1701.to_registers())
 
+            update_t_stop = threading.Event()
+            update_t = threading.Thread(
+                target=t_update,
+                name=f"t_update_{address}",
+                args=(
+                    slave_ctx,
+                    update_t_stop,
+                    meter_module,
+                    meter_device,
+                    confparser[meter].getint("refresh_rate", fallback=default_config["meters"]["refresh_rate"])
+                )
+            )
+
             threads.append(update_t)
             thread_stops.append(update_t_stop)
 
             slaves.update({address: slave_ctx})
             logger.info(f"Created {update_t}: {meter} {meter_type} {meter_device}")
 
-        device = confparser["server"].get("device", fallback=default_config["server"]["device"])
         identity = ModbusDeviceIdentification()
         server_ctx = ModbusServerContext(slaves=slaves, single=False)
 
@@ -259,9 +270,9 @@ if __name__ == "__main__":
             server_ctx,
             framer=ModbusRtuFramer,
             identity=identity,
-            port=device,
-            baudrate=9600,
-            timeout=0.1
+            port=confparser["server"].get("device", fallback=default_config["server"]["device"]),
+            baudrate=confparser["server"].get("baud", fallback=default_config["server"]["baud"]),
+            timeout=confparser["server"].get("timeout", fallback=default_config["server"]["timeout"])
         )
     except KeyboardInterrupt:
         pass
