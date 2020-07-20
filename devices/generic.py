@@ -10,4 +10,4 @@ def values(device):
     if not device:
         return {}
 
-    return device.read_all()
+    return {}
