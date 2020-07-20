@@ -151,7 +151,9 @@ if __name__ == "__main__":
     thread_stops = []
 
     try:
-        for meter in confparser["server"].get("meters", fallback=default_config["server"]["meters"]).split(','):
+        meters = [m.strip() for m in confparser["server"].get("meters", fallback=default_config["server"]["meters"]).split(',')]
+
+        for meter in meters:
             address = confparser[meter].getint("dst_address", fallback=default_config["meters"]["dst_address"])
             meter_type = confparser[meter].get("type", fallback=default_config["meters"]["type"])
             meter_module = importlib.import_module(f"devices.{meter_type}")
@@ -169,24 +171,13 @@ if __name__ == "__main__":
             )
 
             slave_ctx = ModbusSlaveContext()
-            update_t_stop = threading.Event()
-            update_t = threading.Thread(
-                target=t_update,
-                name=f"t_update_{address}",
-                args=(
-                    slave_ctx,
-                    update_t_stop,
-                    meter_module,
-                    meter_device
-                )
-            )
 
             block_1601 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
             block_1601.add_32bit_int(1234) # config passcode
             block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current
-            block_1601.add_16bit_int(confparser[meter].getint("p1_ct_current", fallback=default_config["meters"]["p1_ct_current"])) # ct rated current l1
-            block_1601.add_16bit_int(confparser[meter].getint("p2_ct_current", fallback=default_config["meters"]["p2_ct_current"])) # ct rated current l2
-            block_1601.add_16bit_int(confparser[meter].getint("p3_ct_current", fallback=default_config["meters"]["p3_ct_current"])) # ct rated current l3
+            block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current l1
+            block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current l2
+            block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current l3
             block_1601.add_16bit_int(confparser[meter].getint("ct_inverted", fallback=default_config["meters"]["ct_inverted"])) # ct direction inversion
             block_1601.add_16bit_int(0) # measurement averaging
             block_1601.add_16bit_int(0) # power scale
