@@ -2,16 +2,24 @@
 
 solaredge_meterproxy is a python tool that proxies Modbus requests from SolarEdge power inverters to unsupported kWh meters. While SolarEdge only supports a [limited number](https://www.solaredge.com/se-supported-devices) of revenue meters, by masquerading as a supported meter it is possible to supply your own meter values to the SolarEdge inverter for production, consumption, import/export monitoring, and export limitation.
 
+This tool simulates one or more [WattNode WNC-3Y-400-MB](https://ctlsys.com/product/wattnode-modbus/) revenue meters, functionally similar to the rebranded SE-WNC-3Y-400-MB-K1 and SE-RGMTR-3D-208V-A/SE-RGMTR-3Y-208V-A. The Modbus registers of these simulated meters can then be updated with values from otherwise unsupported kWh meters.
+
+Supported devices and data sources:
+
+* SDM120 (Modbus RTU, TCP)
+* SDM230 (Modbus RTU, TCP)
+* SDM630 (Modbus RTU, TCP)
+
 
 ## Usage
 
 Todo.
 
-### Configure your SolarEdge inverter
+### Configure your SolarEdge Inverter
 
 Todo.
 
-### Configure semp.conf
+### Configuration file
 
 Todo.
 
@@ -28,7 +36,7 @@ For a skeleton implementation, see `/devices/generic.py`.
 
 ### device()
 
-The `device()` function is called _once_. It gets passed a number of device specific variables, as configured in the global configuration file. It must return a data structure which contains either an active connection, or enough information to identify the device in your datastore. This datastore will be passed to the `values()` function. `host`, `port` and `device` are not substituted by default values if left blank. 
+The `device()` function is called _once_. It gets passed a number of device specific variables, as configured in the global configuration file. It must return a data structure which contains either an active connection, or enough information to identify the device in your datastore. This data structure will be passed to the `values()` function. `host`, `port` and `device` are not substituted by default values if left blank. 
 
 While the intent is to masquerade another Modbus or ModbusTCP device, it should be possible to use virtually any type of data store. InfluxDB, or SQLite, for example.
 
