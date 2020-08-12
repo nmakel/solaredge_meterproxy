@@ -23,7 +23,7 @@ Run `semp-rtu.py` on a device physically connected via RS485 -- either natively 
       -v, --verbose
 ```
 
-By default, `semp-rtu.py` assumes your RS485 device is located at `/dev/ttyUSB0` with a baud rate of `9600`. The device you will probably need to change, the baud you should not. While configuring and test solaredge_meterproxy, you should probably run `semp-rtu.py` in debug mode.
+By default, `semp-rtu.py` assumes your RS485 device is located at `/dev/ttyUSB0` with a baud rate of `9600`. The device you will probably need to change, the baud you should not. While configuring and testing solaredge_meterproxy, you should probably run `semp-rtu.py` in debug mode.
 
 RS485 server and proxied meter configurations can be set in `semp.conf`, see [Configuration File](https://github.com/nmakel/solaredge_meterproxy#configuration-file).
 
