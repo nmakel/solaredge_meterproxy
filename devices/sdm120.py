@@ -4,7 +4,8 @@ import sdm_modbus
 def device(
         host=False, port=False,
         device=False, stopbits=False, parity=False, baud=False,
-        timeout=False, retries=False, unit=False
+        timeout=False, retries=False, unit=False,
+        extended=False
     ):
 
     if device:

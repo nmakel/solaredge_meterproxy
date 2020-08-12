@@ -126,7 +126,8 @@ if __name__ == "__main__":
             "ct_inverted": 0,
             "phase_offset": 120,
             "serial_number": 987654,
-            "refresh_rate": 5
+            "refresh_rate": 5,
+            "extended": False
         }
     }
 
@@ -167,7 +168,8 @@ if __name__ == "__main__":
                 baud=confparser[meter].getint("baud", fallback=default_config["meters"]["baud"]),
                 timeout=confparser[meter].getint("timeout", fallback=default_config["meters"]["timeout"]),
                 retries=confparser[meter].getint("retries", fallback=default_config["meters"]["retries"]),
-                unit=confparser[meter].getint("src_address", fallback=default_config["meters"]["src_address"])
+                unit=confparser[meter].getint("src_address", fallback=default_config["meters"]["src_address"]),
+                extended=confparser[meter].get("extended", fallback=default_config["extended"])
             )
 
             slave_ctx = ModbusSlaveContext()
