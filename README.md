@@ -13,7 +13,7 @@ Supported devices and data sources:
 
 ## Usage
 
-Run `semp-rtu.py` on a device physically connected via RS485 -- either natively or via USB adapter -- to a SolarEdge inverter. 
+Run `semp-rtu.py` on a device physically connected via RS485 &mdash; either natively or via USB adapter &mdash; to a SolarEdge inverter. 
 ```
     usage: semp-rtu.py [-h] [-c CONFIG] [-v]
 
