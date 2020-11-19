@@ -13,7 +13,7 @@ def device(
             device=device,
             stopbits=stopbits,
             parity=parity,
-            baudrate=baud,
+            baud=baud,
             timeout=timeout,
             unit=unit
         )
