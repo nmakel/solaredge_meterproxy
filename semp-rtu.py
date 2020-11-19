@@ -169,7 +169,7 @@ if __name__ == "__main__":
                 timeout=confparser[meter].getint("timeout", fallback=default_config["meters"]["timeout"]),
                 retries=confparser[meter].getint("retries", fallback=default_config["meters"]["retries"]),
                 unit=confparser[meter].getint("src_address", fallback=default_config["meters"]["src_address"]),
-                extended=confparser[meter].get("extended", fallback=default_config["extended"])
+                extended=confparser[meter].get("extended", fallback=default_config["meters"]["extended"])
             )
 
             slave_ctx = ModbusSlaveContext()
