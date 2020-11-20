@@ -114,20 +114,13 @@ if __name__ == "__main__":
             "meters": ''
         },
         "meters": {
-            "src_address": 1,
             "dst_address": 2,
             "type": "generic",
-            "stopbits": 1,
-            "parity": "N",
-            "baud": 9600,
-            "timeout": 1,
-            "retries": 3,
             "ct_current": 5,
             "ct_inverted": 0,
             "phase_offset": 120,
             "serial_number": 987654,
-            "refresh_rate": 5,
-            "extended": False
+            "refresh_rate": 5
         }
     }
 
