@@ -151,19 +151,7 @@ if __name__ == "__main__":
             address = confparser[meter].getint("dst_address", fallback=default_config["meters"]["dst_address"])
             meter_type = confparser[meter].get("type", fallback=default_config["meters"]["type"])
             meter_module = importlib.import_module(f"devices.{meter_type}")
-
-            meter_device = meter_module.device(
-                host=confparser[meter].get("host", fallback=False),
-                port=confparser[meter].getint("port", fallback=False),
-                device=confparser[meter].get("device", fallback=False),
-                stopbits=confparser[meter].getint("stopbits", fallback=default_config["meters"]["stopbits"]),
-                parity=confparser[meter].get("parity", fallback=default_config["meters"]["parity"]).upper(),
-                baud=confparser[meter].getint("baud", fallback=default_config["meters"]["baud"]),
-                timeout=confparser[meter].getint("timeout", fallback=default_config["meters"]["timeout"]),
-                retries=confparser[meter].getint("retries", fallback=default_config["meters"]["retries"]),
-                unit=confparser[meter].getint("src_address", fallback=default_config["meters"]["src_address"]),
-                extended=confparser[meter].get("extended", fallback=default_config["meters"]["extended"])
-            )
+            meter_device = meter_module.device(confparser[meter])
 
             slave_ctx = ModbusSlaveContext()
 
