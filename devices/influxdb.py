@@ -43,7 +43,6 @@ def device(config):
 
 
 def values(device):
-
     if not device:
         return {}
 
