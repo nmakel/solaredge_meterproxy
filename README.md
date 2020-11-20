@@ -9,6 +9,7 @@ Supported devices and data sources:
 * SDM120 (Modbus RTU, TCP)
 * SDM230 (Modbus RTU, TCP)
 * SDM630 (Modbus RTU, TCP)
+* InfluxDB
 
 
 ## Usage
