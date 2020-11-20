@@ -8,12 +8,12 @@ def device(config):
 
     # Configuration parameters:
     # 
-    # host          ip or hostname of influxdb server
+    # host          ip or hostname
     # port          influxdb port
     # database      database name
     # bucket        bucket name
-    # where_key     tag name identifying the meter values
-    # where_value   tag value identifying the meter values
+    # where_key     tag name identifying the meter
+    # where_value   tag value identifying the meter
 
     logger = logging.getLogger()
 
