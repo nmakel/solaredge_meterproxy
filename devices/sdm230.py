@@ -52,6 +52,9 @@ def device(config):
 
 
 def values(device):
+    if not device:
+        return {}
+
     values = device.read_all()
 
     return {
