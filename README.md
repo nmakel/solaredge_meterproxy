@@ -63,6 +63,8 @@ The serial server, and one or more source meters, can be configured in a python 
 
 For an overview of all configurable parameters, see `semp.conf`.
 
+Device scripts contain additional, required, configuration parameters. Consult the relevant device script for an overview.
+
 ## Creating Device Scripts
 
 Support for various kWh meters can be added by creating a Python script in the `devices` directory. This script should adhere to the following:
@@ -76,7 +78,7 @@ For a skeleton implementation, see `/devices/generic.py`.
 
 ### device()
 
-The `device()` function is called _once_. It gets passed a number of device specific variables, as configured in the global configuration file. It must return a data structure which contains either an active connection, or enough information to identify the device in your datastore. This data structure will be passed to the `values()` function. `host`, `port` and `device` are not substituted by default values if left blank. 
+The `device()` function is called _once_. It gets passed a `configparser` object with the meter's configuration parameters, as configured in the global configuration file. It must return a data structure which contains either an active connection, or enough information to identify the device in your datastore. This data structure will be passed to the `values()` function. `host`, `port` and `device` are not substituted by default values if left blank. 
 
 While the intent is to masquerade another Modbus or ModbusTCP device, it should be possible to use virtually any type of data store. InfluxDB, or SQLite, for example.
 
