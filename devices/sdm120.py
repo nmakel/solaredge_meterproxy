@@ -1,20 +1,44 @@
 import sdm_modbus
 
 
-def device(
-        host=False, port=False,
-        device=False, stopbits=False, parity=False, baud=False,
-        timeout=False, retries=False, unit=False,
-        extended=False
-    ):
+def device(config):
+
+    # Configuration parameters:
+    # 
+    # unit      modbus address
+    # timeout   seconds to wait for a response
+    # retries   number of retries
+    #
+    # For Modbus TCP:
+    # host      ip or hostname
+    # port      modbus tcp port
+    #
+    # For Modbus RTU:
+    # device    serial device, e.g. /dev/ttyUSB0
+    # stopbits  number of stop bits
+    # parity    parity setting, N or E
+    # baud      baud rate
+    
+    
+    host=config.get("host", fallback=False)
+    port=config.getint("port", fallback=False)
+    device=config.get("device", fallback=False)
+    timeout=config.getint("timeout", fallback=1)
+    retries=config.getint("retries", fallback=3)
+    unit=config.getint("unit", fallback=1)
 
     if device:
+        stopbits=config.getint("stopbits", fallback=False)
+        parity=config.get("parity", fallback=False)
+        baud=config.getint("baud", fallback=False)
+
         return sdm_modbus.SDM120(
             device=device,
             stopbits=stopbits,
             parity=parity,
             baud=baud,
             timeout=timeout,
+            retries=retries,
             unit=unit
         )
     else:
@@ -22,6 +46,7 @@ def device(
             host=host,
             port=port,
             timeout=timeout,
+            retries=retries,
             unit=unit
         )
 
