@@ -109,7 +109,7 @@ if __name__ == "__main__":
         "server": {
             "device": "/dev/ttyUSB0",
             "baud": 9600,
-            "timeout": 0.1,
+            "timeout": 1,
             "log_level": "INFO",
             "meters": ''
         },
