@@ -101,7 +101,7 @@ def t_update(ctx, stop, module, device, refresh):
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
-    argparser.add_argument("-c", "--config", type=str, default="semp.conf")
+    argparser.add_argument("-c", "--config", type=str, default="semp-rtu.conf")
     argparser.add_argument("-v", "--verbose", action="store_true", default=False)
     args = argparser.parse_args()
 
