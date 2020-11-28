@@ -14,7 +14,7 @@ Supported devices and data sources:
 
 ## Usage
 
-Run `semp-rtu.py` on a device physically connected via RS485 &mdash; either natively or via USB adapter &mdash; to a SolarEdge inverter. 
+Run `semp-rtu.py` or `semp-tcp.py` on a device physically connected via RS485 &mdash; either natively or via USB adapter &mdash;, or by way of a Modbus RTU to Modbus TCP gateway to a SolarEdge inverter. 
 ```
     usage: semp-rtu.py [-h] [-c CONFIG] [-v]
 
@@ -26,7 +26,7 @@ Run `semp-rtu.py` on a device physically connected via RS485 &mdash; either nati
 
 By default, `semp-rtu.py` assumes your RS485 device is located at `/dev/ttyUSB0` with a baud rate of `9600`. The device you will probably need to change, the baud you should not. While configuring and testing solaredge_meterproxy, you should probably run `semp-rtu.py` in debug mode.
 
-RS485 server and proxied meter configurations can be set in `semp.conf`, see [Configuration File](https://github.com/nmakel/solaredge_meterproxy#configuration-file).
+RS485 server and proxied meter configurations can be set in `semp-rtu.conf`, while TCP server configurations are found in `semp-tcp.conf`. See [Configuration File](https://github.com/nmakel/solaredge_meterproxy#configuration-file).
 
 ### Configure your SolarEdge Inverter
 
@@ -59,9 +59,9 @@ If, after configuring a meter in the SetApp interface, you only see meter connec
 
 ### Configuration file
 
-The serial server, and one or more source meters, can be configured in a python `configparser` formatted configuration file. If a file named `semp.conf` is present, this will be loaded by default. If this file does not exist, generic defaults will be loaded. Provide your own configuration file using the `--config` parameter.
+The __serial server__, and one or more source meters, can be configured in a python `configparser` formatted configuration file. If a file named `semp-rtu.conf` is present, this will be loaded by default. If this file does not exist, generic defaults will be loaded. Provide your own configuration file using the `--config` parameter. Similarly, a __TCP server__ can be configured using `semp-tcp.conf`.
 
-For an overview of all configurable parameters, see `semp.conf`.
+For an overview of all configurable parameters, see `semp-rtu.conf` or `semp-tcp.conf`.
 
 Device scripts contain additional, required, configuration parameters. Consult the relevant device script for an overview.
 
