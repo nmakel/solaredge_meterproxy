@@ -29,8 +29,14 @@ def device(config):
 
     if device:
         stopbits = config.getint("stopbits", fallback=False)
-        parity = config.get("parity", fallback=False).upper()
+        parity = config.get("parity", fallback=False)
         baud = config.getint("baud", fallback=False)
+
+        if (parity
+                and parity.upper() in ["N", "E", "O"]):
+            parity = parity.upper()
+        else
+            parity = False
 
         return sdm_modbus.SDM120(
             device=device,
