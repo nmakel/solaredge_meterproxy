@@ -8,7 +8,7 @@ import sys
 import threading
 import time
 
-from pymodbus.server.sync import StartSerialServer
+from pymodbus.server.sync import StartTcpServer
 from pymodbus.constants import Endian
 from pymodbus.device import ModbusDeviceIdentification
 from pymodbus.transaction import ModbusRtuFramer
@@ -243,8 +243,8 @@ if __name__ == "__main__":
             server_ctx,
             identity=identity,
             address=(
-                confparser["server"].get("address", fallback=default_config["server"]["address"])
-                confparser["server"].get("port", fallback=default_config["server"]["port"]),
+                confparser["server"].get("address", fallback=default_config["server"]["address"]),
+                confparser["server"].get("port", fallback=default_config["server"]["port"])
             )
         )
     except KeyboardInterrupt:
