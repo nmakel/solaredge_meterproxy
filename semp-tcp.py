@@ -144,91 +144,95 @@ if __name__ == "__main__":
     thread_stops = []
 
     try:
-        meters = [m.strip() for m in confparser["server"].get("meters", fallback=default_config["server"]["meters"]).split(',')]
+        if confparser.has_option("server", "meters"):
+            meters = [m.strip() for m in confparser["server"].get("meters", fallback=default_config["server"]["meters"]).split(',')]
 
-        for meter in meters:
-            address = confparser[meter].getint("dst_address", fallback=default_config["meters"]["dst_address"])
-            meter_type = confparser[meter].get("type", fallback=default_config["meters"]["type"])
-            meter_module = importlib.import_module(f"devices.{meter_type}")
-            meter_device = meter_module.device(confparser[meter])
+            for meter in meters:
+                address = confparser[meter].getint("dst_address", fallback=default_config["meters"]["dst_address"])
+                meter_type = confparser[meter].get("type", fallback=default_config["meters"]["type"])
+                meter_module = importlib.import_module(f"devices.{meter_type}")
+                meter_device = meter_module.device(confparser[meter])
 
-            slave_ctx = ModbusSlaveContext()
+                slave_ctx = ModbusSlaveContext()
 
-            block_1601 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
-            block_1601.add_32bit_int(1234) # config passcode
-            block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current
-            block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current l1
-            block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current l2
-            block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current l3
-            block_1601.add_16bit_int(confparser[meter].getint("ct_inverted", fallback=default_config["meters"]["ct_inverted"])) # ct direction inversion
-            block_1601.add_16bit_int(0) # measurement averaging
-            block_1601.add_16bit_int(0) # power scale
-            block_1601.add_16bit_int(15) # demand period
-            block_1601.add_16bit_int(1) # demand subintervals
-            block_1601.add_16bit_int(10000) # power/energy adjustment l1
-            block_1601.add_16bit_int(10000) # power/energy adjustment l2
-            block_1601.add_16bit_int(10000) # power/energy adjustment l3
-            block_1601.add_16bit_int(-1000) # ct phase angle adjustment l1
-            block_1601.add_16bit_int(-1000) # ct phase angle adjustment l2
-            block_1601.add_16bit_int(-1000) # ct phase angle adjustment l3
-            block_1601.add_16bit_int(1500) # minimum power reading
-            block_1601.add_16bit_int(confparser[meter].getint("phase_offset", fallback=default_config["meters"]["phase_offset"])) # phase offset
-            block_1601.add_16bit_int(0) # reset energy
-            block_1601.add_16bit_int(0) # reset demand
-            block_1601.add_16bit_int(20000) # current scale
-            block_1601.add_16bit_int(0) # io pin mode
-            slave_ctx.setValues(3, 1600, block_1601.to_registers())
+                block_1601 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
+                block_1601.add_32bit_int(1234) # config passcode
+                block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current
+                block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current l1
+                block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current l2
+                block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current l3
+                block_1601.add_16bit_int(confparser[meter].getint("ct_inverted", fallback=default_config["meters"]["ct_inverted"])) # ct direction inversion
+                block_1601.add_16bit_int(0) # measurement averaging
+                block_1601.add_16bit_int(0) # power scale
+                block_1601.add_16bit_int(15) # demand period
+                block_1601.add_16bit_int(1) # demand subintervals
+                block_1601.add_16bit_int(10000) # power/energy adjustment l1
+                block_1601.add_16bit_int(10000) # power/energy adjustment l2
+                block_1601.add_16bit_int(10000) # power/energy adjustment l3
+                block_1601.add_16bit_int(-1000) # ct phase angle adjustment l1
+                block_1601.add_16bit_int(-1000) # ct phase angle adjustment l2
+                block_1601.add_16bit_int(-1000) # ct phase angle adjustment l3
+                block_1601.add_16bit_int(1500) # minimum power reading
+                block_1601.add_16bit_int(confparser[meter].getint("phase_offset", fallback=default_config["meters"]["phase_offset"])) # phase offset
+                block_1601.add_16bit_int(0) # reset energy
+                block_1601.add_16bit_int(0) # reset demand
+                block_1601.add_16bit_int(20000) # current scale
+                block_1601.add_16bit_int(0) # io pin mode
+                slave_ctx.setValues(3, 1600, block_1601.to_registers())
 
-            block_1651 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
-            block_1651.add_16bit_int(0) # apply config
-            block_1651.add_16bit_int(address) # modbus address
-            block_1651.add_16bit_int(4) # baud rate
-            block_1651.add_16bit_int(0) # parity mode
-            block_1651.add_16bit_int(0) # modbus mode
-            block_1651.add_16bit_int(5) # message delay
-            slave_ctx.setValues(3, 1650, block_1651.to_registers())
+                block_1651 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
+                block_1651.add_16bit_int(0) # apply config
+                block_1651.add_16bit_int(address) # modbus address
+                block_1651.add_16bit_int(4) # baud rate
+                block_1651.add_16bit_int(0) # parity mode
+                block_1651.add_16bit_int(0) # modbus mode
+                block_1651.add_16bit_int(5) # message delay
+                slave_ctx.setValues(3, 1650, block_1651.to_registers())
 
-            block_1701 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
-            block_1701.add_32bit_int(confparser[meter].getint("serial_number", fallback=default_config["meters"]["serial_number"])) # serial number
-            block_1701.add_32bit_int(0) # uptime (s)
-            block_1701.add_32bit_int(0) # total uptime (s)
-            block_1701.add_16bit_int(0) # wattnode model
-            block_1701.add_16bit_int(25) # firmware version
-            block_1701.add_16bit_int(0) # wattnode options
-            block_1701.add_16bit_int(0) # error status
-            block_1701.add_16bit_int(0) # power fail count
-            block_1701.add_16bit_int(0) # crc error count
-            block_1701.add_16bit_int(0) # frame error count
-            block_1701.add_16bit_int(0) # packet error count
-            block_1701.add_16bit_int(0) # overrun count
-            block_1701.add_16bit_int(0) # error status 1
-            block_1701.add_16bit_int(0) # error status 2
-            block_1701.add_16bit_int(0) # error status 3
-            block_1701.add_16bit_int(0) # error status 4
-            block_1701.add_16bit_int(0) # error status 5
-            block_1701.add_16bit_int(0) # error status 6
-            block_1701.add_16bit_int(0) # error status 7
-            block_1701.add_16bit_int(0) # error status 8
-            slave_ctx.setValues(3, 1700, block_1701.to_registers())
+                block_1701 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
+                block_1701.add_32bit_int(confparser[meter].getint("serial_number", fallback=default_config["meters"]["serial_number"])) # serial number
+                block_1701.add_32bit_int(0) # uptime (s)
+                block_1701.add_32bit_int(0) # total uptime (s)
+                block_1701.add_16bit_int(0) # wattnode model
+                block_1701.add_16bit_int(25) # firmware version
+                block_1701.add_16bit_int(0) # wattnode options
+                block_1701.add_16bit_int(0) # error status
+                block_1701.add_16bit_int(0) # power fail count
+                block_1701.add_16bit_int(0) # crc error count
+                block_1701.add_16bit_int(0) # frame error count
+                block_1701.add_16bit_int(0) # packet error count
+                block_1701.add_16bit_int(0) # overrun count
+                block_1701.add_16bit_int(0) # error status 1
+                block_1701.add_16bit_int(0) # error status 2
+                block_1701.add_16bit_int(0) # error status 3
+                block_1701.add_16bit_int(0) # error status 4
+                block_1701.add_16bit_int(0) # error status 5
+                block_1701.add_16bit_int(0) # error status 6
+                block_1701.add_16bit_int(0) # error status 7
+                block_1701.add_16bit_int(0) # error status 8
+                slave_ctx.setValues(3, 1700, block_1701.to_registers())
 
-            update_t_stop = threading.Event()
-            update_t = threading.Thread(
-                target=t_update,
-                name=f"t_update_{address}",
-                args=(
-                    slave_ctx,
-                    update_t_stop,
-                    meter_module,
-                    meter_device,
-                    confparser[meter].getint("refresh_rate", fallback=default_config["meters"]["refresh_rate"])
+                update_t_stop = threading.Event()
+                update_t = threading.Thread(
+                    target=t_update,
+                    name=f"t_update_{address}",
+                    args=(
+                        slave_ctx,
+                        update_t_stop,
+                        meter_module,
+                        meter_device,
+                        confparser[meter].getint("refresh_rate", fallback=default_config["meters"]["refresh_rate"])
+                    )
                 )
-            )
 
-            threads.append(update_t)
-            thread_stops.append(update_t_stop)
+                threads.append(update_t)
+                thread_stops.append(update_t_stop)
 
-            slaves.update({address: slave_ctx})
-            logger.info(f"Created {update_t}: {meter} {meter_type} {meter_device}")
+                slaves.update({address: slave_ctx})
+                logger.info(f"Created {update_t}: {meter} {meter_type} {meter_device}")
+
+        if not slaves:
+            logger.warning(f"No meters defined in {args.config}")
 
         identity = ModbusDeviceIdentification()
         server_ctx = ModbusServerContext(slaves=slaves, single=False)
