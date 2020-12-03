@@ -42,6 +42,8 @@ First, ensure your SolarEdge inverter is set to Modbus ID #1:
 - Set the __Protocol__ to __SunSpec (Non-SE Logger)__.
 - Set the __Device ID__ to __1__.
 
+Once you are done with the SunSpec setup you can re-configure RS485-1 for your meter. The SunSpec setting will remain in the memory of the SolarEdge.
+
 Now, add a meter:
 
 - Set the __Protocol__ to __Modbus (Multi-Device)__.
