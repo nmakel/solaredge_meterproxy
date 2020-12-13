@@ -35,7 +35,7 @@ def device(config):
         if (parity
                 and parity.upper() in ["N", "E", "O"]):
             parity = parity.upper()
-        else
+        else:
             parity = False
 
         return sdm_modbus.SDM120(
