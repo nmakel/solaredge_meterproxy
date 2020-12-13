@@ -4,7 +4,7 @@ import sdm_modbus
 def device(config):
 
     # Configuration parameters:
-    # 
+    #
     # timeout   seconds to wait for a response, default: 1
     # retries   number of retries, default: 3
     # unit      modbus address, default: 1

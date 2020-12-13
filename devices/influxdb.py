@@ -7,7 +7,7 @@ import sys
 def device(config):
 
     # Configuration parameters:
-    # 
+    #
     # host          ip or hostname
     # port          influxdb port
     # database      database name
