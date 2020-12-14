@@ -248,7 +248,7 @@ if __name__ == "__main__":
             identity=identity,
             address=(
                 confparser["server"].get("address", fallback=default_config["server"]["address"]),
-                confparser["server"].get("port", fallback=default_config["server"]["port"])
+                confparser["server"].getint("port", fallback=default_config["server"]["port"])
             )
         )
     except KeyboardInterrupt:
