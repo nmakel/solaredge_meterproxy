@@ -107,7 +107,7 @@ if __name__ == "__main__":
 
     default_config = {
         "server": {
-            "address": "",
+            "address": "localhost",
             "port": 5502,
             "log_level": "INFO",
             "meters": ''
