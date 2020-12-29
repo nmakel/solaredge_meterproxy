@@ -28,9 +28,9 @@ def device(config):
     device = config.get("device", fallback=False)
 
     if device:
-        stopbits = config.getint("stopbits", fallback=False)
-        parity = config.get("parity", fallback=False)
-        baud = config.getint("baud", fallback=False)
+        stopbits = config.getint("stopbits", fallback=1)
+        parity = config.get("parity", fallback="N")
+        baud = config.getint("baud", fallback=9600)
 
         if (parity
                 and parity.upper() in ["N", "E", "O"]):
