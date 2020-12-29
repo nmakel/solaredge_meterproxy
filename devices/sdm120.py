@@ -61,7 +61,12 @@ def values(device):
     if not device:
         return {}
 
+    logger = logging.getLogger()
+    logger.debug(f"device: {device}")
+
     values = device.read_all()
+
+    logger.debug(f"values: {values}")
 
     return {
         "energy_active": values.get("total_energy_active", 0),
