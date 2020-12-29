@@ -17,9 +17,9 @@ def device(config):
 
     logger = logging.getLogger()
 
-    host = config.get("host", fallback=False)
-    port = config.getint("port", fallback=False)
-    database = config.get("database", fallback=False)
+    host = config.get("host", fallback="localhost")
+    port = config.getint("port", fallback=8086)
+    database = config.get("database", fallback="measurements")
     bucket = config.get("bucket", fallback=False)
     where_key = config.get("where_key", fallback=False)
     where_value = config.get("where_value", fallback=False)
