@@ -1,3 +1,5 @@
+import logging
+
 import sdm_modbus
 
 

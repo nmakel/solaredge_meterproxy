@@ -1,7 +1,8 @@
-import influxdb
 import logging
 import requests
 import sys
+
+import influxdb
 
 
 def device(config):
