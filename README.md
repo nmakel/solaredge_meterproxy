@@ -117,6 +117,8 @@ src_address=1
 dst_address=2
 ```
 
+If you receive `DEBUG: Frame check failed, ignoring!!` errors, the Modbus TCP gateway is probably sending you RTU frames inside TCP packets. In that case, set the `framer = rtu` configuration parameter inside the `[server]` block.
+
 
 ## Creating Device Scripts
 

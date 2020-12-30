@@ -11,6 +11,7 @@ import time
 from pymodbus.server.sync import StartTcpServer
 from pymodbus.constants import Endian
 from pymodbus.device import ModbusDeviceIdentification
+from pymodbus.transaction import ModbusSocketFramer
 from pymodbus.transaction import ModbusRtuFramer
 from pymodbus.datastore import ModbusSlaveContext
 from pymodbus.datastore import ModbusServerContext
@@ -109,6 +110,7 @@ if __name__ == "__main__":
         "server": {
             "address": "localhost",
             "port": 5502,
+            "framer": "socket",
             "log_level": "INFO",
             "meters": ''
         },
@@ -234,6 +236,14 @@ if __name__ == "__main__":
         if not slaves:
             logger.warning(f"No meters defined in {args.config}")
 
+        config_framer = confparser["server"].get("framer", fallback=default_config["server"]["framer"])
+        framer = False
+
+        if config_framer == "socket":
+            framer = ModbusSocketFramer
+        elif config_framer == "rtu":
+            framer = ModbusRtuFramer
+
         identity = ModbusDeviceIdentification()
         server_ctx = ModbusServerContext(slaves=slaves, single=False)
 
@@ -245,6 +255,7 @@ if __name__ == "__main__":
 
         StartTcpServer(
             server_ctx,
+            framer=framer,
             identity=identity,
             address=(
                 confparser["server"].get("address", fallback=default_config["server"]["address"]),
