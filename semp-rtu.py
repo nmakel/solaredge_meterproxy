@@ -157,13 +157,13 @@ if __name__ == "__main__":
                 slave_ctx = ModbusSlaveContext()
 
                 block_1601 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
-                block_1601.add_32bit_int(1234) # config passcode
+                block_1601.add_32bit_int(0) # config passcode
                 block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current
                 block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current l1
                 block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current l2
                 block_1601.add_16bit_int(confparser[meter].getint("ct_current", fallback=default_config["meters"]["ct_current"])) # ct rated current l3
                 block_1601.add_16bit_int(confparser[meter].getint("ct_inverted", fallback=default_config["meters"]["ct_inverted"])) # ct direction inversion
-                block_1601.add_16bit_int(0) # measurement averaging
+                block_1601.add_16bit_int(1) # measurement averaging
                 block_1601.add_16bit_int(0) # power scale
                 block_1601.add_16bit_int(15) # demand period
                 block_1601.add_16bit_int(1) # demand subintervals
@@ -194,7 +194,7 @@ if __name__ == "__main__":
                 block_1701.add_32bit_int(confparser[meter].getint("serial_number", fallback=default_config["meters"]["serial_number"])) # serial number
                 block_1701.add_32bit_int(0) # uptime (s)
                 block_1701.add_32bit_int(0) # total uptime (s)
-                block_1701.add_16bit_int(0) # wattnode model
+                block_1701.add_16bit_int(203) # wattnode model
                 block_1701.add_16bit_int(25) # firmware version
                 block_1701.add_16bit_int(0) # wattnode options
                 block_1701.add_16bit_int(0) # error status
