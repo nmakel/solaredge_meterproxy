@@ -109,6 +109,7 @@ if __name__ == "__main__":
         "server": {
             "device": "/dev/ttyUSB0",
             "baud": 9600,
+            "parity": "E",
             "timeout": 1,
             "log_level": "INFO",
             "meters": ''
@@ -250,6 +251,7 @@ if __name__ == "__main__":
             identity=identity,
             port=confparser["server"].get("device", fallback=default_config["server"]["device"]),
             baudrate=confparser["server"].get("baud", fallback=default_config["server"]["baud"]),
+            parity=confparser["server"].get("parity", fallback=default_config["server"]["parity"]),
             timeout=confparser["server"].get("timeout", fallback=default_config["server"]["timeout"])
         )
     except KeyboardInterrupt:
