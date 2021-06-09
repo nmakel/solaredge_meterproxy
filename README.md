@@ -2,7 +2,7 @@
 
 solaredge_meterproxy is a python tool that responds to Modbus requests from SolarEdge power inverters with data from unsupported kWh meters. While SolarEdge only supports a [limited number](https://www.solaredge.com/se-supported-devices) of revenue meters, by masquerading as a supported meter it is possible to supply your own meter values to the SolarEdge inverter for production, consumption, import/export monitoring, and export limitation.
 
-This tool simulates one or more [WattNode WNC-3Y-400-MB](https://ctlsys.com/product/wattnode-modbus/) revenue meters, functionally similar to the rebranded SE-WNC-3Y-400-MB-K1 and SE-RGMTR-3D-208V-A/SE-RGMTR-3Y-208V-A. The Modbus registers of these simulated meters can then be updated with values from otherwise unsupported kWh meters, or sourced from a variety of data sources.
+This tool simulates one or more [WattNode WNC-3Y-400-MB](https://ctlsys.com/product/wattnode-modbus/) revenue meters, functionally similar to the rebranded SE-WNC-3Y-400-MB-K1. The Modbus registers of these simulated meters can then be updated with values from otherwise unsupported kWh meters, or sourced from a variety of data sources.
 
 SolarEdge inverters only use Modbus RTU over RS485 to communicate with meters, this project supports both Modbus RTU when connected directly to an inverter over RS485, *and* Modbus TCP in case a Modbus TCP gateway is connected to the inverter. This functionality has been tested using an [ICP-DAS tGW-715](https://www.icpdas.com/en/product/tGW-715) and [Elfin EE11](http://www.hi-flying.com/elfin-ee10-elfin-ee11) Modbus TCP to RTU gateway.
 
