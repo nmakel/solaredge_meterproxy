@@ -112,7 +112,7 @@ if __name__ == "__main__":
             "parity": "E",
             "timeout": 1,
             "log_level": "INFO",
-            "meters": ''
+            "meters": ""
         },
         "meters": {
             "dst_address": 2,
@@ -120,7 +120,7 @@ if __name__ == "__main__":
             "ct_current": 5,
             "ct_inverted": 0,
             "phase_offset": 120,
-            "serial_number": 987654,
+            "serial_number": 0x0D010556,
             "refresh_rate": 5
         }
     }
