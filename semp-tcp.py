@@ -196,7 +196,7 @@ if __name__ == "__main__":
                 block_1701.add_32bit_int(0) # uptime (s)
                 block_1701.add_32bit_int(0) # total uptime (s)
                 block_1701.add_16bit_int(0) # wattnode model
-                block_1701.add_16bit_int(25) # firmware version
+                block_1701.add_16bit_int(26) # firmware version
                 block_1701.add_16bit_int(0) # wattnode options
                 block_1701.add_16bit_int(0) # error status
                 block_1701.add_16bit_int(0) # power fail count
@@ -253,7 +253,7 @@ if __name__ == "__main__":
             t.start()
             logger.info(f"Starting {t}")
 
-        StartTcpServer(
+        server = StartTcpServer(
             server_ctx,
             framer=framer,
             identity=identity,
