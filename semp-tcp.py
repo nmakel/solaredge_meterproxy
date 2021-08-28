@@ -195,8 +195,8 @@ if __name__ == "__main__":
                 block_1701.add_32bit_int(confparser[meter].getint("serial_number", fallback=default_config["meters"]["serial_number"])) # serial number
                 block_1701.add_32bit_int(0) # uptime (s)
                 block_1701.add_32bit_int(0) # total uptime (s)
-                block_1701.add_16bit_int(0) # wattnode model
-                block_1701.add_16bit_int(26) # firmware version
+                block_1701.add_16bit_int(202) # wattnode model
+                block_1701.add_16bit_int(31) # firmware version
                 block_1701.add_16bit_int(0) # wattnode options
                 block_1701.add_16bit_int(0) # error status
                 block_1701.add_16bit_int(0) # power fail count
