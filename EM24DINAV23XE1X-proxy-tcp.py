@@ -18,6 +18,14 @@ from pymodbus.datastore import ModbusServerContext
 from pymodbus.payload import BinaryPayloadBuilder
 
 
+class EM24SlaveContext(ModbusSlaveContext):
+    def getValues(self, fx, address, count=1):
+        if (address == 11 and count==1):
+            print("Return Gavazzi Model number 1648")
+            return [1648]
+        return super().getValues(fx, address, count)
+
+
 def t_update(ctx, stop, module, device, refresh):
 
     this_t = threading.currentThread()
@@ -155,7 +163,8 @@ if __name__ == "__main__":
                 meter_module = importlib.import_module(f"devices.{meter_type}")
                 meter_device = meter_module.device(confparser[meter])
 
-                slave_ctx = ModbusSlaveContext()
+                slave_ctx = EM24SlaveContext()
+                # slave_ctx = ModbusSlaveContext()
 
                 block_0x0000 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
                                 
@@ -240,11 +249,6 @@ if __name__ == "__main__":
                 block_0x0000.add_32bit_int( 123), #0123 007Ah 2 DMD A max INT32 Value weight: Ampere*1000 N/A 1.0
 
                 slave_ctx.setValues(3, 0x0000, block_0x0000.to_registers())
-
-                block_0x000B = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
-                block_0x000B.add_16bit_int(1648), #0012 000Bh 1 Carlo Gavazzi identification code UINT 16 For a valid request, length must be 1, otherwise the request is forwarded to instantaneous variables
-                                                  # EM24DINAV23XE1X 1648 (0x670)
-                slave_ctx.setValues(3, 0x000B, block_0x000B.to_registers())
 
                 update_t_stop = threading.Event()
                 update_t = threading.Thread(
