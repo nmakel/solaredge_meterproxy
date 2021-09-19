@@ -252,7 +252,7 @@ if __name__ == "__main__":
             port=confparser["server"].get("device", fallback=default_config["server"]["device"]),
             baudrate=confparser["server"].get("baud", fallback=default_config["server"]["baud"]),
             parity=confparser["server"].get("parity", fallback=default_config["server"]["parity"]),
-            timeout=confparser["server"].get("timeout", fallback=default_config["server"]["timeout"])
+            timeout=float(confparser["server"].get("timeout", fallback=default_config["server"]["timeout"]))
         )
     except KeyboardInterrupt:
         pass
