@@ -7,7 +7,6 @@ import logging
 import sys
 import threading
 import time
-import string
 
 from pymodbus.server.sync import StartTcpServer
 from pymodbus.constants import Endian
@@ -34,11 +33,11 @@ def setMeterValues(values, block):
 
     block.add_16bit_uint(1)
     block.add_16bit_uint(65)
-    block.add_string    (string.ljust(32, values.get("c_manufacturer"  ,"12345678901234567890123456789012"),' '))
-    block.add_string    (string.ljust(32, values.get("c_model"         ,"12345678901234567890123456789012"),' '))
-    block.add_string    (string.ljust(16, values.get("c_option"        ,"1234567890123456"),' '))
-    block.add_string    (string.ljust(16, values.get("c_version"       ,"1234567890123456"),' '))
-    block.add_string    (string.ljust(32, values.get("c_serialnumber"  ,"12345678901234567890123456789012"),' '))
+    block.add_string    (values.get("c_manufacturer"  ,"12345678901234567890123456789012").ljust(32,' '))
+    block.add_string    (values.get("c_model"         ,"12345678901234567890123456789012").ljust(32,' '))
+    block.add_string    (values.get("c_option"        ,"1234567890123456").ljust(16,' '))
+    block.add_string    (values.get("c_version"       ,"1234567890123456").ljust(16,' '))
+    block.add_string    (values.get("c_serialnumber"  ,"12345678901234567890123456789012").ljust(32,' '))
     block.add_16bit_int (values.get("c_deviceaddress" , 0))
 
     block.add_16bit_int (values.get("c_sunspec_did"   , 103))
@@ -156,11 +155,11 @@ def t_update(ctx, stop, module, device, refresh):
             block_40000.add_string("SunS") 
             block_40000.add_16bit_int(1)
             block_40000.add_16bit_int (values.get("C_SunSpec_Length", 65))
-            block_40000.add_string    (string.ljust(32, values.get("c_manufacturer"  ,"12345678901234567890123456789012"),' '))
-            block_40000.add_string    (string.ljust(32, values.get("c_model"         ,"12345678901234567890123456789012"),' '))
-            block_40000.add_string    (string.ljust(16,                               "NOT_IMPLEMENTED.",' '))
-            block_40000.add_string    (string.ljust(16, values.get("c_version"       ,"1234567890123456"),' '))
-            block_40000.add_string    (string.ljust(32, values.get("c_serialnumber"  ,"12345678901234567890123456789012"),' '))
+            block_40000.add_string    (values.get("c_manufacturer"  ,"12345678901234567890123456789012").ljust(32,' '))
+            block_40000.add_string    (values.get("c_model"         ,"12345678901234567890123456789012").ljust(32,' '))
+            block_40000.add_string    (                              "NOT_IMPLEMENTED.".ljust(16,' '))
+            block_40000.add_string    (values.get("c_version"       ,"1234567890123456").ljust(16,' '))
+            block_40000.add_string    (values.get("c_serialnumber"  ,"12345678901234567890123456789012").ljust(32,' '))
             block_40000.add_16bit_int (values.get("c_deviceaddress" , 0))
 
             block_40000.add_16bit_int (values.get("c_sunspec_did"   , 103))
