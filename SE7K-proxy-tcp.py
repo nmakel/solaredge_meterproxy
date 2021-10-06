@@ -203,11 +203,16 @@ def t_update(ctx, stop, module, device, refresh):
             block_40000.add_16bit_uint(values.get("voltage_dc" , 0))
             block_40000.add_16bit_int (values.get("voltage_dc_scale" , 0))
 
-            block_40000.add_16bit_uint(values.get("power_dc" , 0))
+            block_40000.add_16bit_int(values.get("power_dc" , 0))
             block_40000.add_16bit_int (values.get("power_dc_scale" , 0))
 
-            block_40000.add_16bit_uint(values.get("temperature" , 0))
-            block_40000.add_16bit_int (values.get("temperature_scale" , 0))
+            block_40000.add_16bit_int(0)  # 1 dummy word
+
+            block_40000.add_16bit_int(values.get("temperature" , 0))
+            block_40000.add_16bit_int(values.get("temperature_scale" , 0))
+
+            block_40000.add_16bit_int(0)  # 1 dummy word
+            block_40000.add_16bit_int(0)  # 1 dummy word
 
             block_40000.add_16bit_uint(values.get("status" , 0))
             block_40000.add_16bit_uint(values.get("vendor_status" , 0))
