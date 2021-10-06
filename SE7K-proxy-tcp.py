@@ -225,18 +225,18 @@ def t_update(ctx, stop, module, device, refresh):
             ctx.setValues(3, 40000, block_40000.to_registers())
 
             block_40121 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
-            setMeterValues(values["meters"]["Meter1"],block_40121)
-            
             ctx.setValues(3, 40121, block_40121.to_registers())
-            block_40295 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
-            ctx.setValues(3, 40295, block_40295.to_registers())
-            block_40469 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
-            ctx.setValues(3, 40469, block_40469.to_registers())
+            #setMeterValues(values["meters"]["Meter1"],block_40121)
+            
+            # block_40295 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
+            # ctx.setValues(3, 40295, block_40295.to_registers())
+            # block_40469 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
+            # ctx.setValues(3, 40469, block_40469.to_registers())
 
-            block_57598 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
-            ctx.setValues(3, 57598, block_57598.to_registers())
-            block_57854 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
-            ctx.setValues(3, 57854, block_57854.to_registers())
+            # block_57598 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
+            # ctx.setValues(3, 57598, block_57598.to_registers())
+            # block_57854 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
+            # ctx.setValues(3, 57854, block_57854.to_registers())
 
         except Exception as e:
             logger.critical(f"{this_t.name}: {e}")
