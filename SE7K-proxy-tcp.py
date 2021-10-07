@@ -313,7 +313,7 @@ if __name__ == "__main__":
                         update_t_stop,
                         meter_module,
                         meter_device,
-                        confparser[meter].getint("refresh_rate", fallback=default_config["meters"]["refresh_rate"])
+                        confparser[meter].getfloat("refresh_rate", fallback=default_config["meters"]["refresh_rate"])
                     )
                 )
 
