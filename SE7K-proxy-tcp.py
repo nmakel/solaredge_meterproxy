@@ -178,20 +178,19 @@ def t_update(ctx, stop, module, device, refresh):
             block_40000.add_16bit_uint(values.get("p3n_voltage" , 0))
             block_40000.add_16bit_int (values.get("voltage_scale" , 0))
             
-            block_40000.add_16bit_uint(values.get("power_ac" , 0))
+            block_40000.add_16bit_int(values.get("power_ac" , 0))
             block_40000.add_16bit_int (values.get("power_ac_scale" , 0))
 
             block_40000.add_16bit_uint(values.get("frequency" , 0))
             block_40000.add_16bit_int (values.get("frequency_scale" , 0))
 
-
-            block_40000.add_16bit_uint(values.get("power_apparent" , 0))
+            block_40000.add_16bit_int(values.get("power_apparent" , 0))
             block_40000.add_16bit_int (values.get("power_apparent_scale" , 0))
 
-            block_40000.add_16bit_uint(values.get("power_reactive" , 0))
+            block_40000.add_16bit_int(values.get("power_reactive" , 0))
             block_40000.add_16bit_int (values.get("power_reactive_scale" , 0))
 
-            block_40000.add_16bit_uint(values.get("power_factor" , 0))
+            block_40000.add_16bit_int(values.get("power_factor" , 0))
             block_40000.add_16bit_int (values.get("power_factor_scale" , 0))
 
             block_40000.add_32bit_uint(values.get("energy_total" , 0))
@@ -218,7 +217,7 @@ def t_update(ctx, stop, module, device, refresh):
             block_40000.add_16bit_uint(values.get("vendor_status" , 0))
 
             block_40000.add_16bit_uint(values.get("rrcr_state" , 0))
-            block_40000.add_16bit_uint(values.get("active_power_limit" , 0))
+            block_40000.add_16bit_int(values.get("active_power_limit" , 0))
             block_40000.add_32bit_float(values.get("cosphi" , 0))
 
             block_40000.add_string("123456789012345678901234") # 12 dummy worter = 24 Byte
