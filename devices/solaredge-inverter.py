@@ -68,7 +68,7 @@ def values(device):
 
     values = {}
     inverter_values=device.read_all()
-    logger.info(f"inverter_values: {inverter_values}")
+    
     # append type to key to prevent key name collision with legacy values
     values = {key+'_'+re.search('\'(.*)\'',str(type(value))).group(1):value for key, value in inverter_values.items()}  
     
@@ -85,7 +85,7 @@ def values(device):
         battery_values = params.read_all()
         values["connected_batteries"][battery] = {key+'_'+re.search('\'(.*)\'',str(type(value))).group(1):value for key, value in battery_values.items()}
 
-    logger.info(f"values: {values}")
+    logger.debug(f"values: {values}")
 
     return values    
     # append type to key
