@@ -1,5 +1,5 @@
 import logging
-
+import re
 import solaredge_modbus
 
 
@@ -67,26 +67,25 @@ def values(device):
     logger.debug(f"device: {device}")
 
     values = {}
-    values = device.read_all()
+    inverter_values=device.read_all()
+    logger.info(f"inverter_values: {inverter_values}")
+    # append type to key to prevent key name collision with legacy values
+    values = {key+'_'+re.search('\'(.*)\'',str(type(value))).group(1):value for key, value in inverter_values.items()}  
+    
     meters = device.meters()
     batteries = device.batteries()
-    values["meters"] = {}
-    values["batteries"] = {}
+    values["connected_meters"] = {}
+    values["connected_batteries"] = {}
 
     for meter, params in meters.items():
         meter_values = params.read_all()
-        values["meters"][meter] = meter_values
+        values["connected_meters"][meter] = {key+'_'+re.search('\'(.*)\'',str(type(value))).group(1):value for key, value in meter_values.items()}
 
     for battery, params in batteries.items():
         battery_values = params.read_all()
-        values["batteries"][battery] = battery_values
+        values["connected_batteries"][battery] = {key+'_'+re.search('\'(.*)\'',str(type(value))).group(1):value for key, value in battery_values.items()}
 
-    logger.debug(f"values: {values}")
+    logger.info(f"values: {values}")
 
-    
-    for battery, params in batteries.items():
-        battery_values = params.read_all()
-        values["batteries"][battery] = battery_values
-    
-    return values        
-    
+    return values    
+    # append type to key

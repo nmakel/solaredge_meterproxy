@@ -25,6 +25,94 @@ class EM24SlaveContext(ModbusSlaveContext):
             return [1648]
         return super().getValues(fx, address, count)
 
+def setMeterValues(values, block):
+    if not values:
+        block.add_16bit_uint(0)
+        block.add_16bit_uint(0)
+        return
+
+    block.add_32bit_int(   1), #0001 0000h 2 V L1-N INT32 Value weight: Volt*10 N/A 1.0 
+    block.add_32bit_int(   3), #0003 0002h 2 V L2-N INT32 N/A 1.0 
+    block.add_32bit_int(   5), #0005 0004h 2 V L3-N INT32 N/A 1.0 
+    block.add_32bit_int(   7), #0007 0006h 2 V L1-L2 INT32 N/A 1.0 
+    block.add_32bit_int(   9), #0009 0008h 2 V L2-L3 INT32 N/A 1.0 
+    block.add_32bit_int(  11), #0011 000Ah 2 V L3-L1 INT32 N/A 1.0 
+    block.add_32bit_int(  13), #0013 000Ch 2 A L1 INT32 Value weight: Ampere*1000 N/A 1.0 
+    block.add_32bit_int(  15), #0015 000Eh 2 A L2 INT32 N/A 1.0 
+    block.add_32bit_int(  17), #0017 0010h 2 A L3 INT32 N/A 1.0 
+    block.add_32bit_int(  19), #0019 0012h 2 W L1 INT32 Value weight: Watt*10 N/A 1.0 
+    block.add_32bit_int(  21), #0021 0014h 2 W L2 INT32 N/A 1.0 
+    block.add_32bit_int(  23), #0023 0016h 2 W L3 INT32 N/A 1.0 
+    block.add_32bit_int(  25), #0025 0018h 2 VA L1 INT32 Value weight: VA*10 N/A 1.0 
+    block.add_32bit_int(  27), #0027 001Ah 2 VA L2 INT32 N/A 1.0 
+    block.add_32bit_int(  29), #0029 001Ch 2 VA L3 INT32 N/A 1.0 
+    block.add_32bit_int(  31), #0031 001Eh 2 VAR L1 INT32 Value weight: var*10 N/A 1.0 
+    block.add_32bit_int(  33), #0033 0020h 2 VAR L2 INT32 N/A 1.0 
+    block.add_32bit_int(  35), #0035 0022h 2 VAR L3 INT32 N/A 1.0 
+    block.add_32bit_int(  37), #0037 0024h 2 V L-N ? INT32 Value weight: Volt*10 N/A 1.0 
+    block.add_32bit_int(  39), #0039 0026h 2 V L-L ? INT32 N/A 1.0 
+    block.add_32bit_int(  41), #0041 0028h 2 W ? INT32 Value weight: Watt*10 N/A 1.0 
+    block.add_32bit_int(  43), #0043 002Ah 2 VA ? INT32 Value weight: VA*10 N/A 1.0 
+    block.add_32bit_int(  45), #0045 002Ch 2 VAR ? INT32 Value weight: var*10 N/A 1.0 
+    block.add_16bit_int(  47), #0047 002Eh 1 PF L1 INT16 Negative values correspond to lead(C), positive value correspond to lag(L) Value weight: PF*1000 N/A 1.0 
+    block.add_16bit_int(  48), #0048 002Fh 1 PF L2 INT16 N/A 1.0 
+    block.add_16bit_int(  49), #0049 0030h 1 PF L3 INT16 N/A 1.0 
+    block.add_16bit_int(  50), #0050 0031h 1 PF ? INT16 N/A 1.0 
+    block.add_16bit_int(  51), #0051 0032h 1 Phase sequence INT16 Value �1 correspond to L1-L3-L2 sequence, value 0 correspond to L1-L2-L3 sequence (this value is meaningful only in case of 3-phase systems) N/A 1.0 
+    block.add_16bit_uint(  52),#0052 0033h 1 Hz UINT16 Value weight: Hz*10 N/A 1.0 
+    block.add_32bit_int(  53), #0053 0034h 2 KWh(+) TOT INT32 Value weight: kWh*10 N/A 1.0 
+    block.add_32bit_int(  55), #0055 0036h 2 Kvarh(+) TOT INT32 Value weight: kvarh*10 N/A 1.0 
+    block.add_32bit_int(  57), #0057 0038h 2 DMD W ? INT32 Value weight: Watt*10 N/A 1.0 
+    block.add_32bit_int(  59), #0059 003Ah 2 DMD W ? max INT32 Value weight: Watt*10 N/A 1.0 
+    block.add_32bit_int(  61), #0061 003Ch 2 KWh(+) PAR INT32 Value weight: kWh*10 N/A 1.0 
+    block.add_32bit_int(  63), #0063 003Eh 2 Kvarh(+) PAR INT32 Value weight: kvarh*10 N/A 1.0 
+    block.add_32bit_int(  65), #0065 0040h 2 KWh(+) L1 INT32 Value weight: kWh*10 N/A 1.0 
+    block.add_32bit_int(  67), #0067 0042h 2 KWh(+) L2 INT32 N/A 1.0 
+    block.add_32bit_int(  69), #0069 0044h 2 KWh(+) L3 INT32 N/A 1.0 
+    block.add_32bit_int(  71), #0071 0046h 2 KWh(+) T1 INT32 Value weight: kWh*10 N/A 1.0 
+    block.add_32bit_int(  73), #0073 0048h 2 KWh(+) T2 INT32 N/A 1.0 
+    block.add_32bit_int(  75), #0075 004Ah 2 KWh(+) T3 INT32 N/A 1.0 
+    block.add_32bit_int(  77), #0077 004Ch 2 KWh(+) T4 INT32 N/A 1.0 
+    block.add_32bit_int(  79), #0079 004Eh 2 KWh(-) TOT INT32 Value weight: kWh*10 N/A 1.0 
+    block.add_32bit_int(  81), #0081 0050h 2 Kvarh(-) TOT INT32 Value weight: kvarh*10 N/A 1.0 
+    block.add_16bit_int(  83), #0083       1 unused
+    block.add_16bit_int(  84), #0084       1 unused
+    block.add_16bit_int(  85), #0085       1 unused
+    block.add_16bit_int(  86), #0086       1 unused
+    block.add_16bit_int(  87), #0087       1 unused
+    block.add_16bit_int(  88), #0088       1 unused
+    block.add_16bit_int(  89), #0089       1 unused
+    block.add_16bit_int(  90), #0090       1 unused
+    block.add_32bit_int(  91), #0091 005Ah 2 Hour INT32 Value weight: hour*100 N/A 1.0 
+    block.add_16bit_int(  93), #0093       1 unused
+    block.add_16bit_int(  94), #0094       1 unused
+    block.add_16bit_int(  95), #0095       1 unused
+    block.add_16bit_int(  96), #0096       1 unused
+    block.add_16bit_int(  97), #0096       1 unused
+    block.add_16bit_int(  98), #0097       1 unused
+    block.add_16bit_int(  99), #0098       1 unused
+    block.add_16bit_int( 101), #0099       1 unused
+    block.add_16bit_int( 102), #0100       1 unused
+    block.add_16bit_int( 103), #0101       1 unused
+    block.add_16bit_int( 104), #0102       1 unused
+    block.add_16bit_int( 105), #0103       1 unused
+    block.add_16bit_int( 106), #0104       1 unused
+    block.add_16bit_int( 107), #0105       1 unused
+    block.add_16bit_int( 108), #0106       1 unused
+    block.add_16bit_int( 109), #0107       1 unused
+    block.add_16bit_int( 110), #0108       1 unused
+    block.add_16bit_int( 110), #0109       1 unused
+    block.add_16bit_int( 110), #0110       1 unused
+    block.add_32bit_int( 111), #0111 006Eh 2 Kvarh(+) T1 INT32 Value weight: kvarh*10 N/A 1.0 
+    block.add_32bit_int( 113), #0113 0070h 2 Kvarh(+) T2 INT32 N/A 1.0 
+    block.add_32bit_int( 115), #0115 0072h 2 Kvarh(+) T3 INT32 N/A 1.0 
+    block.add_32bit_int( 117), #0117 0074h 2 Kvarh(+) T4 INT32 N/A 1.0 
+    block.add_32bit_int( 119), #0119 0076h 2 DMD VA ? INT32 Value weight: VA*10 N/A 1.0 
+    block.add_32bit_int( 121), #0121 0078h 2 DMD VA ? max INT32 Value weight: VA*10 N/A 1.0 
+    block.add_32bit_int( 123), #0123 007Ah 2 DMD A max INT32 Value weight: Ampere*1000 N/A 1.0
+
+    #
+
 
 def t_update(ctx, stop, module, device, refresh):
 

@@ -30,6 +30,7 @@ def setMeterValues(values, block):
     if not values:
         block.add_16bit_uint(0)
         block.add_16bit_uint(0)
+        return
 
     block.add_16bit_uint(1)
     block.add_16bit_uint(65)
@@ -131,6 +132,7 @@ def setBatteryValues(values, block):
     if not values:
         block.add_16bit_uint(0)
         block.add_16bit_uint(0)
+        return
 
     block.add_16bit_uint(1)    ## TODO set correct values
     block.add_16bit_uint(65)   ## TODO set correct values
