@@ -17,7 +17,7 @@ from pymodbus.datastore import ModbusSlaveContext
 from pymodbus.datastore import ModbusServerContext
 from pymodbus.payload import BinaryPayloadBuilder
 
-
+sys.path.append('C:/gitHubClones/modbus/solaredge_modbus/src')
 class EM24SlaveContext(ModbusSlaveContext):
     def getValues(self, fx, address, count=1):
         if (address == 11 and count==1):
@@ -25,93 +25,6 @@ class EM24SlaveContext(ModbusSlaveContext):
             return [1648]
         return super().getValues(fx, address, count)
 
-def setMeterValues(values, block):
-    if not values:
-        block.add_16bit_uint(0)
-        block.add_16bit_uint(0)
-        return
-
-    block.add_32bit_int(   1), #0001 0000h 2 V L1-N INT32 Value weight: Volt*10 N/A 1.0 
-    block.add_32bit_int(   3), #0003 0002h 2 V L2-N INT32 N/A 1.0 
-    block.add_32bit_int(   5), #0005 0004h 2 V L3-N INT32 N/A 1.0 
-    block.add_32bit_int(   7), #0007 0006h 2 V L1-L2 INT32 N/A 1.0 
-    block.add_32bit_int(   9), #0009 0008h 2 V L2-L3 INT32 N/A 1.0 
-    block.add_32bit_int(  11), #0011 000Ah 2 V L3-L1 INT32 N/A 1.0 
-    block.add_32bit_int(  13), #0013 000Ch 2 A L1 INT32 Value weight: Ampere*1000 N/A 1.0 
-    block.add_32bit_int(  15), #0015 000Eh 2 A L2 INT32 N/A 1.0 
-    block.add_32bit_int(  17), #0017 0010h 2 A L3 INT32 N/A 1.0 
-    block.add_32bit_int(  19), #0019 0012h 2 W L1 INT32 Value weight: Watt*10 N/A 1.0 
-    block.add_32bit_int(  21), #0021 0014h 2 W L2 INT32 N/A 1.0 
-    block.add_32bit_int(  23), #0023 0016h 2 W L3 INT32 N/A 1.0 
-    block.add_32bit_int(  25), #0025 0018h 2 VA L1 INT32 Value weight: VA*10 N/A 1.0 
-    block.add_32bit_int(  27), #0027 001Ah 2 VA L2 INT32 N/A 1.0 
-    block.add_32bit_int(  29), #0029 001Ch 2 VA L3 INT32 N/A 1.0 
-    block.add_32bit_int(  31), #0031 001Eh 2 VAR L1 INT32 Value weight: var*10 N/A 1.0 
-    block.add_32bit_int(  33), #0033 0020h 2 VAR L2 INT32 N/A 1.0 
-    block.add_32bit_int(  35), #0035 0022h 2 VAR L3 INT32 N/A 1.0 
-    block.add_32bit_int(  37), #0037 0024h 2 V L-N ? INT32 Value weight: Volt*10 N/A 1.0 
-    block.add_32bit_int(  39), #0039 0026h 2 V L-L ? INT32 N/A 1.0 
-    block.add_32bit_int(  41), #0041 0028h 2 W ? INT32 Value weight: Watt*10 N/A 1.0 
-    block.add_32bit_int(  43), #0043 002Ah 2 VA ? INT32 Value weight: VA*10 N/A 1.0 
-    block.add_32bit_int(  45), #0045 002Ch 2 VAR ? INT32 Value weight: var*10 N/A 1.0 
-    block.add_16bit_int(  47), #0047 002Eh 1 PF L1 INT16 Negative values correspond to lead(C), positive value correspond to lag(L) Value weight: PF*1000 N/A 1.0 
-    block.add_16bit_int(  48), #0048 002Fh 1 PF L2 INT16 N/A 1.0 
-    block.add_16bit_int(  49), #0049 0030h 1 PF L3 INT16 N/A 1.0 
-    block.add_16bit_int(  50), #0050 0031h 1 PF ? INT16 N/A 1.0 
-    block.add_16bit_int(  51), #0051 0032h 1 Phase sequence INT16 Value �1 correspond to L1-L3-L2 sequence, value 0 correspond to L1-L2-L3 sequence (this value is meaningful only in case of 3-phase systems) N/A 1.0 
-    block.add_16bit_uint(  52),#0052 0033h 1 Hz UINT16 Value weight: Hz*10 N/A 1.0 
-    block.add_32bit_int(  53), #0053 0034h 2 KWh(+) TOT INT32 Value weight: kWh*10 N/A 1.0 
-    block.add_32bit_int(  55), #0055 0036h 2 Kvarh(+) TOT INT32 Value weight: kvarh*10 N/A 1.0 
-    block.add_32bit_int(  57), #0057 0038h 2 DMD W ? INT32 Value weight: Watt*10 N/A 1.0 
-    block.add_32bit_int(  59), #0059 003Ah 2 DMD W ? max INT32 Value weight: Watt*10 N/A 1.0 
-    block.add_32bit_int(  61), #0061 003Ch 2 KWh(+) PAR INT32 Value weight: kWh*10 N/A 1.0 
-    block.add_32bit_int(  63), #0063 003Eh 2 Kvarh(+) PAR INT32 Value weight: kvarh*10 N/A 1.0 
-    block.add_32bit_int(  65), #0065 0040h 2 KWh(+) L1 INT32 Value weight: kWh*10 N/A 1.0 
-    block.add_32bit_int(  67), #0067 0042h 2 KWh(+) L2 INT32 N/A 1.0 
-    block.add_32bit_int(  69), #0069 0044h 2 KWh(+) L3 INT32 N/A 1.0 
-    block.add_32bit_int(  71), #0071 0046h 2 KWh(+) T1 INT32 Value weight: kWh*10 N/A 1.0 
-    block.add_32bit_int(  73), #0073 0048h 2 KWh(+) T2 INT32 N/A 1.0 
-    block.add_32bit_int(  75), #0075 004Ah 2 KWh(+) T3 INT32 N/A 1.0 
-    block.add_32bit_int(  77), #0077 004Ch 2 KWh(+) T4 INT32 N/A 1.0 
-    block.add_32bit_int(  79), #0079 004Eh 2 KWh(-) TOT INT32 Value weight: kWh*10 N/A 1.0 
-    block.add_32bit_int(  81), #0081 0050h 2 Kvarh(-) TOT INT32 Value weight: kvarh*10 N/A 1.0 
-    block.add_16bit_int(  83), #0083       1 unused
-    block.add_16bit_int(  84), #0084       1 unused
-    block.add_16bit_int(  85), #0085       1 unused
-    block.add_16bit_int(  86), #0086       1 unused
-    block.add_16bit_int(  87), #0087       1 unused
-    block.add_16bit_int(  88), #0088       1 unused
-    block.add_16bit_int(  89), #0089       1 unused
-    block.add_16bit_int(  90), #0090       1 unused
-    block.add_32bit_int(  91), #0091 005Ah 2 Hour INT32 Value weight: hour*100 N/A 1.0 
-    block.add_16bit_int(  93), #0093       1 unused
-    block.add_16bit_int(  94), #0094       1 unused
-    block.add_16bit_int(  95), #0095       1 unused
-    block.add_16bit_int(  96), #0096       1 unused
-    block.add_16bit_int(  97), #0096       1 unused
-    block.add_16bit_int(  98), #0097       1 unused
-    block.add_16bit_int(  99), #0098       1 unused
-    block.add_16bit_int( 101), #0099       1 unused
-    block.add_16bit_int( 102), #0100       1 unused
-    block.add_16bit_int( 103), #0101       1 unused
-    block.add_16bit_int( 104), #0102       1 unused
-    block.add_16bit_int( 105), #0103       1 unused
-    block.add_16bit_int( 106), #0104       1 unused
-    block.add_16bit_int( 107), #0105       1 unused
-    block.add_16bit_int( 108), #0106       1 unused
-    block.add_16bit_int( 109), #0107       1 unused
-    block.add_16bit_int( 110), #0108       1 unused
-    block.add_16bit_int( 110), #0109       1 unused
-    block.add_16bit_int( 110), #0110       1 unused
-    block.add_32bit_int( 111), #0111 006Eh 2 Kvarh(+) T1 INT32 Value weight: kvarh*10 N/A 1.0 
-    block.add_32bit_int( 113), #0113 0070h 2 Kvarh(+) T2 INT32 N/A 1.0 
-    block.add_32bit_int( 115), #0115 0072h 2 Kvarh(+) T3 INT32 N/A 1.0 
-    block.add_32bit_int( 117), #0117 0074h 2 Kvarh(+) T4 INT32 N/A 1.0 
-    block.add_32bit_int( 119), #0119 0076h 2 DMD VA ? INT32 Value weight: VA*10 N/A 1.0 
-    block.add_32bit_int( 121), #0121 0078h 2 DMD VA ? max INT32 Value weight: VA*10 N/A 1.0 
-    block.add_32bit_int( 123), #0123 007Ah 2 DMD A max INT32 Value weight: Ampere*1000 N/A 1.0
-
-    #
 
 
 def t_update(ctx, stop, module, device, refresh):
@@ -121,30 +34,99 @@ def t_update(ctx, stop, module, device, refresh):
 
     while not stop.is_set():
         try:
+            values = {}
+            values = device.read_all()
+            meters = device.meters()
+            batteries = device.batteries()
+            values["meters"] = {}
+            values["batteries"] = {}
+
+            for meter, params in meters.items():
+                meter_values = params.read_all()
+                values["meters"][meter] = meter_values
+
+            for battery, params in batteries.items():
+                battery_values = params.read_all()
+                values["batteries"][battery] = battery_values
+
+            meterValues = values["meters"]["Meter1"]
+
+            
+
+            # print("current:"+str(meterValues['current']))
+
+            # print(meterValues['current']*10**meterValues['current_scale'])
+            # print(meterValues['p1_current']*10**meterValues['current_scale'])
+            # print(meterValues['p2_current']*10**meterValues['current_scale'])
+            # print(meterValues['p3_current']*10**meterValues['current_scale'])
+
+            # print(meterValues['voltage_ln']*10**meterValues['voltage_scale'])
+            # print(meterValues['p1n_voltage']*10**meterValues['voltage_scale'])
+            # print(meterValues['p2n_voltage']*10**meterValues['voltage_scale'])
+            # print(meterValues['p3n_voltage']*10**meterValues['voltage_scale'])
+            
+            # print(meterValues['voltage_ll']*10**meterValues['voltage_scale'])
+            # print(meterValues['p12_voltage']*10**meterValues['voltage_scale'])
+            # print(meterValues['p23_voltage']*10**meterValues['voltage_scale'])
+            # print(meterValues['p31_voltage']*10**meterValues['voltage_scale'])
+            
+            # print(meterValues['frequency']*10**meterValues['frequency_scale'])
+
+            # print(meterValues['power']*10**meterValues['power_scale'])
+            # print(meterValues['p1_power']*10**meterValues['power_scale'])
+            # print(meterValues['p2_power']*10**meterValues['power_scale'])
+            # print(meterValues['p3_power']*10**meterValues['power_scale'])
+
+            # print(meterValues['power_apparent']*10**meterValues['power_apparent_scale'])
+            # print(meterValues['p1_power_apparent']*10**meterValues['power_apparent_scale'])
+            # print(meterValues['p2_power_apparent']*10**meterValues['power_apparent_scale'])
+            # print(meterValues['p3_power_apparent']*10**meterValues['power_apparent_scale'])
+
+            # print(meterValues['power_reactive']*10**meterValues['power_reactive_scale'])
+            # print(meterValues['p1_power_reactive']*10**meterValues['power_reactive_scale'])
+            # print(meterValues['p2_power_reactive']*10**meterValues['power_reactive_scale'])
+            # print(meterValues['p3_power_reactive']*10**meterValues['power_reactive_scale'])
+
+            # print(meterValues['power_factor']*10**meterValues['power_factor_scale'])
+            # print(meterValues['p1_power_factor']*10**meterValues['power_factor_scale'])
+            # print(meterValues['p2_power_factor']*10**meterValues['power_factor_scale'])
+            # print(meterValues['p3_power_factor']*10**meterValues['power_factor_scale'])
+
+            # print(meterValues['export_energy_active']*10**meterValues['energy_active_scale'])
+            # print(meterValues['p1_export_energy_active']*10**meterValues['energy_active_scale'])
+            # print(meterValues['p2_export_energy_active']*10**meterValues['energy_active_scale'])
+            # print(meterValues['p3_export_energy_active']*10**meterValues['energy_active_scale'])
+
+            # print(meterValues['import_energy_active']*10**meterValues['energy_active_scale'])
+            # print(meterValues['p1_import_energy_active']*10**meterValues['energy_active_scale'])
+            # print(meterValues['p2_import_energy_active']*10**meterValues['energy_active_scale'])
+            # print(meterValues['p3_import_energy_active']*10**meterValues['energy_active_scale'])
+
+
             values = module.values(device)
 
             if not values:
                 logger.debug(f"{this_t.name}: no new values")
-                continue
+                continue         
 
             block_1001 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
             block_1001.add_32bit_float(values.get("energy_active", 0)) # total active energy
-            block_1001.add_32bit_float(values.get("import_energy_active", 0)) # imported active energy
+            block_1001.add_32bit_float(meterValues['import_energy_active']*10**meterValues['energy_active_scale']) # imported active energy
             block_1001.add_32bit_float(values.get("energy_active", 0)) # total active energy non-reset
-            block_1001.add_32bit_float(values.get("import_energy_active", 0)) # imported active energy non-reset
+            block_1001.add_32bit_float(meterValues['import_energy_active']*10**meterValues['energy_active_scale']) # imported active energy non-reset
             block_1001.add_32bit_float(values.get("power_active", 0)) # total power
             block_1001.add_32bit_float(values.get("p1_power_active", 0)) # power l1
             block_1001.add_32bit_float(values.get("p2_power_active", 0)) # power l2
             block_1001.add_32bit_float(values.get("p3_power_active", 0)) # power l3
-            block_1001.add_32bit_float(values.get("voltage_ln", 0)) # l-n voltage
-            block_1001.add_32bit_float(values.get("p1n_voltage", 0)) # l1-n voltage
-            block_1001.add_32bit_float(values.get("p2n_voltage", 0)) # l2-n voltage
-            block_1001.add_32bit_float(values.get("p3n_voltage", 0)) # l3-n voltage
-            block_1001.add_32bit_float(values.get("voltage_ll", 0)) # l-l voltage
-            block_1001.add_32bit_float(values.get("p12_voltage", 0)) # l1-l2 voltage
-            block_1001.add_32bit_float(values.get("p23_voltage", 0)) # l2-l3 voltage
-            block_1001.add_32bit_float(values.get("p31_voltage", 0)) # l3-l1 voltage
-            block_1001.add_32bit_float(values.get("frequency", 0)) # line frequency
+            block_1001.add_32bit_float(meterValues['voltage_ln']*10**meterValues['voltage_scale']) # l-n voltage
+            block_1001.add_32bit_float(meterValues['p1n_voltage']*10**meterValues['voltage_scale']) # l1-n voltage
+            block_1001.add_32bit_float(meterValues['p2n_voltage']*10**meterValues['voltage_scale']) # l2-n voltage
+            block_1001.add_32bit_float(meterValues['p3n_voltage']*10**meterValues['voltage_scale']) # l3-n voltage
+            block_1001.add_32bit_float(meterValues['voltage_ll']*10**meterValues['voltage_scale']) # l-l voltage
+            block_1001.add_32bit_float(meterValues['p12_voltage']*10**meterValues['voltage_scale']) # l1-l2 voltage
+            block_1001.add_32bit_float(meterValues['p23_voltage']*10**meterValues['voltage_scale']) # l2-l3 voltage
+            block_1001.add_32bit_float(meterValues['p31_voltage']*10**meterValues['voltage_scale']) # l3-l1 voltage
+            block_1001.add_32bit_float(meterValues['frequency']*10**meterValues['frequency_scale']) # line frequency
             ctx.setValues(3, 1000, block_1001.to_registers())
 
             block_1101 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
@@ -179,9 +161,9 @@ def t_update(ctx, stop, module, device, refresh):
             block_1101.add_32bit_float(values.get("p1_power_apparent", 0)) # apparent power l1
             block_1101.add_32bit_float(values.get("p2_power_apparent", 0)) # apparent power l2
             block_1101.add_32bit_float(values.get("p3_power_apparent", 0)) # apparent power l3
-            block_1101.add_32bit_float(values.get("p1_current", 0)) # current l1
-            block_1101.add_32bit_float(values.get("p2_current", 0)) # current l2
-            block_1101.add_32bit_float(values.get("p3_current", 0)) # current l3
+            block_1101.add_32bit_float(meterValues['p1_current']*10**meterValues['current_scale']) # current l1
+            block_1101.add_32bit_float(meterValues['p2_current']*10**meterValues['current_scale']) # current l2
+            block_1101.add_32bit_float(meterValues['p3_current']*10**meterValues['current_scale']) # current l3
             block_1101.add_32bit_float(values.get("demand_power_active", 0)) # demand power
             block_1101.add_32bit_float(values.get("minimum_demand_power_active", 0)) # minimum demand power
             block_1101.add_32bit_float(values.get("maximum_demand_power_active", 0)) # maximum demand power
@@ -254,89 +236,16 @@ if __name__ == "__main__":
                 slave_ctx = EM24SlaveContext()
                 # slave_ctx = ModbusSlaveContext()
 
-                block_0x0000 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
-                                
-                block_0x0000.add_32bit_int(   1), #0001 0000h 2 V L1-N INT32 Value weight: Volt*10 N/A 1.0 
-                block_0x0000.add_32bit_int(   3), #0003 0002h 2 V L2-N INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(   5), #0005 0004h 2 V L3-N INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(   7), #0007 0006h 2 V L1-L2 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(   9), #0009 0008h 2 V L2-L3 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  11), #0011 000Ah 2 V L3-L1 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  13), #0013 000Ch 2 A L1 INT32 Value weight: Ampere*1000 N/A 1.0 
-                block_0x0000.add_32bit_int(  15), #0015 000Eh 2 A L2 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  17), #0017 0010h 2 A L3 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  19), #0019 0012h 2 W L1 INT32 Value weight: Watt*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  21), #0021 0014h 2 W L2 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  23), #0023 0016h 2 W L3 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  25), #0025 0018h 2 VA L1 INT32 Value weight: VA*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  27), #0027 001Ah 2 VA L2 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  29), #0029 001Ch 2 VA L3 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  31), #0031 001Eh 2 VAR L1 INT32 Value weight: var*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  33), #0033 0020h 2 VAR L2 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  35), #0035 0022h 2 VAR L3 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  37), #0037 0024h 2 V L-N ? INT32 Value weight: Volt*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  39), #0039 0026h 2 V L-L ? INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  41), #0041 0028h 2 W ? INT32 Value weight: Watt*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  43), #0043 002Ah 2 VA ? INT32 Value weight: VA*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  45), #0045 002Ch 2 VAR ? INT32 Value weight: var*10 N/A 1.0 
-                block_0x0000.add_16bit_int(  47), #0047 002Eh 1 PF L1 INT16 Negative values correspond to lead(C), positive value correspond to lag(L) Value weight: PF*1000 N/A 1.0 
-                block_0x0000.add_16bit_int(  48), #0048 002Fh 1 PF L2 INT16 N/A 1.0 
-                block_0x0000.add_16bit_int(  49), #0049 0030h 1 PF L3 INT16 N/A 1.0 
-                block_0x0000.add_16bit_int(  50), #0050 0031h 1 PF ? INT16 N/A 1.0 
-                block_0x0000.add_16bit_int(  51), #0051 0032h 1 Phase sequence INT16 Value �1 correspond to L1-L3-L2 sequence, value 0 correspond to L1-L2-L3 sequence (this value is meaningful only in case of 3-phase systems) N/A 1.0 
-                block_0x0000.add_16bit_uint(  52),#0052 0033h 1 Hz UINT16 Value weight: Hz*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  53), #0053 0034h 2 KWh(+) TOT INT32 Value weight: kWh*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  55), #0055 0036h 2 Kvarh(+) TOT INT32 Value weight: kvarh*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  57), #0057 0038h 2 DMD W ? INT32 Value weight: Watt*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  59), #0059 003Ah 2 DMD W ? max INT32 Value weight: Watt*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  61), #0061 003Ch 2 KWh(+) PAR INT32 Value weight: kWh*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  63), #0063 003Eh 2 Kvarh(+) PAR INT32 Value weight: kvarh*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  65), #0065 0040h 2 KWh(+) L1 INT32 Value weight: kWh*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  67), #0067 0042h 2 KWh(+) L2 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  69), #0069 0044h 2 KWh(+) L3 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  71), #0071 0046h 2 KWh(+) T1 INT32 Value weight: kWh*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  73), #0073 0048h 2 KWh(+) T2 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  75), #0075 004Ah 2 KWh(+) T3 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  77), #0077 004Ch 2 KWh(+) T4 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int(  79), #0079 004Eh 2 KWh(-) TOT INT32 Value weight: kWh*10 N/A 1.0 
-                block_0x0000.add_32bit_int(  81), #0081 0050h 2 Kvarh(-) TOT INT32 Value weight: kvarh*10 N/A 1.0 
-                block_0x0000.add_16bit_int(  83), #0083       1 unused
-                block_0x0000.add_16bit_int(  84), #0084       1 unused
-                block_0x0000.add_16bit_int(  85), #0085       1 unused
-                block_0x0000.add_16bit_int(  86), #0086       1 unused
-                block_0x0000.add_16bit_int(  87), #0087       1 unused
-                block_0x0000.add_16bit_int(  88), #0088       1 unused
-                block_0x0000.add_16bit_int(  89), #0089       1 unused
-                block_0x0000.add_16bit_int(  90), #0090       1 unused
-                block_0x0000.add_32bit_int(  91), #0091 005Ah 2 Hour INT32 Value weight: hour*100 N/A 1.0 
-                block_0x0000.add_16bit_int(  93), #0093       1 unused
-                block_0x0000.add_16bit_int(  94), #0094       1 unused
-                block_0x0000.add_16bit_int(  95), #0095       1 unused
-                block_0x0000.add_16bit_int(  96), #0096       1 unused
-                block_0x0000.add_16bit_int(  97), #0096       1 unused
-                block_0x0000.add_16bit_int(  98), #0097       1 unused
-                block_0x0000.add_16bit_int(  99), #0098       1 unused
-                block_0x0000.add_16bit_int( 101), #0099       1 unused
-                block_0x0000.add_16bit_int( 102), #0100       1 unused
-                block_0x0000.add_16bit_int( 103), #0101       1 unused
-                block_0x0000.add_16bit_int( 104), #0102       1 unused
-                block_0x0000.add_16bit_int( 105), #0103       1 unused
-                block_0x0000.add_16bit_int( 106), #0104       1 unused
-                block_0x0000.add_16bit_int( 107), #0105       1 unused
-                block_0x0000.add_16bit_int( 108), #0106       1 unused
-                block_0x0000.add_16bit_int( 109), #0107       1 unused
-                block_0x0000.add_16bit_int( 110), #0108       1 unused
-                block_0x0000.add_16bit_int( 110), #0109       1 unused
-                block_0x0000.add_16bit_int( 110), #0110       1 unused
-                block_0x0000.add_32bit_int( 111), #0111 006Eh 2 Kvarh(+) T1 INT32 Value weight: kvarh*10 N/A 1.0 
-                block_0x0000.add_32bit_int( 113), #0113 0070h 2 Kvarh(+) T2 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int( 115), #0115 0072h 2 Kvarh(+) T3 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int( 117), #0117 0074h 2 Kvarh(+) T4 INT32 N/A 1.0 
-                block_0x0000.add_32bit_int( 119), #0119 0076h 2 DMD VA ? INT32 Value weight: VA*10 N/A 1.0 
-                block_0x0000.add_32bit_int( 121), #0121 0078h 2 DMD VA ? max INT32 Value weight: VA*10 N/A 1.0 
-                block_0x0000.add_32bit_int( 123), #0123 007Ah 2 DMD A max INT32 Value weight: Ampere*1000 N/A 1.0
+                # block_11 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
+                # block_11.add_16bit_int(1648)
+                # slave_ctx.setValues(3, 11, block_11.to_registers())
 
-                slave_ctx.setValues(3, 0x0000, block_0x0000.to_registers())
+
+                block_1001 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
+                slave_ctx.setValues(3, 1000, block_1001.to_registers())
+
+                block_1101 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
+                slave_ctx.setValues(3, 1100, block_1101.to_registers())
 
                 update_t_stop = threading.Event()
                 update_t = threading.Thread(

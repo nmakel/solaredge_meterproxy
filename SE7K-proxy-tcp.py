@@ -150,9 +150,6 @@ def t_update(ctx, stop, module, device, refresh):
                 logger.debug(f"{this_t.name}: no new values")
                 continue
 
-            block_1001 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
-
-
             block_40000 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
             block_40000.add_string("SunS") 
             block_40000.add_16bit_int(1)
