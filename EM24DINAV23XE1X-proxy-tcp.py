@@ -109,69 +109,78 @@ def t_update(ctx, stop, module, device, refresh):
                 logger.debug(f"{this_t.name}: no new values")
                 continue         
 
-            block_1001 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
-            block_1001.add_32bit_float(values.get("energy_active", 0)) # total active energy
-            block_1001.add_32bit_float(meterValues['import_energy_active']*10**meterValues['energy_active_scale']) # imported active energy
-            block_1001.add_32bit_float(values.get("energy_active", 0)) # total active energy non-reset
-            block_1001.add_32bit_float(meterValues['import_energy_active']*10**meterValues['energy_active_scale']) # imported active energy non-reset
-            block_1001.add_32bit_float(values.get("power_active", 0)) # total power
-            block_1001.add_32bit_float(values.get("p1_power_active", 0)) # power l1
-            block_1001.add_32bit_float(values.get("p2_power_active", 0)) # power l2
-            block_1001.add_32bit_float(values.get("p3_power_active", 0)) # power l3
-            block_1001.add_32bit_float(meterValues['voltage_ln']*10**meterValues['voltage_scale']) # l-n voltage
-            block_1001.add_32bit_float(meterValues['p1n_voltage']*10**meterValues['voltage_scale']) # l1-n voltage
-            block_1001.add_32bit_float(meterValues['p2n_voltage']*10**meterValues['voltage_scale']) # l2-n voltage
-            block_1001.add_32bit_float(meterValues['p3n_voltage']*10**meterValues['voltage_scale']) # l3-n voltage
-            block_1001.add_32bit_float(meterValues['voltage_ll']*10**meterValues['voltage_scale']) # l-l voltage
-            block_1001.add_32bit_float(meterValues['p12_voltage']*10**meterValues['voltage_scale']) # l1-l2 voltage
-            block_1001.add_32bit_float(meterValues['p23_voltage']*10**meterValues['voltage_scale']) # l2-l3 voltage
-            block_1001.add_32bit_float(meterValues['p31_voltage']*10**meterValues['voltage_scale']) # l3-l1 voltage
-            block_1001.add_32bit_float(meterValues['frequency']*10**meterValues['frequency_scale']) # line frequency
-            ctx.setValues(3, 1000, block_1001.to_registers())
+            block_0 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
+            block_0.add_32bit_int(meterValues['p1n_voltage']) # l1-n voltage
+            block_0.add_32bit_int(meterValues['p2n_voltage']) # l2-n voltage
+            block_0.add_32bit_int(meterValues['p3n_voltage']) # l3-n voltage
+            block_0.add_32bit_int(meterValues['p12_voltage']) # l1-l2 voltage
+            block_0.add_32bit_int(meterValues['p23_voltage']) # l2-l3 voltage
+            block_0.add_32bit_int(meterValues['p31_voltage']) # l3-l1 voltage
+            block_0.add_32bit_int(meterValues['p1_current']) # current l1
+            block_0.add_32bit_int(meterValues['p2_current']) # current l2
+            block_0.add_32bit_int(meterValues['p3_current']) # current l3
+            block_0.add_32bit_int(meterValues['p1_power_active']) # power l1
+            block_0.add_32bit_int(meterValues['p2_power_active']) # power l2
+            block_0.add_32bit_int(meterValues['p3_power_active']) # power l3
+            block_0.add_32bit_int(meterValues['p1_power_apparent']) # apparent power l1
+            block_0.add_32bit_int(meterValues['p2_power_apparent']) # apparent power l2
+            block_0.add_32bit_int(meterValues['p3_power_apparent']) # apparent power l3
+            block_0.add_32bit_int(meterValues['p1_power_reactive']) # reactive power l1
+            block_0.add_32bit_int(meterValues['p2_power_reactive']) # reactive power l2
+            block_0.add_32bit_int(meterValues['p3_power_reactive']) # reactive power l3
+            block_0.add_32bit_int(meterValues['voltage_ln']) # l-n voltage
+            block_0.add_32bit_int(meterValues['voltage_ll']) # l-l voltage
+            block_0.add_32bit_int(meterValues['power_active']) # total power
+            block_0.add_32bit_int(meterValues['power_apparent']) # total apparent power
+            block_0.add_32bit_int(meterValues['power_reactive']) # total reactive power
+            block_0.add_16bit_int(meterValues['p1_power_factor']) # power factor l1
+            block_0.add_16bit_int(meterValues['p2_power_factor']) # power factor l2
+            block_0.add_16bit_int(meterValues['p3_power_factor']) # power factor l3
+            block_0.add_16bit_int(meterValues['power_factor']) # power factor
+            block_0.add_16bit_int(0) # Value –1 correspond to L1-L3-L2 sequence, value 0 correspond to L1-L2-L3 sequence (this value is meaningful only in case of 3-phase systems)
+            
+            block_0.add_16bit_uint(meterValues['frequency']) # line frequency
 
-            block_1101 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
-            block_1101.add_32bit_float(values.get("p1_energy_active", 0)) # total active energy l1
-            block_1101.add_32bit_float(values.get("p2_energy_active", 0)) # total active energy l2
-            block_1101.add_32bit_float(values.get("p3_energy_active", 0)) # total active energy l3
-            block_1101.add_32bit_float(values.get("p1_import_energy_active", 0)) # imported active energy l1
-            block_1101.add_32bit_float(values.get("p2_import_energy_active", 0)) # imported active energy l2
-            block_1101.add_32bit_float(values.get("p3_import_energy_active", 0)) # imported active energy l3
-            block_1101.add_32bit_float(values.get("export_energy_active", 0)) # total exported active energy
-            block_1101.add_32bit_float(values.get("export_energy_active", 0)) # total exported active energy non-reset
-            block_1101.add_32bit_float(values.get("p1_export_energy_active", 0)) # exported energy l1
-            block_1101.add_32bit_float(values.get("p2_export_energy_active", 0)) # exported energy l2
-            block_1101.add_32bit_float(values.get("p3_export_energy_active", 0)) # exported energy l3
-            block_1101.add_32bit_float(values.get("energy_reactive", 0)) # total reactive energy
-            block_1101.add_32bit_float(values.get("p1_energy_reactive", 0)) # reactive energy l1
-            block_1101.add_32bit_float(values.get("p2_energy_reactive", 0)) # reactive energy l2
-            block_1101.add_32bit_float(values.get("p3_energy_reactive", 0)) # reactive energy l3
-            block_1101.add_32bit_float(values.get("energy_apparent", 0)) # total apparent energy
-            block_1101.add_32bit_float(values.get("p1_energy_apparent", 0)) # apparent energy l1
-            block_1101.add_32bit_float(values.get("p2_energy_apparent", 0)) # apparent energy l2
-            block_1101.add_32bit_float(values.get("p3_energy_apparent", 0)) # apparent energy l3
-            block_1101.add_32bit_float(values.get("power_factor", 0)) # power factor
-            block_1101.add_32bit_float(values.get("p1_power_factor", 0)) # power factor l1
-            block_1101.add_32bit_float(values.get("p2_power_factor", 0)) # power factor l2
-            block_1101.add_32bit_float(values.get("p3_power_factor", 0)) # power factor l3
-            block_1101.add_32bit_float(values.get("power_reactive", 0)) # total reactive power
-            block_1101.add_32bit_float(values.get("p1_power_reactive", 0)) # reactive power l1
-            block_1101.add_32bit_float(values.get("p2_power_reactive", 0)) # reactive power l2
-            block_1101.add_32bit_float(values.get("p3_power_reactive", 0)) # reactive power l3
-            block_1101.add_32bit_float(values.get("power_apparent", 0)) # total apparent power
-            block_1101.add_32bit_float(values.get("p1_power_apparent", 0)) # apparent power l1
-            block_1101.add_32bit_float(values.get("p2_power_apparent", 0)) # apparent power l2
-            block_1101.add_32bit_float(values.get("p3_power_apparent", 0)) # apparent power l3
-            block_1101.add_32bit_float(meterValues['p1_current']*10**meterValues['current_scale']) # current l1
-            block_1101.add_32bit_float(meterValues['p2_current']*10**meterValues['current_scale']) # current l2
-            block_1101.add_32bit_float(meterValues['p3_current']*10**meterValues['current_scale']) # current l3
-            block_1101.add_32bit_float(values.get("demand_power_active", 0)) # demand power
-            block_1101.add_32bit_float(values.get("minimum_demand_power_active", 0)) # minimum demand power
-            block_1101.add_32bit_float(values.get("maximum_demand_power_active", 0)) # maximum demand power
-            block_1101.add_32bit_float(values.get("demand_power_apparent", 0)) # apparent demand power
-            block_1101.add_32bit_float(values.get("p1_demand_power_active", 0)) # demand power l1
-            block_1101.add_32bit_float(values.get("p2_demand_power_active", 0)) # demand power l2
-            block_1101.add_32bit_float(values.get("p3_demand_power_active", 0)) # demand power l3
-            ctx.setValues(3, 1100, block_1101.to_registers())
+            block_0.add_32bit_int(meterValues['export_energy_active']) # total exported active energy non-reset
+            block_0.add_32bit_int(meterValues['export_energy_apparent']) # imported active energy
+            block_0.add_32bit_int(meterValues['demand_power_active']) # demand power
+            block_0.add_32bit_int(meterValues['maximum_demand_power_active']) # maximum demand power
+            block_0.add_32bit_int(meterValues['energy_active']) # total active energy
+            block_0.add_32bit_int(meterValues['energy_apparent']) # total apparent energy
+            block_0.add_32bit_int(meterValues['p1_import_energy_active']) # imported active energy l1
+            block_0.add_32bit_int(meterValues['p2_import_energy_active']) # imported active energy l2
+            block_0.add_32bit_int(meterValues['p3_import_energy_active']) # imported active energy l3
+            block_0.add_32bit_int(10) # total active energy Tarif 1
+            block_0.add_32bit_int(20) # total active energy Tarif 2
+            block_0.add_32bit_int(30) # total active energy Tarif 3
+            block_0.add_32bit_int(40) # total active energy Tarif 4
+            block_0.add_32bit_int(meterValues['import_energy_active']) # imported active energy
+            block_0.add_32bit_int(meterValues['import_energy_apparent']) # imported active energy
+            block_0.add_32bit_int(24000) # total active energy Tarif 4
+            block_0.add_32bit_int(11) # total apparent energy Tarif 1
+            block_0.add_32bit_int(22) # total apparent energy Tarif 2
+            block_0.add_32bit_int(33) # total apparent energy Tarif 3
+            block_0.add_32bit_int(44) # total apparent energy Tarif 4
+            block_0.add_32bit_int(meterValues['demand_power_apparent']) # apparent demand power
+            block_0.add_32bit_int(meterValues['demand_power_apparent']) # apparent demand power max
+            block_0.add_32bit_int(meterValues['demand_power_apparent']) # DMD A max
+            ctx.setValues(3, 0, block_0.to_registers())
+
+            ## unused values
+            # "energy_reactive"              # total reactive energy
+            # "p1_export_energy_active", 0)) # exported energy l1
+            # "p2_export_energy_active", 0)) # exported energy l2
+            # "p3_export_energy_active", 0)) # exported energy l3
+            # "p1_energy_reactive", 0)) # reactive energy l1
+            # "p2_energy_reactive", 0)) # reactive energy l2
+            # "p3_energy_reactive", 0)) # reactive energy l3
+            # "p1_energy_apparent", 0)) # apparent energy l1
+            # "p2_energy_apparent", 0)) # apparent energy l2
+            # "p3_energy_apparent", 0)) # apparent energy l3
+            # "minimum_demand_power_active", 0)) # minimum demand power
+            # "p1_demand_power_active", 0)) # demand power l1
+            # "p2_demand_power_active", 0)) # demand power l2
+            # "p3_demand_power_active", 0)) # demand power l3
         except Exception as e:
             logger.critical(f"{this_t.name}: {e}")
         finally:
@@ -240,12 +249,63 @@ if __name__ == "__main__":
                 # block_11.add_16bit_int(1648)
                 # slave_ctx.setValues(3, 11, block_11.to_registers())
 
+                block_0 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
+                block_0.add_32bit_int(1234)
+                slave_ctx.setValues(3, 0, block_0.to_registers())
 
-                block_1001 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
-                slave_ctx.setValues(3, 1000, block_1001.to_registers())
+                block_770 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
+                block_770.add_16bit_int(4126) # Version and revision measurment module
+                block_770.add_16bit_int(68)   # 
+                block_770.add_16bit_int(4127) # Version and revision communication module
+                block_770.add_16bit_int(67)   # 
+                block_770.add_16bit_int(0)    # Current tariff 
+                slave_ctx.setValues(3, 770, block_770.to_registers())
 
-                block_1101 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
-                slave_ctx.setValues(3, 1100, block_1101.to_registers())
+                block_848 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
+                block_848.add_16bit_int(4128) # Measurement module’s firmware CRC
+                slave_ctx.setValues(3, 848, block_848.to_registers())
+
+                block_20480 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
+                block_20480.add_string("MB24DINAV23XE1X") 
+                slave_ctx.setValues(3, 20480, block_20480.to_registers())
+
+                block_41216 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
+                block_41216.add_16bit_int(3) # Front selector status
+                slave_ctx.setValues(3, 41216, block_41216.to_registers())
+
+                block_4096 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
+                block_4096.add_16bit_int(9999) # PASSWORD
+                block_4096.add_16bit_int(0)     # unused
+                block_4096.add_16bit_int(0)    # Measuring system
+                block_4096.add_32bit_int(10)   # Current transformer ratio
+                block_4096.add_32bit_int(10)   # Voltage transformer ratio 
+                block_4096.add_16bit_int(1)     # unused
+                block_4096.add_16bit_int(2)     # unused
+                block_4096.add_16bit_int(3)     # unused
+                block_4096.add_16bit_int(4)     # unused
+                block_4096.add_16bit_int(5)     # unused
+                block_4096.add_16bit_int(6)     # unused
+                block_4096.add_16bit_int(7)     # unused
+                block_4096.add_16bit_int(8)     # unused
+                block_4096.add_16bit_int(9)     # unused
+                block_4096.add_32bit_int(15)   # Interval time 
+                slave_ctx.setValues(3, 4096, block_4096.to_registers())
+
+                block_4360 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
+                block_4360.add_16bit_int(2) # PASSWORD
+                block_4360.add_16bit_int(2) # PASSWORD
+                slave_ctx.setValues(3, 4360, block_4360.to_registers())
+
+                block_40960 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
+                block_40960.add_16bit_int(1) # Type of application
+                block_40960.add_16bit_int(3) # Default page for selector position “LOCK”
+                block_40960.add_16bit_int(1) # Default page for selector position “1”
+                block_40960.add_16bit_int(3) # Default page for selector position “2”
+                block_40960.add_16bit_int(3) # Default page for selector position “kvarh”
+                block_40960.add_16bit_int(1) # ID code of user 1
+                block_40960.add_16bit_int(2) # ID code of user 2
+                block_40960.add_16bit_int(3) # ID code of user 3
+                slave_ctx.setValues(3, 40960, block_40960.to_registers())
 
                 update_t_stop = threading.Event()
                 update_t = threading.Thread(
