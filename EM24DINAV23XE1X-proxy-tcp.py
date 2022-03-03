@@ -53,54 +53,79 @@ def t_update(ctx, stop, module, device, refresh):
 
             
 
-            # print("current:"+str(meterValues['current']))
+            print("current:"+str(meterValues['current']))
+            print(str(meterValues['current']*10**meterValues['current_scale']))
+            #print(meterValues['p1_current']*10**meterValues['current_scale'])
+            #print(meterValues['p2_current']*10**meterValues['current_scale'])
+            #print(meterValues['p3_current']*10**meterValues['current_scale'])
+            print(meterValues['current_scale'])
 
-            # print(meterValues['current']*10**meterValues['current_scale'])
-            # print(meterValues['p1_current']*10**meterValues['current_scale'])
-            # print(meterValues['p2_current']*10**meterValues['current_scale'])
-            # print(meterValues['p3_current']*10**meterValues['current_scale'])
-
-            # print(meterValues['voltage_ln']*10**meterValues['voltage_scale'])
+            print("voltage_ln:"+str(meterValues['voltage_ln']))
+            print(meterValues['voltage_ln']*10**meterValues['voltage_scale'])
             # print(meterValues['p1n_voltage']*10**meterValues['voltage_scale'])
             # print(meterValues['p2n_voltage']*10**meterValues['voltage_scale'])
             # print(meterValues['p3n_voltage']*10**meterValues['voltage_scale'])
-            
-            # print(meterValues['voltage_ll']*10**meterValues['voltage_scale'])
+            print(meterValues['voltage_scale'])
+
+            print("voltage_ll:"+str(meterValues['voltage_ll']))          
+            print(meterValues['voltage_ll']*10**meterValues['voltage_scale'])
             # print(meterValues['p12_voltage']*10**meterValues['voltage_scale'])
             # print(meterValues['p23_voltage']*10**meterValues['voltage_scale'])
             # print(meterValues['p31_voltage']*10**meterValues['voltage_scale'])
-            
-            # print(meterValues['frequency']*10**meterValues['frequency_scale'])
+            print(meterValues['voltage_scale'])
 
-            # print(meterValues['power']*10**meterValues['power_scale'])
+            
+            print("frequency:"+str(meterValues['frequency']))          
+            print(meterValues['frequency']*10**meterValues['frequency_scale'])
+
+            print("power:"+str(meterValues['power']))          
+            print(meterValues['power']*10**meterValues['power_scale'])
             # print(meterValues['p1_power']*10**meterValues['power_scale'])
             # print(meterValues['p2_power']*10**meterValues['power_scale'])
             # print(meterValues['p3_power']*10**meterValues['power_scale'])
+            print(meterValues['power_scale'])
 
-            # print(meterValues['power_apparent']*10**meterValues['power_apparent_scale'])
+            print("power_apparent:"+str(meterValues['power_apparent']))          
+            print(meterValues['power_apparent']*10**meterValues['power_apparent_scale'])
             # print(meterValues['p1_power_apparent']*10**meterValues['power_apparent_scale'])
             # print(meterValues['p2_power_apparent']*10**meterValues['power_apparent_scale'])
             # print(meterValues['p3_power_apparent']*10**meterValues['power_apparent_scale'])
+            print(meterValues['power_apparent_scale'])
 
-            # print(meterValues['power_reactive']*10**meterValues['power_reactive_scale'])
+            print("power_reactive:"+str(meterValues['power_reactive']))          
+            print(meterValues['power_reactive']*10**meterValues['power_reactive_scale'])
             # print(meterValues['p1_power_reactive']*10**meterValues['power_reactive_scale'])
             # print(meterValues['p2_power_reactive']*10**meterValues['power_reactive_scale'])
             # print(meterValues['p3_power_reactive']*10**meterValues['power_reactive_scale'])
+            print(meterValues['power_reactive_scale'])
 
-            # print(meterValues['power_factor']*10**meterValues['power_factor_scale'])
+            print("power_factor:"+str(meterValues['power_factor']))          
+            print(meterValues['power_factor']*10**meterValues['power_factor_scale'])
             # print(meterValues['p1_power_factor']*10**meterValues['power_factor_scale'])
             # print(meterValues['p2_power_factor']*10**meterValues['power_factor_scale'])
             # print(meterValues['p3_power_factor']*10**meterValues['power_factor_scale'])
+            print(meterValues['power_factor_scale'])
 
-            # print(meterValues['export_energy_active']*10**meterValues['energy_active_scale'])
+            print("export_energy_active:"+str(meterValues['export_energy_active']))          
+            print(meterValues['export_energy_active']*10**meterValues['energy_active_scale'])
             # print(meterValues['p1_export_energy_active']*10**meterValues['energy_active_scale'])
             # print(meterValues['p2_export_energy_active']*10**meterValues['energy_active_scale'])
             # print(meterValues['p3_export_energy_active']*10**meterValues['energy_active_scale'])
+            print(meterValues['energy_active_scale'])
 
-            # print(meterValues['import_energy_active']*10**meterValues['energy_active_scale'])
+            print("import_energy_active:"+str(meterValues['import_energy_active']))          
+            print(meterValues['import_energy_active']*10**meterValues['energy_active_scale'])
             # print(meterValues['p1_import_energy_active']*10**meterValues['energy_active_scale'])
             # print(meterValues['p2_import_energy_active']*10**meterValues['energy_active_scale'])
             # print(meterValues['p3_import_energy_active']*10**meterValues['energy_active_scale'])
+            print(meterValues['energy_active_scale'])
+
+            print("import_energy_apparent:"+str(meterValues['import_energy_apparent']))          
+            print(meterValues['import_energy_apparent']*10**meterValues['energy_apparent_scale'])
+            # print(meterValues['p1_import_energy_active']*10**meterValues['energy_active_scale'])
+            # print(meterValues['p2_import_energy_active']*10**meterValues['energy_active_scale'])
+            # print(meterValues['p3_import_energy_active']*10**meterValues['energy_active_scale'])
+            print(meterValues['energy_apparent_scale'])
 
 
             values = module.values(device)
@@ -110,60 +135,60 @@ def t_update(ctx, stop, module, device, refresh):
                 continue         
 
             block_0 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
-            block_0.add_32bit_int(meterValues['p1n_voltage']) # l1-n voltage
-            block_0.add_32bit_int(meterValues['p2n_voltage']) # l2-n voltage
-            block_0.add_32bit_int(meterValues['p3n_voltage']) # l3-n voltage
-            block_0.add_32bit_int(meterValues['p12_voltage']) # l1-l2 voltage
-            block_0.add_32bit_int(meterValues['p23_voltage']) # l2-l3 voltage
-            block_0.add_32bit_int(meterValues['p31_voltage']) # l3-l1 voltage
-            block_0.add_32bit_int(meterValues['p1_current']) # current l1
-            block_0.add_32bit_int(meterValues['p2_current']) # current l2
-            block_0.add_32bit_int(meterValues['p3_current']) # current l3
-            block_0.add_32bit_int(meterValues['p1_power_active']) # power l1
-            block_0.add_32bit_int(meterValues['p2_power_active']) # power l2
-            block_0.add_32bit_int(meterValues['p3_power_active']) # power l3
-            block_0.add_32bit_int(meterValues['p1_power_apparent']) # apparent power l1
-            block_0.add_32bit_int(meterValues['p2_power_apparent']) # apparent power l2
-            block_0.add_32bit_int(meterValues['p3_power_apparent']) # apparent power l3
-            block_0.add_32bit_int(meterValues['p1_power_reactive']) # reactive power l1
-            block_0.add_32bit_int(meterValues['p2_power_reactive']) # reactive power l2
-            block_0.add_32bit_int(meterValues['p3_power_reactive']) # reactive power l3
-            block_0.add_32bit_int(meterValues['voltage_ln']) # l-n voltage
-            block_0.add_32bit_int(meterValues['voltage_ll']) # l-l voltage
-            block_0.add_32bit_int(meterValues['power_active']) # total power
-            block_0.add_32bit_int(meterValues['power_apparent']) # total apparent power
-            block_0.add_32bit_int(meterValues['power_reactive']) # total reactive power
-            block_0.add_16bit_int(meterValues['p1_power_factor']) # power factor l1
-            block_0.add_16bit_int(meterValues['p2_power_factor']) # power factor l2
-            block_0.add_16bit_int(meterValues['p3_power_factor']) # power factor l3
-            block_0.add_16bit_int(meterValues['power_factor']) # power factor
+            block_0.add_32bit_int(int(meterValues['p1n_voltage']/10)) # l1-n voltage    * 10
+            block_0.add_32bit_int(int(meterValues['p2n_voltage']/10)) # l2-n voltage
+            block_0.add_32bit_int(int(meterValues['p3n_voltage']/10)) # l3-n voltage
+            block_0.add_32bit_int(int(meterValues['p12_voltage']/10)) # l1-l2 voltage
+            block_0.add_32bit_int(int(meterValues['p23_voltage']/10)) # l2-l3 voltage
+            block_0.add_32bit_int(int(meterValues['p31_voltage']/10)) # l3-l1 voltage
+            block_0.add_32bit_int(meterValues['p1_current']*100) # current l1      * 1000
+            block_0.add_32bit_int(meterValues['p2_current']*100) # current l2
+            block_0.add_32bit_int(meterValues['p3_current']*100) # current l3
+            block_0.add_32bit_int(meterValues['p1_power']*10) # power l1   *10
+            block_0.add_32bit_int(meterValues['p2_power']*10) # power l2
+            block_0.add_32bit_int(meterValues['p3_power']*10) # power l3
+            block_0.add_32bit_int(meterValues['p1_power_apparent']*10) # apparent power l1   *10
+            block_0.add_32bit_int(meterValues['p2_power_apparent']*10) # apparent power l2
+            block_0.add_32bit_int(meterValues['p3_power_apparent']*10) # apparent power l3
+            block_0.add_32bit_int(meterValues['p1_power_reactive']*10) # reactive power l1   *10
+            block_0.add_32bit_int(meterValues['p2_power_reactive']*10) # reactive power l2
+            block_0.add_32bit_int(meterValues['p3_power_reactive']*10) # reactive power l3
+            block_0.add_32bit_int(int(meterValues['voltage_ln']/10)) # l-n voltage                *10
+            block_0.add_32bit_int(int(meterValues['voltage_ll']/10)) # l-l voltage
+            block_0.add_32bit_int(meterValues['power']*10) # total power              *10
+            block_0.add_32bit_int(meterValues['power_apparent']*10) # total apparent power
+            block_0.add_32bit_int(meterValues['power_reactive']*10) # total reactive power
+            block_0.add_16bit_int(int(meterValues['p1_power_factor']/10)) # power factor l1       *1000
+            block_0.add_16bit_int(int(meterValues['p2_power_factor']/10)) # power factor l2
+            block_0.add_16bit_int(int(meterValues['p3_power_factor']/10)) # power factor l3
+            block_0.add_16bit_int(int(meterValues['power_factor']/10)) # power factor
             block_0.add_16bit_int(0) # Value –1 correspond to L1-L3-L2 sequence, value 0 correspond to L1-L2-L3 sequence (this value is meaningful only in case of 3-phase systems)
             
-            block_0.add_16bit_uint(meterValues['frequency']) # line frequency
+            block_0.add_16bit_uint(int(meterValues['frequency']/10)) # line frequency           *10
 
-            block_0.add_32bit_int(meterValues['export_energy_active']) # total exported active energy non-reset
-            block_0.add_32bit_int(meterValues['export_energy_apparent']) # imported active energy
-            block_0.add_32bit_int(meterValues['demand_power_active']) # demand power
-            block_0.add_32bit_int(meterValues['maximum_demand_power_active']) # maximum demand power
-            block_0.add_32bit_int(meterValues['energy_active']) # total active energy
-            block_0.add_32bit_int(meterValues['energy_apparent']) # total apparent energy
-            block_0.add_32bit_int(meterValues['p1_import_energy_active']) # imported active energy l1
-            block_0.add_32bit_int(meterValues['p2_import_energy_active']) # imported active energy l2
-            block_0.add_32bit_int(meterValues['p3_import_energy_active']) # imported active energy l3
+            block_0.add_32bit_int(int(meterValues['import_energy_active']/100)) # imported active energy
+            block_0.add_32bit_int(int(meterValues['import_energy_apparent']/100)) # imported active energy
+            block_0.add_32bit_int(56) # demand power
+            block_0.add_32bit_int(58) # maximum demand power
+            block_0.add_32bit_int(int(meterValues['import_energy_active']/100)) # imported active energy
+            block_0.add_32bit_int(int(meterValues['import_energy_apparent']/100)) # imported active energy
+            block_0.add_32bit_int(int(meterValues['p1_import_energy_active']/100)) # imported active energy l1
+            block_0.add_32bit_int(int(meterValues['p2_import_energy_active']/100)) # imported active energy l2
+            block_0.add_32bit_int(int(meterValues['p3_import_energy_active']/100)) # imported active energy l3
             block_0.add_32bit_int(10) # total active energy Tarif 1
             block_0.add_32bit_int(20) # total active energy Tarif 2
             block_0.add_32bit_int(30) # total active energy Tarif 3
             block_0.add_32bit_int(40) # total active energy Tarif 4
-            block_0.add_32bit_int(meterValues['import_energy_active']) # imported active energy
-            block_0.add_32bit_int(meterValues['import_energy_apparent']) # imported active energy
-            block_0.add_32bit_int(24000) # total active energy Tarif 4
-            block_0.add_32bit_int(11) # total apparent energy Tarif 1
+            block_0.add_32bit_int(int(meterValues['export_energy_active']/100)) # total exported active energy non-reset   /100)
+            block_0.add_32bit_int(int(meterValues['export_energy_apparent']/100)) # imported active energy non-reset
+            block_0.add_32bit_int(2400) # hour                                                             *100
+            block_0.add_32bit_int(11) # total apparent energy Tarif 1                                      *10
             block_0.add_32bit_int(22) # total apparent energy Tarif 2
             block_0.add_32bit_int(33) # total apparent energy Tarif 3
             block_0.add_32bit_int(44) # total apparent energy Tarif 4
-            block_0.add_32bit_int(meterValues['demand_power_apparent']) # apparent demand power
-            block_0.add_32bit_int(meterValues['demand_power_apparent']) # apparent demand power max
-            block_0.add_32bit_int(meterValues['demand_power_apparent']) # DMD A max
+            block_0.add_32bit_int(118) # apparent demand power
+            block_0.add_32bit_int(120) # apparent demand power max
+            block_0.add_32bit_int(122) # DMD A max                        *10
             ctx.setValues(3, 0, block_0.to_registers())
 
             ## unused values
