@@ -86,14 +86,228 @@ def StartMyTcpServer(context=None, identity=None, address=None,
     server.serve_forever()
 
 
+def setMeterValues(values, block):
+    if not values:
+        block.add_16bit_uint(0)
+        block.add_16bit_uint(0)
+        return
 
-def t_update(ctx, stop, module, device, refresh):
+    block.add_16bit_uint(1)
+    block.add_16bit_uint(65)
+    block.add_string    (values.get("c_manufacturer_str"  ,"12345678901234567890123456789012").ljust(32,' '))
+    block.add_string    (values.get("c_model_str"         ,"12345678901234567890123456789012").ljust(32,' '))
+    block.add_string    (values.get("c_option_str"        ,"1234567890123456").ljust(16,' '))
+    block.add_string    (values.get("c_version_str"       ,"1234567890123456").ljust(16,' '))
+    block.add_string    (values.get("c_serialnumber_str"  ,"12345678901234567890123456789012").ljust(32,' '))
+    block.add_16bit_int (values.get("c_deviceaddress_int" , 0))
+
+    block.add_16bit_int (values.get("c_sunspec_did_int"   , 103))
+    block.add_16bit_int (values.get("c_sunspec_length_int", 50))    
+    block.add_16bit_uint(values.get("current_int" , 0))
+    block.add_16bit_uint(values.get("p1_current_int" , 0))
+    block.add_16bit_uint(values.get("p2_current_int" , 0))
+    block.add_16bit_uint(values.get("p3_current_int" , 0))
+    block.add_16bit_int (values.get("current_scale_int" , 0))
+
+    block.add_16bit_uint(values.get("voltage_ln_int" , 0))
+    block.add_16bit_uint(values.get("p1n_voltage_int" , 0))
+    block.add_16bit_uint(values.get("p2n_voltage_int" , 0))
+    block.add_16bit_uint(values.get("p3n_voltage_int" , 0))
+    block.add_16bit_uint(values.get("voltage_ll_int" , 0))
+    block.add_16bit_uint(values.get("p1n_voltage_int" , 0))
+    block.add_16bit_uint(values.get("p2n_voltage_int" , 0))
+    block.add_16bit_uint(values.get("p3n_voltage_int" , 0))
+    block.add_16bit_int (values.get("voltage_scale_int" , 0))
+    
+    block.add_16bit_uint(values.get("frequency_int" , 0))
+    block.add_16bit_int (values.get("frequency_scale_int" , 0))
+
+    block.add_16bit_int(values.get("power_int" , 0))
+    block.add_16bit_int(values.get("p1_power_int" , 0))
+    block.add_16bit_int(values.get("p2_power_int" , 0))
+    block.add_16bit_int(values.get("p3_power_int" , 0))
+    block.add_16bit_int (values.get("power_scale_int" , 0))
+
+    block.add_16bit_int(values.get("power_apparent_int" , 0))
+    block.add_16bit_int(values.get("p1_power_apparent_int" , 0))
+    block.add_16bit_int(values.get("p2_power_apparent_int" , 0))
+    block.add_16bit_int(values.get("p3_power_apparent_int" , 0))
+    block.add_16bit_int (values.get("power_apparent_scale_int" , 0))
+
+    block.add_16bit_int(values.get("power_reactive_int" , 0))
+    block.add_16bit_int(values.get("p1_power_reactive_int" , 0))
+    block.add_16bit_int(values.get("p2_power_reactive_int" , 0))
+    block.add_16bit_int(values.get("p3_power_reactive_int" , 0))
+    block.add_16bit_int (values.get("power_reactive_scale_int" , 0))
+
+    block.add_16bit_int(values.get("power_factor_int" , 0))
+    block.add_16bit_int(values.get("p1_power_factor_int" , 0))
+    block.add_16bit_int(values.get("p2_power_factor_int" , 0))
+    block.add_16bit_int(values.get("p3_power_factor_int" , 0))
+    block.add_16bit_int (values.get("power_factor_scale_int" , 0))
+
+    block.add_32bit_uint(values.get("export_energy_active_int" , 0))
+    block.add_32bit_uint(values.get("p1_export_energy_active_int" , 0))
+    block.add_32bit_uint(values.get("p2_export_energy_active_int" , 0))
+    block.add_32bit_uint(values.get("p3_export_energy_active_int" , 0))
+    block.add_32bit_uint(values.get("import_energy_active_int" , 0))
+    block.add_32bit_uint(values.get("p1_import_energy_active_int" , 0))
+    block.add_32bit_uint(values.get("p2_import_energy_active_int" , 0))
+    block.add_32bit_uint(values.get("p3_import_energy_active_int" , 0))
+    block.add_16bit_int (values.get("energy_active_scale_int" , 0))
+
+    block.add_32bit_uint(values.get("export_energy_apparent_int", 0))
+    block.add_32bit_uint(values.get("p1_export_energy_apparent_int" , 0))
+    block.add_32bit_uint(values.get("p2_export_energy_apparent_int" , 0))
+    block.add_32bit_uint(values.get("p3_export_energy_apparent_int" , 0))
+    block.add_32bit_uint(values.get("import_energy_apparent_int" , 0))
+    block.add_32bit_uint(values.get("p1_import_energy_apparent_int" , 0))
+    block.add_32bit_uint(values.get("p2_import_energy_apparent_int" , 0))
+    block.add_32bit_uint(values.get("p3_import_energy_apparent_int" , 0))
+    block.add_16bit_int (values.get("energy_apparent_scale_int" , 0))
+
+    block.add_32bit_uint(values.get("import_energy_reactive_q1_int" , 0))
+    block.add_32bit_uint(values.get("p1_import_energy_reactive_q1_int" , 0))
+    block.add_32bit_uint(values.get("p2_import_energy_reactive_q1_int" , 0))
+    block.add_32bit_uint(values.get("p3_import_energy_reactive_q1_int" , 0))
+    block.add_32bit_uint(values.get("import_energy_reactive_q2_int" , 0))
+    block.add_32bit_uint(values.get("p1_import_energy_reactive_q2_int" , 0))
+    block.add_32bit_uint(values.get("p2_import_energy_reactive_q2_int" , 0))
+    block.add_32bit_uint(values.get("p3_import_energy_reactive_q2_int" , 0))
+    block.add_32bit_uint(values.get("export_energy_reactive_q3_int" , 0))
+    block.add_32bit_uint(values.get("p1_export_energy_reactive_q3_int" , 0))
+    block.add_32bit_uint(values.get("p2_export_energy_reactive_q3_int" , 0))
+    block.add_32bit_uint(values.get("p3_export_energy_reactive_q3_int" , 0))
+    block.add_32bit_uint(values.get("export_energy_reactive_q4_int" , 0))
+    block.add_32bit_uint(values.get("p1_export_energy_reactive_q4_int" , 0))
+    block.add_32bit_uint(values.get("p2_export_energy_reactive_q4_int" , 0))
+    block.add_32bit_uint(values.get("p3_export_energy_reactive_q4_int" , 0))
+    block.add_16bit_int (values.get("energy_reactive_scale_int" , 0))
+
+    block.add_32bit_uint(values.get("events_int" , 0))
+    #
+
+
+def setBatteryValues(values, block):
+    if not values:
+        block.add_16bit_uint(0)
+        block.add_16bit_uint(0)
+        return
+
+    block.add_16bit_uint(1)    ## TODO set correct values
+    block.add_16bit_uint(65)   ## TODO set correct values
+
+def t_update_se7k(ctx, stop, module, device, refresh):
+
+    this_t = threading.currentThread()
+    logger = logging.getLogger()
+
+    try:
+        values = module.values(device)
+
+        if not values:
+            return
+
+        block_40000 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
+        block_40000.add_string("SunS") 
+        block_40000.add_16bit_int(1)
+        block_40000.add_16bit_int (values.get("C_SunSpec_Length_int", 65))
+        block_40000.add_string    (values.get("c_manufacturer_str"  ,"12345678901234567890123456789012").ljust(32,' '))
+        block_40000.add_string    (values.get("c_model_str"         ,"12345678901234567890123456789012").ljust(32,' '))
+        block_40000.add_string    (                              "NOT_IMPLEMENTED.".ljust(16,' '))
+        block_40000.add_string    (values.get("c_version_str"       ,"1234567890123456").ljust(16,' '))
+        block_40000.add_string    (values.get("c_serialnumber_str"  ,"12345678901234567890123456789012").ljust(32,' '))
+        block_40000.add_16bit_int (values.get("c_deviceaddress_int" , 0))
+
+        block_40000.add_16bit_int (values.get("c_sunspec_did_int"   , 103))
+        block_40000.add_16bit_int (50)
+        block_40000.add_16bit_uint(values.get("current_int" , 0))
+        block_40000.add_16bit_uint(values.get("p1_current_int" , 0))
+        block_40000.add_16bit_uint(values.get("p2_current_int" , 0))
+        block_40000.add_16bit_uint(values.get("p3_current_int" , 0))
+        block_40000.add_16bit_int (values.get("current_scale_int" , 0))
+
+        block_40000.add_16bit_uint(values.get("p1_voltage_int" , 0))
+        block_40000.add_16bit_uint(values.get("p2_voltage_int" , 0))
+        block_40000.add_16bit_uint(values.get("p3_voltage_int" , 0))
+        block_40000.add_16bit_uint(values.get("p1n_voltage_int" , 0))
+        block_40000.add_16bit_uint(values.get("p2n_voltage_int" , 0))
+        block_40000.add_16bit_uint(values.get("p3n_voltage_int" , 0))
+        block_40000.add_16bit_int (values.get("voltage_scale_int" , 0))
+        
+        block_40000.add_16bit_int(values.get("power_ac_int" , 0))
+        block_40000.add_16bit_int (values.get("power_ac_scale_int" , 0))
+
+        block_40000.add_16bit_uint(values.get("frequency_int" , 0))
+        block_40000.add_16bit_int (values.get("frequency_scale_int" , 0))
+
+        block_40000.add_16bit_int(values.get("power_apparent_int" , 0))
+        block_40000.add_16bit_int (values.get("power_apparent_scale_int" , 0))
+
+        block_40000.add_16bit_int(values.get("power_reactive_int" , 0))
+        block_40000.add_16bit_int (values.get("power_reactive_scale_int" , 0))
+
+        block_40000.add_16bit_int(values.get("power_factor_int" , 0))
+        block_40000.add_16bit_int (values.get("power_factor_scale_int" , 0))
+
+        block_40000.add_32bit_uint(values.get("energy_total_int" , 0))
+        block_40000.add_16bit_int (values.get("energy_total_scale_int" , 0))
+
+        block_40000.add_16bit_uint(values.get("current_dc_int" , 0))
+        block_40000.add_16bit_int (values.get("current_dc_scale_int" , 0))
+
+        block_40000.add_16bit_uint(values.get("voltage_dc_int" , 0))
+        block_40000.add_16bit_int (values.get("voltage_dc_scale_int" , 0))
+
+        block_40000.add_16bit_int(values.get("power_dc_int" , 0))
+        block_40000.add_16bit_int (values.get("power_dc_scale_int" , 0))
+
+        block_40000.add_16bit_int(0)  # 1 dummy word
+
+        block_40000.add_16bit_int(values.get("temperature_int" , 0))
+        block_40000.add_16bit_int(values.get("temperature_scale_int" , 0))
+
+        block_40000.add_16bit_int(0)  # 1 dummy word
+        block_40000.add_16bit_int(0)  # 1 dummy word
+
+        block_40000.add_16bit_uint(values.get("status_int" , 0))
+        block_40000.add_16bit_uint(values.get("vendor_status_int" , 0))
+
+        block_40000.add_16bit_uint(values.get("rrcr_state_int" , 0))
+        block_40000.add_16bit_int(values.get("active_power_limit_int" , 0))
+        block_40000.add_32bit_float(values.get("cosphi" , 0))
+
+        block_40000.add_string("123456789012345678901234") # 12 dummy worter = 24 Byte
+        ctx.setValues(3, 40000, block_40000.to_registers())
+
+        block_40121 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
+        setMeterValues(values["connected_meters"]["Meter1"],block_40121)
+        ctx.setValues(3, 40121, block_40121.to_registers())
+        
+        # block_40295 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
+        # ctx.setValues(3, 40295, block_40295.to_registers())
+        # block_40469 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
+        # ctx.setValues(3, 40469, block_40469.to_registers())
+
+        # block_57598 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
+        # ctx.setValues(3, 57598, block_57598.to_registers())
+        # block_57854 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
+        # ctx.setValues(3, 57854, block_57854.to_registers())
+
+    except Exception as e:
+        logger.critical(f"{this_t.name}: {e}")
+
+
+
+
+def t_update(ctx, SE7K_CTX, stop, module, device, refresh):
 
     this_t = threading.currentThread()
     logger = logging.getLogger()
 
     while not stop.is_set():
         try:
+            t_update_se7k(SE7K_CTX, stop, module, device, refresh)
             values = {}
             values = device.read_all()
             meters = device.meters()
@@ -110,6 +324,7 @@ def t_update(ctx, stop, module, device, refresh):
                 values["batteries"][battery] = battery_values
 
             meterValues = values["meters"]["Meter1"]
+            logger.info(meterValues['power']*10**meterValues['power_scale'])
 
             if logger.isEnabledFor(logging.DEBUG):
                 logger.info("current:"+str(meterValues['current']))
@@ -347,7 +562,7 @@ def t_update(ctx, stop, module, device, refresh):
         except Exception as e:
             logger.critical(f"{this_t.name}: {e}")
         finally:
-            time.sleep(refresh)
+            time.sleep(0.6)
 
 
 if __name__ == "__main__":
@@ -405,18 +620,18 @@ if __name__ == "__main__":
                 meter_module = importlib.import_module(f"devices.{meter_type}")
                 meter_device = meter_module.device(confparser[meter])
 
-                slave_ctx = EM24SlaveContext()
-                # slave_ctx = ModbusSlaveContext()
+                EM24_slave_ctx = EM24SlaveContext()
+                SE7K_slave_ctx = ModbusSlaveContext()
 
                 # block_11 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
                 # block_11.add_16bit_int(1648)
-                # slave_ctx.setValues(3, 11, block_11.to_registers())
-                # slave_ctx.setValues(4, 11, block_11.to_registers())
+                # EM24_slave_ctx.setValues(3, 11, block_11.to_registers())
+                # EM24_slave_ctx.setValues(4, 11, block_11.to_registers())
 
                 block_0 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
                 block_0.add_32bit_int(1234)
-                slave_ctx.setValues(3, 0, block_0.to_registers())
-                slave_ctx.setValues(4, 0, block_0.to_registers())
+                EM24_slave_ctx.setValues(3, 0, block_0.to_registers())
+                EM24_slave_ctx.setValues(4, 0, block_0.to_registers())
 
                 block_770 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
                 block_770.add_16bit_int(4126) # Version and revision measurment module
@@ -424,23 +639,23 @@ if __name__ == "__main__":
                 block_770.add_16bit_int(4127) # Version and revision communication module
                 block_770.add_16bit_int(67)   # 
                 block_770.add_16bit_int(0)    # Current tariff 
-                slave_ctx.setValues(3, 770, block_770.to_registers())
-                slave_ctx.setValues(4, 770, block_770.to_registers())
+                EM24_slave_ctx.setValues(3, 770, block_770.to_registers())
+                EM24_slave_ctx.setValues(4, 770, block_770.to_registers())
 
                 block_848 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
                 block_848.add_16bit_int(4128) # Measurement module’s firmware CRC
-                slave_ctx.setValues(3, 848, block_848.to_registers())
-                slave_ctx.setValues(4, 848, block_848.to_registers())
+                EM24_slave_ctx.setValues(3, 848, block_848.to_registers())
+                EM24_slave_ctx.setValues(4, 848, block_848.to_registers())
 
                 block_20480 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
                 block_20480.add_string("MB24DINAV23XE1X") 
-                slave_ctx.setValues(3, 20480, block_20480.to_registers())
-                slave_ctx.setValues(4, 20480, block_20480.to_registers())
+                EM24_slave_ctx.setValues(3, 20480, block_20480.to_registers())
+                EM24_slave_ctx.setValues(4, 20480, block_20480.to_registers())
 
                 block_41216 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
                 block_41216.add_16bit_int(3) # Front selector status
-                slave_ctx.setValues(3, 41216, block_41216.to_registers())
-                slave_ctx.setValues(4, 41216, block_41216.to_registers())
+                EM24_slave_ctx.setValues(3, 41216, block_41216.to_registers())
+                EM24_slave_ctx.setValues(4, 41216, block_41216.to_registers())
 
                 block_4096 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
                 block_4096.add_16bit_int(9999) # PASSWORD
@@ -458,14 +673,14 @@ if __name__ == "__main__":
                 block_4096.add_16bit_int(8)     # unused
                 block_4096.add_16bit_int(9)     # unused
                 block_4096.add_32bit_int(15)   # Interval time 
-                slave_ctx.setValues(3, 4096, block_4096.to_registers())
-                slave_ctx.setValues(4, 4096, block_4096.to_registers())
+                EM24_slave_ctx.setValues(3, 4096, block_4096.to_registers())
+                EM24_slave_ctx.setValues(4, 4096, block_4096.to_registers())
 
                 block_4360 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
                 block_4360.add_16bit_int(2) # PASSWORD
                 block_4360.add_16bit_int(2) # PASSWORD
-                slave_ctx.setValues(3, 4360, block_4360.to_registers())
-                slave_ctx.setValues(4, 4360, block_4360.to_registers())
+                EM24_slave_ctx.setValues(3, 4360, block_4360.to_registers())
+                EM24_slave_ctx.setValues(4, 4360, block_4360.to_registers())
 
                 block_40960 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
                 block_40960.add_16bit_int(1) # Type of application
@@ -476,15 +691,16 @@ if __name__ == "__main__":
                 block_40960.add_16bit_int(1) # ID code of user 1
                 block_40960.add_16bit_int(2) # ID code of user 2
                 block_40960.add_16bit_int(3) # ID code of user 3
-                slave_ctx.setValues(3, 40960, block_40960.to_registers())
-                slave_ctx.setValues(4, 40960, block_40960.to_registers())
+                EM24_slave_ctx.setValues(3, 40960, block_40960.to_registers())
+                EM24_slave_ctx.setValues(4, 40960, block_40960.to_registers())
 
                 update_t_stop = threading.Event()
                 update_t = threading.Thread(
                     target=t_update,
                     name=f"t_update_{address}",
                     args=(
-                        slave_ctx,
+                        EM24_slave_ctx,
+                        SE7K_slave_ctx,
                         update_t_stop,
                         meter_module,
                         meter_device,
@@ -495,8 +711,8 @@ if __name__ == "__main__":
                 threads.append(update_t)
                 thread_stops.append(update_t_stop)
 
-                slaves.update({address: slave_ctx})
-                slaves.update({2: slave_ctx})
+                slaves.update({1: EM24_slave_ctx})
+                slaves.update({2: SE7K_slave_ctx})
                 logger.info(f"Created {update_t}: {meter} {meter_type} {meter_device}")
 
         if not slaves:
