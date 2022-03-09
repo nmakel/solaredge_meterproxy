@@ -90,64 +90,69 @@ def values(device):
     # additional values for emulation of SE-WNC-3Y-400-MB-K1 or WattNode WNC-3Y-400-MB
 
     # TODO Calculate the values for the SE-WNC-3Y-400-MB-K1 meter from the SolarEdge meter provided by SE7K
+
+    meterValues = values["connected_meters"]["Meter1"]      
+
+
     SE_WNC_3Y_400_MB_K1_values = {
-        "energy_active": values.get("total_energy_active", 0),
-        "import_energy_active": values.get("import_energy_active", 0),
-        "power_active": values.get("total_power_active", 0),
-        "l1_power_active": values.get("l1_power_active", 0),
-        "l2_power_active": values.get("l2_power_active", 0),
-        "l3_power_active": values.get("l3_power_active", 0),
-        "voltage_ln": values.get("voltage_ln", 0),
-        "l1n_voltage": values.get("l1n_voltage", 0),
-        "l2n_voltage": values.get("l2n_voltage", 0),
-        "l3n_voltage": values.get("l3n_voltage", 0),
-        "voltage_ll": values.get("voltage_ll", 0),
-        "l12_voltage": values.get("l12_voltage", 0),
-        "l23_voltage": values.get("l23_voltage", 0),
-        "l31_voltage": values.get("l31_voltage", 0),
-        "frequency": values.get("frequency", 0),
-        "l1_energy_active": values.get("total_energy_active", 0),
-        # "l2_energy_active"
-        # "l3_energy_active"
-        "l1_import_energy_active": values.get("import_energy_active", 0),
-        # "l2_import_energy_active"
-        # "l3_import_energy_active"
-        "export_energy_active": values.get("export_energy_active", 0),
-        "l1_export_energy_active": values.get("export_energy_active", 0),
-        # "l2_export_energy_active"
-        # "l3_export_energy_active"
-        "energy_reactive": values.get("total_energy_reactive", 0),
-        "l1_energy_reactive": values.get("total_energy_reactive", 0),
-        # "l2_energy_reactive"
-        # "l3_energy_reactive"
-        "energy_apparent": values.get("total_energy_apparent", 0),
-        "l1_energy_apparent": values.get("total_energy_apparent", 0),
-        # "l2_energy_apparent"
-        # "l3_energy_apparent"
-        "power_factor": values.get("total_power_factor", 0),
-        "l1_power_factor": values.get("l1_power_factor", 0),
-        "l2_power_factor": values.get("l2_power_factor", 0),
-        "l3_power_factor": values.get("l3_power_factor", 0),
-        "power_reactive": values.get("total_power_reactive", 0),
-        "l1_power_reactive": values.get("l1_power_reactive", 0),
-        "l2_power_reactive": values.get("l2_power_reactive", 0),
-        "l3_power_reactive": values.get("l3_power_reactive", 0),
-        "power_apparent": values.get("total_power_apparent", 0),
-        "l1_power_apparent": values.get("l1_power_apparent", 0),
-        "l2_power_apparent": values.get("l2_power_apparent", 0),
-        "l3_power_apparent": values.get("l3_power_apparent", 0),
-        "l1_current": values.get("l1_current", 0),
-        "l2_current": values.get("l2_current", 0),
-        "l3_current": values.get("l3_current", 0),
-        "demand_power_active": values.get("total_import_demand_power_active", 0),
-        # "minimum_demand_power_active"
-        "maximum_demand_power_active": values.get("maximum_import_demand_power_active", 0),
-        "demand_power_apparent": values.get("total_demand_power_apparent", 0),
-        "l1_demand_power_active": (values.get("l1_demand_current", 0) * values.get("l1_voltage", 0)),
-        "l2_demand_power_active": (values.get("l2_demand_current", 0) * values.get("l2_voltage", 0)),
-        "l3_demand_power_active": (values.get("l3_demand_current", 0) * values.get("l3_voltage", 0))
+        "energy_active": meterValues.get('export_energy_active_int', 0)*10**meterValues.get('energy_active_scale_int', 0),
+        "import_energy_active": meterValues.get('import_energy_active_int', 0)*10**meterValues.get('energy_active_scale_int', 0),
+        "power_active": meterValues.get('power_int', 0)*10**meterValues.get('power_scale_int', 0),
+        "l1_power_active": meterValues.get('l1_power_int', 0)*10**meterValues.get('power_scale_int', 0),
+        "l2_power_active": meterValues.get('l2_power_int', 0)*10**meterValues.get('power_scale_int', 0),
+        "l3_power_active": meterValues.get('l3_power_int', 0)*10**meterValues.get('power_scale_int', 0),
+        "voltage_ln": meterValues.get('voltage_ln_int', 0)*10**meterValues.get('voltage_scale_int', 0),
+        "l1n_voltage": meterValues.get('l1n_voltage_int', 0)*10**meterValues.get('voltage_scale_int', 0),
+        "l2n_voltage": meterValues.get('l2n_voltage_int', 0)*10**meterValues.get('voltage_scale_int', 0),
+        "l3n_voltage": meterValues.get('l3n_voltage_int', 0)*10**meterValues.get('voltage_scale_int', 0),
+        "voltage_ll": meterValues.get('voltage_ll_int', 0)*10**meterValues.get('voltage_scale_int', 0),
+        "l12_voltage": meterValues.get('l12_voltage_int', 0)*10**meterValues.get('voltage_scale_int', 0),
+        "l23_voltage": meterValues.get('l23_voltage_int', 0)*10**meterValues.get('voltage_scale_int', 0),
+        "l31_voltage": meterValues.get('l31_voltage_int', 0)*10**meterValues.get('voltage_scale_int', 0),
+        "frequency": meterValues.get('frequency_int', 0)*10**meterValues.get('frequency_scale_int', 0),
+        "l1_energy_active": meterValues.get('l1_export_energy_active_int', 0)*10**meterValues.get('energy_active_scale_int', 0),
+        "l2_energy_active": meterValues.get('l2_export_energy_active_int', 0)*10**meterValues.get('energy_active_scale_int', 0),
+        "l3_energy_active": meterValues.get('l3_export_energy_active_int', 0)*10**meterValues.get('energy_active_scale_int', 0),
+        "l1_import_energy_active": meterValues.get('l1_import_energy_active_int', 0)*10**meterValues.get('energy_active_scale_int', 0),
+        "l2_import_energy_active": meterValues.get('l2_import_energy_active_int', 0)*10**meterValues.get('energy_active_scale_int', 0),
+        "l3_import_energy_active": meterValues.get('l3_import_energy_active_int', 0)*10**meterValues.get('energy_active_scale_int', 0),
+        "export_energy_active": meterValues.get('export_energy_active_int', 0)*10**meterValues.get('energy_active_scale_int', 0),
+        "l1_export_energy_active": meterValues.get('l1_export_energy_active_int', 0)*10**meterValues.get('energy_active_scale_int', 0),
+        "l2_export_energy_active": meterValues.get('l2_export_energy_active_int', 0)*10**meterValues.get('energy_active_scale_int', 0),
+        "l3_export_energy_active": meterValues.get('l3_export_energy_active_int', 0)*10**meterValues.get('energy_active_scale_int', 0),
+        "energy_reactive": 0.0,
+        "l1_energy_reactive": 0.0,
+        "l2_energy_reactive": 0.0,
+        "l3_energy_reactive": 0.0,
+        "energy_apparent": meterValues.get('import_energy_apparent_int', 0)*10**meterValues.get('energy_apparent_scale_int', 0),
+        "l1_energy_apparent": meterValues.get('l1_import_energy_apparent_int', 0)*10**meterValues.get('energy_apparent_scale_int', 0),
+        "l2_energy_apparent": meterValues.get('l2_import_energy_apparent_int', 0)*10**meterValues.get('energy_apparent_scale_int', 0),
+        "l3_energy_apparent": meterValues.get('l3_import_energy_apparent_int', 0)*10**meterValues.get('energy_apparent_scale_int', 0),
+        "power_factor": meterValues.get('power_factor_int', 0)*10**meterValues.get('power_factor_scale_int', 0),
+        "l1_power_factor": meterValues.get('l1_power_factor_int', 0)*10**meterValues.get('power_factor_scale_int', 0),
+        "l2_power_factor": meterValues.get('l2_power_factor_int', 0)*10**meterValues.get('power_factor_scale_int', 0),
+        "l3_power_factor": meterValues.get('l3_power_factor_int', 0)*10**meterValues.get('power_factor_scale_int', 0),
+        "power_reactive": meterValues.get('power_reactive_int', 0)*10**meterValues.get('power_reactive_scale_int', 0),
+        "l1_power_reactive": meterValues.get('l1_power_reactive_int', 0)*10**meterValues.get('power_reactive_scale_int', 0),
+        "l2_power_reactive": meterValues.get('l2_power_reactive_int', 0)*10**meterValues.get('power_reactive_scale_int', 0),
+        "l3_power_reactive": meterValues.get('l3_power_reactive_int', 0)*10**meterValues.get('power_reactive_scale_int', 0),
+        "power_apparent": meterValues.get('power_apparent_int', 0)*10**meterValues.get('power_apparent_scale_int', 0),
+        "l1_power_apparent": meterValues.get('l1_power_apparent_int', 0)*10**meterValues.get('power_apparent_scale_int', 0),
+        "l2_power_apparent": meterValues.get('l2_power_apparent_int', 0)*10**meterValues.get('power_apparent_scale_int', 0),
+        "l3_power_apparent": meterValues.get('l3_power_apparent_int', 0)*10**meterValues.get('power_apparent_scale_int', 0),
+        "l1_current": meterValues.get('l1_current_int', 0)*10**meterValues.get('current_scale_int', 0),
+        "l2_current": meterValues.get('l2_current_int', 0)*10**meterValues.get('current_scale_int', 0),
+        "l3_current": meterValues.get('l3_current_int', 0)*10**meterValues.get('current_scale_int', 0),
+        "demand_power_active": 0.0,
+        "minimum_demand_power_active": 0.0,
+        "maximum_demand_power_active": 0.0,
+        "demand_power_apparent": 0.0,
+        "l1_demand_power_active": 0.0,
+        "l2_demand_power_active": 0.0,
+        "l3_demand_power_active": 0.0,
     }
 
+    values |= SE_WNC_3Y_400_MB_K1_values  
 
-    return values | SE_WNC_3Y_400_MB_K1_values  
+    return values
     # append type to key

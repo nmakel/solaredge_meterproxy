@@ -310,134 +310,134 @@ def t_update(ctx, SE7K_CTX, stop, module, device, refresh):
                 logger.debug(f"{this_t.name}: no new values")
                 continue   
 
-            meterValues = values["connected_meters"]["Meter1"]      
-
-            logger.info(meterValues['power_int']*10**meterValues['power_scale_int'])
+            # use the values from the SE-MTR-3Y-400V-A SE Meter
+            values = values["connected_meters"]["Meter1"]      
+            logger.info(values.get('power_int', 0)*10**values.get('power_scale_int', 0))
 
             if logger.isEnabledFor(logging.DEBUG):
-                logger.info("current:"+str(meterValues['current_int']))
-                logger.info(str(meterValues['current_int']*10**meterValues['current_scale_int']))
-                logger.info(meterValues['l1_current_int']*10**meterValues['current_scale_int'])
-                logger.info(meterValues['l2_current_int']*10**meterValues['current_scale_int'])
-                logger.info(meterValues['l3_current_int']*10**meterValues['current_scale_int'])
-                logger.debug(meterValues['current_scale_int'])
+                logger.info("current:"+str(values.get('current_int', 0)))
+                logger.info(values.get('current_int', 0)*10**values.get('current_scale_int', 0))
+                logger.info(values.get('l1_current_int', 0)*10**values.get('current_scale_int', 0))
+                logger.info(values.get('l2_current_int', 0)*10**values.get('current_scale_int', 0))
+                logger.info(values.get('l3_current_int', 0)*10**values.get('current_scale_int', 0))
+                logger.debug(values.get('current_scale_int', 0))
 
-                logger.debug("voltage_ln:"+str(meterValues['voltage_ln_int']))
-                logger.debug(meterValues['voltage_ln_int']*10**meterValues['voltage_scale_int'])
-                logger.debug(meterValues['l1n_voltage_int']*10**meterValues['voltage_scale_int'])
-                logger.debug(meterValues['l2n_voltage_int']*10**meterValues['voltage_scale_int'])
-                logger.debug(meterValues['l3n_voltage_int']*10**meterValues['voltage_scale_int'])
-                logger.debug(meterValues['voltage_scale_int'])
+                logger.debug("voltage_ln:"+str(values.get('voltage_ln_int', 0)))
+                logger.debug(values.get('voltage_ln_int', 0)*10**values.get('voltage_scale_int', 0))
+                logger.debug(values.get('l1n_voltage_int', 0)*10**values.get('voltage_scale_int', 0))
+                logger.debug(values.get('l2n_voltage_int', 0)*10**values.get('voltage_scale_int', 0))
+                logger.debug(values.get('l3n_voltage_int', 0)*10**values.get('voltage_scale_int', 0))
+                logger.debug(values.get('voltage_scale_int', 0))
 
-                logger.debug("voltage_ll:"+str(meterValues['voltage_ll_int']))          
-                logger.debug(meterValues['voltage_ll_int']*10**meterValues['voltage_scale_int'])
-                logger.debug(meterValues['l12_voltage_int']*10**meterValues['voltage_scale_int'])
-                logger.debug(meterValues['l23_voltage_int']*10**meterValues['voltage_scale_int'])
-                logger.debug(meterValues['l31_voltage_int']*10**meterValues['voltage_scale_int'])
-                logger.debug(meterValues['voltage_scale_int'])
+                logger.debug("voltage_ll:"+str(values.get('voltage_ll_int', 0)))          
+                logger.debug(values.get('voltage_ll_int', 0)*10**values.get('voltage_scale_int', 0))
+                logger.debug(values.get('l12_voltage_int', 0)*10**values.get('voltage_scale_int', 0))
+                logger.debug(values.get('l23_voltage_int', 0)*10**values.get('voltage_scale_int', 0))
+                logger.debug(values.get('l31_voltage_int', 0)*10**values.get('voltage_scale_int', 0))
+                logger.debug(values.get('voltage_scale_int', 0))
 
                 
-                logger.info("frequency:"+str(meterValues['frequency_int']))          
-                logger.info(meterValues['frequency_int']*10**meterValues['frequency_scale_int'])
+                logger.info("frequency:"+str(values.get('frequency_int', 0)))          
+                logger.info(values.get('frequency_int', 0)*10**values.get('frequency_scale_int', 0))
 
-                logger.info("power:"+str(meterValues['power_int']))          
-                logger.info(meterValues['power_int']*10**meterValues['power_scale_int'])
-                logger.info(meterValues['l1_power_int']*10**meterValues['power_scale_int'])
-                logger.info(meterValues['l2_power_int']*10**meterValues['power_scale_int'])
-                logger.info(meterValues['l3_power_int']*10**meterValues['power_scale_int'])
-                logger.info(meterValues['power_scale_int'])
+                logger.info("power:"+str(values.get('power_int', 0)))          
+                logger.info(values.get('power_int', 0)*10**values.get('power_scale_int', 0))
+                logger.info(values.get('l1_power_int', 0)*10**values.get('power_scale_int', 0))
+                logger.info(values.get('l2_power_int', 0)*10**values.get('power_scale_int', 0))
+                logger.info(values.get('l3_power_int', 0)*10**values.get('power_scale_int', 0))
+                logger.info(values.get('power_scale_int', 0))
 
-                logger.info("power_apparent:"+str(meterValues['power_apparent_int']))          
-                logger.info(meterValues['power_apparent_int']*10**meterValues['power_apparent_scale_int'])
-                logger.info(meterValues['l1_power_apparent_int']*10**meterValues['power_apparent_scale_int'])
-                logger.info(meterValues['l2_power_apparent_int']*10**meterValues['power_apparent_scale_int'])
-                logger.info(meterValues['l3_power_apparent_int']*10**meterValues['power_apparent_scale_int'])
-                logger.info(meterValues['power_apparent_scale_int'])
+                logger.info("power_apparent:"+str(values.get('power_apparent_int', 0)))          
+                logger.info(values.get('power_apparent_int', 0)*10**values.get('power_apparent_scale_int', 0))
+                logger.info(values.get('l1_power_apparent_int', 0)*10**values.get('power_apparent_scale_int', 0))
+                logger.info(values.get('l2_power_apparent_int', 0)*10**values.get('power_apparent_scale_int', 0))
+                logger.info(values.get('l3_power_apparent_int', 0)*10**values.get('power_apparent_scale_int', 0))
+                logger.info(values.get('power_apparent_scale_int', 0))
 
-                logger.info("power_reactive:"+str(meterValues['power_reactive_int']))          
-                logger.info(meterValues['power_reactive_int']*10**meterValues['power_reactive_scale_int'])
-                logger.info(meterValues['l1_power_reactive_int']*10**meterValues['power_reactive_scale_int'])
-                logger.info(meterValues['l2_power_reactive_int']*10**meterValues['power_reactive_scale_int'])
-                logger.info(meterValues['l3_power_reactive_int']*10**meterValues['power_reactive_scale_int'])
-                logger.info(meterValues['power_reactive_scale_int'])
+                logger.info("power_reactive:"+str(values.get('power_reactive_int', 0)))          
+                logger.info(values.get('power_reactive_int', 0)*10**values.get('power_reactive_scale_int', 0))
+                logger.info(values.get('l1_power_reactive_int', 0)*10**values.get('power_reactive_scale_int', 0))
+                logger.info(values.get('l2_power_reactive_int', 0)*10**values.get('power_reactive_scale_int', 0))
+                logger.info(values.get('l3_power_reactive_int', 0)*10**values.get('power_reactive_scale_int', 0))
+                logger.info(values.get('power_reactive_scale_int', 0))
 
-                logger.info("power_factor:"+str(meterValues['power_factor_int']))          
-                logger.info(meterValues['power_factor_int']*10**meterValues['power_factor_scale_int'])
-                logger.info(meterValues['l1_power_factor_int']*10**meterValues['power_factor_scale_int'])
-                logger.info(meterValues['l2_power_factor_int']*10**meterValues['power_factor_scale_int'])
-                logger.info(meterValues['l3_power_factor_int']*10**meterValues['power_factor_scale_int'])
-                logger.info(meterValues['power_factor_scale_int'])
+                logger.info("power_factor:"+str(values.get('power_factor_int', 0)))          
+                logger.info(values.get('power_factor_int', 0)*10**values.get('power_factor_scale_int', 0))
+                logger.info(values.get('l1_power_factor_int', 0)*10**values.get('power_factor_scale_int', 0))
+                logger.info(values.get('l2_power_factor_int', 0)*10**values.get('power_factor_scale_int', 0))
+                logger.info(values.get('l3_power_factor_int', 0)*10**values.get('power_factor_scale_int', 0))
+                logger.info(values.get('power_factor_scale_int', 0))
 
-                logger.debug("export_energy_active:"+str(meterValues['export_energy_active_int']))          
-                logger.debug(meterValues['export_energy_active_int']*10**meterValues['energy_active_scale_int'])
-                logger.debug(meterValues['l1_export_energy_active_int']*10**meterValues['energy_active_scale_int'])
-                logger.debug(meterValues['l2_export_energy_active_int']*10**meterValues['energy_active_scale_int'])
-                logger.debug(meterValues['l3_export_energy_active_int']*10**meterValues['energy_active_scale_int'])
-                logger.debug(meterValues['energy_active_scale_int'])
+                logger.debug("export_energy_active:"+str(values.get('export_energy_active_int', 0)))          
+                logger.debug(values.get('export_energy_active_int', 0)*10**values.get('energy_active_scale_int', 0))
+                logger.debug(values.get('l1_export_energy_active_int', 0)*10**values.get('energy_active_scale_int', 0))
+                logger.debug(values.get('l2_export_energy_active_int', 0)*10**values.get('energy_active_scale_int', 0))
+                logger.debug(values.get('l3_export_energy_active_int', 0)*10**values.get('energy_active_scale_int', 0))
+                logger.debug(values.get('energy_active_scale_int', 0))
 
-                logger.debug("import_energy_active:"+str(meterValues['import_energy_active_int']))          
-                logger.debug(meterValues['import_energy_active_int']*10**meterValues['energy_active_scale_int'])
-                logger.debug(meterValues['l1_import_energy_active_int']*10**meterValues['energy_active_scale_int'])
-                logger.debug(meterValues['l2_import_energy_active_int']*10**meterValues['energy_active_scale_int'])
-                logger.debug(meterValues['l3_import_energy_active_int']*10**meterValues['energy_active_scale_int'])
-                logger.debug(meterValues['energy_active_scale_int'])
+                logger.debug("import_energy_active:"+str(values.get('import_energy_active_int', 0)))          
+                logger.debug(values.get('import_energy_active_int', 0)*10**values.get('energy_active_scale_int', 0))
+                logger.debug(values.get('l1_import_energy_active_int', 0)*10**values.get('energy_active_scale_int', 0))
+                logger.debug(values.get('l2_import_energy_active_int', 0)*10**values.get('energy_active_scale_int', 0))
+                logger.debug(values.get('l3_import_energy_active_int', 0)*10**values.get('energy_active_scale_int', 0))
+                logger.debug(values.get('energy_active_scale_int', 0))
 
-                logger.debug("import_energy_apparent:"+str(meterValues['import_energy_apparent_int']))          
-                logger.debug(meterValues['import_energy_apparent_int']*10**meterValues['energy_apparent_scale_int'])
-                logger.debug(meterValues['l1_import_energy_apparent_int']*10**meterValues['energy_apparent_scale_int'])
-                logger.debug(meterValues['l2_import_energy_apparent_int']*10**meterValues['energy_apparent_scale_int'])
-                logger.debug(meterValues['l3_import_energy_apparent_int']*10**meterValues['energy_apparent_scale_int'])
-                logger.debug(meterValues['energy_apparent_scale_int'])
+                logger.debug("import_energy_apparent:"+str(values.get('import_energy_apparent_int', 0)))          
+                logger.debug(values.get('import_energy_apparent_int', 0)*10**values.get('energy_apparent_scale_int', 0))
+                logger.debug(values.get('l1_import_energy_apparent_int', 0)*10**values.get('energy_apparent_scale_int', 0))
+                logger.debug(values.get('l2_import_energy_apparent_int', 0)*10**values.get('energy_apparent_scale_int', 0))
+                logger.debug(values.get('l3_import_energy_apparent_int', 0)*10**values.get('energy_apparent_scale_int', 0))
+                logger.debug(values.get('energy_apparent_scale_int', 0))
 
 
 
             block_0 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
-            block_0.add_32bit_int(int(meterValues['l1n_voltage_int']/10)) # l1-n voltage    * 10
-            block_0.add_32bit_int(int(meterValues['l2n_voltage_int']/10)) # l2-n voltage
-            block_0.add_32bit_int(int(meterValues['l3n_voltage_int']/10)) # l3-n voltage
-            block_0.add_32bit_int(int(meterValues['l12_voltage_int']/10)) # l1-l2 voltage
-            block_0.add_32bit_int(int(meterValues['l23_voltage_int']/10)) # l2-l3 voltage
-            block_0.add_32bit_int(int(meterValues['l31_voltage_int']/10)) # l3-l1 voltage
-            block_0.add_32bit_int(meterValues['l1_current_int']*100) # current l1      * 1000
-            block_0.add_32bit_int(meterValues['l2_current_int']*100) # current l2
-            block_0.add_32bit_int(meterValues['l3_current_int']*100) # current l3
-            block_0.add_32bit_int(meterValues['l1_power_int']*-10) # power l1   *10
-            block_0.add_32bit_int(meterValues['l2_power_int']*-10) # power l2
-            block_0.add_32bit_int(meterValues['l3_power_int']*-10) # power l3
-            block_0.add_32bit_int(meterValues['l1_power_apparent_int']*-10) # apparent power l1   *10
-            block_0.add_32bit_int(meterValues['l2_power_apparent_int']*-10) # apparent power l2
-            block_0.add_32bit_int(meterValues['l3_power_apparent_int']*-10) # apparent power l3
-            block_0.add_32bit_int(meterValues['l1_power_reactive_int']*-10) # reactive power l1   *10
-            block_0.add_32bit_int(meterValues['l2_power_reactive_int']*-10) # reactive power l2
-            block_0.add_32bit_int(meterValues['l3_power_reactive_int']*-10) # reactive power l3
-            block_0.add_32bit_int(int(meterValues['voltage_ln_int']/10)) # l-n voltage                *10
-            block_0.add_32bit_int(int(meterValues['voltage_ll_int']/10)) # l-l voltage
-            block_0.add_32bit_int(meterValues['power_int']*-10) # total power              *10
-            block_0.add_32bit_int(meterValues['power_apparent_int']*-10) # total apparent power
-            block_0.add_32bit_int(meterValues['power_reactive_int']*-10) # total reactive power
-            block_0.add_16bit_int(int(meterValues['l1_power_factor_int']/10)) # power factor l1       *1000
-            block_0.add_16bit_int(int(meterValues['l2_power_factor_int']/10)) # power factor l2
-            block_0.add_16bit_int(int(meterValues['l3_power_factor_int']/10)) # power factor l3
-            block_0.add_16bit_int(int(meterValues['power_factor_int']/10)) # power factor
+            block_0.add_32bit_int(int(values.get('l1n_voltage_int', 0)/10)) # l1-n voltage    * 10
+            block_0.add_32bit_int(int(values.get('l2n_voltage_int', 0)/10)) # l2-n voltage
+            block_0.add_32bit_int(int(values.get('l3n_voltage_int', 0)/10)) # l3-n voltage
+            block_0.add_32bit_int(int(values.get('l12_voltage_int', 0)/10)) # l1-l2 voltage
+            block_0.add_32bit_int(int(values.get('l23_voltage_int', 0)/10)) # l2-l3 voltage
+            block_0.add_32bit_int(int(values.get('l31_voltage_int', 0)/10)) # l3-l1 voltage
+            block_0.add_32bit_int(values.get('l1_current_int', 0)*100) # current l1      * 1000
+            block_0.add_32bit_int(values.get('l2_current_int', 0)*100) # current l2
+            block_0.add_32bit_int(values.get('l3_current_int', 0)*100) # current l3
+            block_0.add_32bit_int(values.get('l1_power_int', 0)*-10) # power l1   *10
+            block_0.add_32bit_int(values.get('l2_power_int', 0)*-10) # power l2
+            block_0.add_32bit_int(values.get('l3_power_int', 0)*-10) # power l3
+            block_0.add_32bit_int(values.get('l1_power_apparent_int', 0)*-10) # apparent power l1   *10
+            block_0.add_32bit_int(values.get('l2_power_apparent_int', 0)*-10) # apparent power l2
+            block_0.add_32bit_int(values.get('l3_power_apparent_int', 0)*-10) # apparent power l3
+            block_0.add_32bit_int(values.get('l1_power_reactive_int', 0)*-10) # reactive power l1   *10
+            block_0.add_32bit_int(values.get('l2_power_reactive_int', 0)*-10) # reactive power l2
+            block_0.add_32bit_int(values.get('l3_power_reactive_int', 0)*-10) # reactive power l3
+            block_0.add_32bit_int(int(values.get('voltage_ln_int', 0)/10)) # l-n voltage                *10
+            block_0.add_32bit_int(int(values.get('voltage_ll_int', 0)/10)) # l-l voltage
+            block_0.add_32bit_int(values.get('power_int', 0)*-10) # total power              *10
+            block_0.add_32bit_int(values.get('power_apparent_int', 0)*-10) # total apparent power
+            block_0.add_32bit_int(values.get('power_reactive_int', 0)*-10) # total reactive power
+            block_0.add_16bit_int(int(values.get('l1_power_factor_int', 0)/10)) # power factor l1       *1000
+            block_0.add_16bit_int(int(values.get('l2_power_factor_int', 0)/10)) # power factor l2
+            block_0.add_16bit_int(int(values.get('l3_power_factor_int', 0)/10)) # power factor l3
+            block_0.add_16bit_int(int(values.get('power_factor_int', 0)/10)) # power factor
             block_0.add_16bit_int(0) # Value –1 correspond to L1-L3-L2 sequence, value 0 correspond to L1-L2-L3 sequence (this value is meaningful only in case of 3-phase systems)
             
-            block_0.add_16bit_uint(int(meterValues['frequency_int']/10)) # line frequency           *10
+            block_0.add_16bit_uint(int(values.get('frequency_int', 0)/10)) # line frequency           *10
 
-            block_0.add_32bit_int(int(meterValues['import_energy_active_int']/100)) # imported active energy
-            block_0.add_32bit_int(int(meterValues['import_energy_apparent_int']/100)) # imported active energy
+            block_0.add_32bit_int(int(values.get('import_energy_active_int', 0)/100)) # imported active energy
+            block_0.add_32bit_int(int(values.get('import_energy_apparent_int', 0)/100)) # imported active energy
             block_0.add_32bit_int(56) # demand power
             block_0.add_32bit_int(58) # maximum demand power
-            block_0.add_32bit_int(int(meterValues['import_energy_active_int']/100)) # imported active energy
-            block_0.add_32bit_int(int(meterValues['import_energy_apparent_int']/100)) # imported active energy
-            block_0.add_32bit_int(int(meterValues['l1_import_energy_active_int']/100)) # imported active energy l1
-            block_0.add_32bit_int(int(meterValues['l2_import_energy_active_int']/100)) # imported active energy l2
-            block_0.add_32bit_int(int(meterValues['l3_import_energy_active_int']/100)) # imported active energy l3
+            block_0.add_32bit_int(int(values.get('import_energy_active_int', 0)/100)) # imported active energy
+            block_0.add_32bit_int(int(values.get('import_energy_apparent_int', 0)/100)) # imported active energy
+            block_0.add_32bit_int(int(values.get('l1_import_energy_active_int', 0)/100)) # imported active energy l1
+            block_0.add_32bit_int(int(values.get('l2_import_energy_active_int', 0)/100)) # imported active energy l2
+            block_0.add_32bit_int(int(values.get('l3_import_energy_active_int', 0)/100)) # imported active energy l3
             block_0.add_32bit_int(10) # total active energy Tarif 1
             block_0.add_32bit_int(20) # total active energy Tarif 2
             block_0.add_32bit_int(30) # total active energy Tarif 3
             block_0.add_32bit_int(40) # total active energy Tarif 4
-            block_0.add_32bit_int(int(meterValues['export_energy_active_int']/100)) # total exported active energy non-reset   /100)
-            block_0.add_32bit_int(int(meterValues['export_energy_apparent_int']/100)) # imported active energy non-reset
+            block_0.add_32bit_int(int(values.get('export_energy_active_int', 0)/100)) # total exported active energy non-reset   /100)
+            block_0.add_32bit_int(int(values.get('export_energy_apparent_int', 0)/100)) # imported active energy non-reset
             block_0.add_32bit_int(2400) # hour                                                             *100
             block_0.add_32bit_int(11) # total apparent energy Tarif 1                                      *10
             block_0.add_32bit_int(22) # total apparent energy Tarif 2
@@ -452,55 +452,55 @@ def t_update(ctx, SE7K_CTX, stop, module, device, refresh):
             block_254 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
             block_254.add_32bit_int(2400) # hour    *100                                                         *100
             block_254.add_32bit_int(256)  # unused                                                       *100
-            block_254.add_32bit_int(int(meterValues['voltage_ln_int']/10)) # l-n voltage                *10
-            block_254.add_32bit_int(int(meterValues['voltage_ll_int']/10)) # l-l voltage
-            block_254.add_32bit_int(meterValues['power_int']*-10) # total power              *10
-            block_254.add_32bit_int(meterValues['power_apparent_int']*-10) # total apparent power
-            block_254.add_32bit_int(meterValues['power_reactive_int']*-10) # total reactive power
-            block_254.add_32bit_int(int(meterValues['power_factor_int']/10)) # power factor
+            block_254.add_32bit_int(int(values.get('voltage_ln_int', 0)/10)) # l-n voltage                *10
+            block_254.add_32bit_int(int(values.get('voltage_ll_int', 0)/10)) # l-l voltage
+            block_254.add_32bit_int(values.get('power_int', 0)*-10) # total power              *10
+            block_254.add_32bit_int(values.get('power_apparent_int', 0)*-10) # total apparent power
+            block_254.add_32bit_int(values.get('power_reactive_int', 0)*-10) # total reactive power
+            block_254.add_32bit_int(int(values.get('power_factor_int', 0)/10)) # power factor
             block_254.add_32bit_int(0) # Value –1 correspond to L1-L3-L2 sequence, value 0 correspond to L1-L2-L3 sequence (this value is meaningful only in case of 3-phase systems)
-            block_254.add_32bit_int(int(meterValues['frequency_int']/10)) # line frequency           *10
-            block_254.add_32bit_int(int(meterValues['import_energy_active_int']/100)) # imported active energy
-            block_254.add_32bit_int(int(meterValues['import_energy_apparent_int']/100)) # imported active energy
-            block_254.add_32bit_int(int(meterValues['export_energy_active_int']/100)) # total exported active energy non-reset   /100)
-            block_254.add_32bit_int(int(meterValues['export_energy_apparent_int']/100)) # imported active energy non-reset
+            block_254.add_32bit_int(int(values.get('frequency_int', 0)/10)) # line frequency           *10
+            block_254.add_32bit_int(int(values.get('import_energy_active_int', 0)/100)) # imported active energy
+            block_254.add_32bit_int(int(values.get('import_energy_apparent_int', 0)/100)) # imported active energy
+            block_254.add_32bit_int(int(values.get('export_energy_active_int', 0)/100)) # total exported active energy non-reset   /100)
+            block_254.add_32bit_int(int(values.get('export_energy_apparent_int', 0)/100)) # imported active energy non-reset
             block_254.add_32bit_int(56) # demand power
             block_254.add_32bit_int(58) # maximum demand power
 
 
 
 
-            block_254.add_32bit_int(int(meterValues['l12_voltage_int']/10)) # l1-l2 voltage
-            block_254.add_32bit_int(int(meterValues['l1n_voltage_int']/10)) # l1-n voltage    * 10
-            block_254.add_32bit_int(meterValues['l1_current_int']*100) # current l1      * 1000
-            block_254.add_32bit_int(meterValues['l1_power_int']*-10) # power l1   *10
-            block_254.add_32bit_int(meterValues['l1_power_apparent_int']*-10) # apparent power l1   *10
-            block_254.add_32bit_int(meterValues['l1_power_reactive_int']*-10) # reactive power l1   *10
-            block_254.add_32bit_int(int(meterValues['l1_power_factor_int']/10)) # power factor l1       *1000
+            block_254.add_32bit_int(int(values.get('l12_voltage_int', 0)/10)) # l1-l2 voltage
+            block_254.add_32bit_int(int(values.get('l1n_voltage_int', 0)/10)) # l1-n voltage    * 10
+            block_254.add_32bit_int(values.get('l1_current_int', 0)*100) # current l1      * 1000
+            block_254.add_32bit_int(values.get('l1_power_int', 0)*-10) # power l1   *10
+            block_254.add_32bit_int(values.get('l1_power_apparent_int', 0)*-10) # apparent power l1   *10
+            block_254.add_32bit_int(values.get('l1_power_reactive_int', 0)*-10) # reactive power l1   *10
+            block_254.add_32bit_int(int(values.get('l1_power_factor_int', 0)/10)) # power factor l1       *1000
 
-            block_254.add_32bit_int(int(meterValues['l23_voltage_int']/10)) # l2-l3 voltage
-            block_254.add_32bit_int(int(meterValues['l2n_voltage_int']/10)) # l2-n voltage
-            block_254.add_32bit_int(meterValues['l2_current_int']*100) # current l2
-            block_254.add_32bit_int(meterValues['l2_power_int']*-10) # power l2
-            block_254.add_32bit_int(meterValues['l2_power_apparent_int']*-10) # apparent power l2
-            block_254.add_32bit_int(meterValues['l2_power_reactive_int']*-10) # reactive power l2
-            block_254.add_32bit_int(int(meterValues['l2_power_factor_int']/10)) # power factor l2
+            block_254.add_32bit_int(int(values.get('l23_voltage_int', 0)/10)) # l2-l3 voltage
+            block_254.add_32bit_int(int(values.get('l2n_voltage_int', 0)/10)) # l2-n voltage
+            block_254.add_32bit_int(values.get('l2_current_int', 0)*100) # current l2
+            block_254.add_32bit_int(values.get('l2_power_int', 0)*-10) # power l2
+            block_254.add_32bit_int(values.get('l2_power_apparent_int', 0)*-10) # apparent power l2
+            block_254.add_32bit_int(values.get('l2_power_reactive_int', 0)*-10) # reactive power l2
+            block_254.add_32bit_int(int(values.get('l2_power_factor_int', 0)/10)) # power factor l2
 
-            block_254.add_32bit_int(int(meterValues['l31_voltage_int']/10)) # l3-l1 voltage
-            block_254.add_32bit_int(int(meterValues['l3n_voltage_int']/10)) # l3-n voltage
-            block_254.add_32bit_int(meterValues['l3_current_int']*100) # current l3
-            block_254.add_32bit_int(meterValues['l3_power_int']*-10) # power l3
-            block_254.add_32bit_int(meterValues['l3_power_apparent_int']*-10) # apparent power l3
-            block_254.add_32bit_int(meterValues['l3_power_reactive_int']*-10) # reactive power l3
-            block_254.add_32bit_int(int(meterValues['l3_power_factor_int']/10)) # power factor l3
+            block_254.add_32bit_int(int(values.get('l31_voltage_int', 0)/10)) # l3-l1 voltage
+            block_254.add_32bit_int(int(values.get('l3n_voltage_int', 0)/10)) # l3-n voltage
+            block_254.add_32bit_int(values.get('l3_current_int', 0)*100) # current l3
+            block_254.add_32bit_int(values.get('l3_power_int', 0)*-10) # power l3
+            block_254.add_32bit_int(values.get('l3_power_apparent_int', 0)*-10) # apparent power l3
+            block_254.add_32bit_int(values.get('l3_power_reactive_int', 0)*-10) # reactive power l3
+            block_254.add_32bit_int(int(values.get('l3_power_factor_int', 0)/10)) # power factor l3
 
             block_254.add_32bit_int(0) # Value –1 correspond to L1-L3-L2 sequence, value 0 correspond to L1-L2-L3 sequence (this value is meaningful only in case of 3-phase systems)
             
-            block_254.add_32bit_int(int(meterValues['import_energy_active_int']/100)) # imported active energy
-            block_254.add_32bit_int(int(meterValues['import_energy_apparent_int']/100)) # imported active energy
-            block_254.add_32bit_int(int(meterValues['l1_import_energy_active_int']/100)) # imported active energy l1
-            block_254.add_32bit_int(int(meterValues['l2_import_energy_active_int']/100)) # imported active energy l2
-            block_254.add_32bit_int(int(meterValues['l3_import_energy_active_int']/100)) # imported active energy l3
+            block_254.add_32bit_int(int(values.get('import_energy_active_int', 0)/100)) # imported active energy
+            block_254.add_32bit_int(int(values.get('import_energy_apparent_int', 0)/100)) # imported active energy
+            block_254.add_32bit_int(int(values.get('l1_import_energy_active_int', 0)/100)) # imported active energy l1
+            block_254.add_32bit_int(int(values.get('l2_import_energy_active_int', 0)/100)) # imported active energy l2
+            block_254.add_32bit_int(int(values.get('l3_import_energy_active_int', 0)/100)) # imported active energy l3
             block_254.add_32bit_int(10) # total active energy Tarif 1
             block_254.add_32bit_int(20) # total active energy Tarif 2
             block_254.add_32bit_int(30) # total active energy Tarif 3
