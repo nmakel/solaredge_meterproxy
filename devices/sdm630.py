@@ -76,56 +76,56 @@ def values(device):
         "energy_active": values.get("total_energy_active", 0),
         "import_energy_active": values.get("import_energy_active", 0),
         "power_active": values.get("total_power_active", 0),
-        "p1_power_active": values.get("p1_power_active", 0),
-        "p2_power_active": values.get("p2_power_active", 0),
-        "p3_power_active": values.get("p3_power_active", 0),
+        "l1_power_active": values.get("l1_power_active", 0),
+        "l2_power_active": values.get("l2_power_active", 0),
+        "l3_power_active": values.get("l3_power_active", 0),
         "voltage_ln": values.get("voltage_ln", 0),
-        "p1n_voltage": values.get("p1_voltage", 0),
-        "p2n_voltage": values.get("p2_voltage", 0),
-        "p3n_voltage": values.get("p3_voltage", 0),
+        "l1n_voltage": values.get("l1_voltage", 0),
+        "l2n_voltage": values.get("l2_voltage", 0),
+        "l3n_voltage": values.get("l3_voltage", 0),
         "voltage_ll": values.get("voltage_ll", 0),
-        "p12_voltage": values.get("p12_voltage", 0),
-        "p23_voltage": values.get("p23_voltage", 0),
-        "p31_voltage": values.get("p31_voltage", 0),
+        "l12_voltage": values.get("l12_voltage", 0),
+        "l23_voltage": values.get("l23_voltage", 0),
+        "l31_voltage": values.get("l31_voltage", 0),
         "frequency": values.get("frequency", 0),
-        "p1_energy_active": values.get("total_energy_active", 0),
-        # "p2_energy_active"
-        # "p3_energy_active"
-        "p1_import_energy_active": values.get("import_energy_active", 0),
-        # "p2_import_energy_active"
-        # "p3_import_energy_active"
+        "l1_energy_active": values.get("total_energy_active", 0),
+        # "l2_energy_active"
+        # "l3_energy_active"
+        "l1_import_energy_active": values.get("import_energy_active", 0),
+        # "l2_import_energy_active"
+        # "l3_import_energy_active"
         "export_energy_active": values.get("export_energy_active", 0),
-        "p1_export_energy_active": values.get("export_energy_active", 0),
-        # "p2_export_energy_active"
-        # "p3_export_energy_active"
+        "l1_export_energy_active": values.get("export_energy_active", 0),
+        # "l2_export_energy_active"
+        # "l3_export_energy_active"
         "energy_reactive": values.get("total_energy_reactive", 0),
-        "p1_energy_reactive": values.get("total_energy_reactive", 0),
-        # "p2_energy_reactive"
-        # "p3_energy_reactive"
+        "l1_energy_reactive": values.get("total_energy_reactive", 0),
+        # "l2_energy_reactive"
+        # "l3_energy_reactive"
         "energy_apparent": values.get("total_energy_apparent", 0),
-        "p1_energy_apparent": values.get("total_energy_apparent", 0),
-        # "p2_energy_apparent"
-        # "p3_energy_apparent"
+        "l1_energy_apparent": values.get("total_energy_apparent", 0),
+        # "l2_energy_apparent"
+        # "l3_energy_apparent"
         "power_factor": values.get("total_power_factor", 0),
-        "p1_power_factor": values.get("p1_power_factor", 0),
-        "p2_power_factor": values.get("p2_power_factor", 0),
-        "p3_power_factor": values.get("p3_power_factor", 0),
+        "l1_power_factor": values.get("l1_power_factor", 0),
+        "l2_power_factor": values.get("l2_power_factor", 0),
+        "l3_power_factor": values.get("l3_power_factor", 0),
         "power_reactive": values.get("total_power_reactive", 0),
-        "p1_power_reactive": values.get("p1_power_reactive", 0),
-        "p2_power_reactive": values.get("p2_power_reactive", 0),
-        "p3_power_reactive": values.get("p3_power_reactive", 0),
+        "l1_power_reactive": values.get("l1_power_reactive", 0),
+        "l2_power_reactive": values.get("l2_power_reactive", 0),
+        "l3_power_reactive": values.get("l3_power_reactive", 0),
         "power_apparent": values.get("total_power_apparent", 0),
-        "p1_power_apparent": values.get("p1_power_apparent", 0),
-        "p2_power_apparent": values.get("p2_power_apparent", 0),
-        "p3_power_apparent": values.get("p3_power_apparent", 0),
-        "p1_current": values.get("p1_current", 0),
-        "p2_current": values.get("p2_current", 0),
-        "p3_current": values.get("p3_current", 0),
+        "l1_power_apparent": values.get("l1_power_apparent", 0),
+        "l2_power_apparent": values.get("l2_power_apparent", 0),
+        "l3_power_apparent": values.get("l3_power_apparent", 0),
+        "l1_current": values.get("l1_current", 0),
+        "l2_current": values.get("l2_current", 0),
+        "l3_current": values.get("l3_current", 0),
         "demand_power_active": values.get("total_import_demand_power_active", 0),
         # "minimum_demand_power_active"
         "maximum_demand_power_active": values.get("maximum_import_demand_power_active", 0),
         "demand_power_apparent": values.get("total_demand_power_apparent", 0),
-        "p1_demand_power_active": (values.get("p1_demand_current", 0) * values.get("p1_voltage", 0)),
-        "p2_demand_power_active": (values.get("p2_demand_current", 0) * values.get("p2_voltage", 0)),
-        "p3_demand_power_active": (values.get("p3_demand_current", 0) * values.get("p3_voltage", 0))
+        "l1_demand_power_active": (values.get("l1_demand_current", 0) * values.get("l1_voltage", 0)),
+        "l2_demand_power_active": (values.get("l2_demand_current", 0) * values.get("l2_voltage", 0)),
+        "l3_demand_power_active": (values.get("l3_demand_current", 0) * values.get("l3_voltage", 0))
     }

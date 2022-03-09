@@ -37,62 +37,62 @@ def t_update(ctx, stop, module, device, refresh):
             block_1001.add_32bit_float(values.get("energy_active", 0)) # total active energy non-reset
             block_1001.add_32bit_float(values.get("import_energy_active", 0)) # imported active energy non-reset
             block_1001.add_32bit_float(values.get("power_active", 0)) # total power
-            block_1001.add_32bit_float(values.get("p1_power_active", 0)) # power l1
-            block_1001.add_32bit_float(values.get("p2_power_active", 0)) # power l2
-            block_1001.add_32bit_float(values.get("p3_power_active", 0)) # power l3
+            block_1001.add_32bit_float(values.get("l1_power_active", 0)) # power l1
+            block_1001.add_32bit_float(values.get("l2_power_active", 0)) # power l2
+            block_1001.add_32bit_float(values.get("l3_power_active", 0)) # power l3
             block_1001.add_32bit_float(values.get("voltage_ln", 0)) # l-n voltage
-            block_1001.add_32bit_float(values.get("p1n_voltage", 0)) # l1-n voltage
-            block_1001.add_32bit_float(values.get("p2n_voltage", 0)) # l2-n voltage
-            block_1001.add_32bit_float(values.get("p3n_voltage", 0)) # l3-n voltage
+            block_1001.add_32bit_float(values.get("l1n_voltage", 0)) # l1-n voltage
+            block_1001.add_32bit_float(values.get("l2n_voltage", 0)) # l2-n voltage
+            block_1001.add_32bit_float(values.get("l3n_voltage", 0)) # l3-n voltage
             block_1001.add_32bit_float(values.get("voltage_ll", 0)) # l-l voltage
-            block_1001.add_32bit_float(values.get("p12_voltage", 0)) # l1-l2 voltage
-            block_1001.add_32bit_float(values.get("p23_voltage", 0)) # l2-l3 voltage
-            block_1001.add_32bit_float(values.get("p31_voltage", 0)) # l3-l1 voltage
+            block_1001.add_32bit_float(values.get("l12_voltage", 0)) # l1-l2 voltage
+            block_1001.add_32bit_float(values.get("l23_voltage", 0)) # l2-l3 voltage
+            block_1001.add_32bit_float(values.get("l31_voltage", 0)) # l3-l1 voltage
             block_1001.add_32bit_float(values.get("frequency", 0)) # line frequency
             ctx.setValues(3, 1000, block_1001.to_registers())
 
             block_1101 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
-            block_1101.add_32bit_float(values.get("p1_energy_active", 0)) # total active energy l1
-            block_1101.add_32bit_float(values.get("p2_energy_active", 0)) # total active energy l2
-            block_1101.add_32bit_float(values.get("p3_energy_active", 0)) # total active energy l3
-            block_1101.add_32bit_float(values.get("p1_import_energy_active", 0)) # imported active energy l1
-            block_1101.add_32bit_float(values.get("p2_import_energy_active", 0)) # imported active energy l2
-            block_1101.add_32bit_float(values.get("p3_import_energy_active", 0)) # imported active energy l3
+            block_1101.add_32bit_float(values.get("l1_energy_active", 0)) # total active energy l1
+            block_1101.add_32bit_float(values.get("l2_energy_active", 0)) # total active energy l2
+            block_1101.add_32bit_float(values.get("l3_energy_active", 0)) # total active energy l3
+            block_1101.add_32bit_float(values.get("l1_import_energy_active", 0)) # imported active energy l1
+            block_1101.add_32bit_float(values.get("l2_import_energy_active", 0)) # imported active energy l2
+            block_1101.add_32bit_float(values.get("l3_import_energy_active", 0)) # imported active energy l3
             block_1101.add_32bit_float(values.get("export_energy_active", 0)) # total exported active energy
             block_1101.add_32bit_float(values.get("export_energy_active", 0)) # total exported active energy non-reset
-            block_1101.add_32bit_float(values.get("p1_export_energy_active", 0)) # exported energy l1
-            block_1101.add_32bit_float(values.get("p2_export_energy_active", 0)) # exported energy l2
-            block_1101.add_32bit_float(values.get("p3_export_energy_active", 0)) # exported energy l3
+            block_1101.add_32bit_float(values.get("l1_export_energy_active", 0)) # exported energy l1
+            block_1101.add_32bit_float(values.get("l2_export_energy_active", 0)) # exported energy l2
+            block_1101.add_32bit_float(values.get("l3_export_energy_active", 0)) # exported energy l3
             block_1101.add_32bit_float(values.get("energy_reactive", 0)) # total reactive energy
-            block_1101.add_32bit_float(values.get("p1_energy_reactive", 0)) # reactive energy l1
-            block_1101.add_32bit_float(values.get("p2_energy_reactive", 0)) # reactive energy l2
-            block_1101.add_32bit_float(values.get("p3_energy_reactive", 0)) # reactive energy l3
+            block_1101.add_32bit_float(values.get("l1_energy_reactive", 0)) # reactive energy l1
+            block_1101.add_32bit_float(values.get("l2_energy_reactive", 0)) # reactive energy l2
+            block_1101.add_32bit_float(values.get("l3_energy_reactive", 0)) # reactive energy l3
             block_1101.add_32bit_float(values.get("energy_apparent", 0)) # total apparent energy
-            block_1101.add_32bit_float(values.get("p1_energy_apparent", 0)) # apparent energy l1
-            block_1101.add_32bit_float(values.get("p2_energy_apparent", 0)) # apparent energy l2
-            block_1101.add_32bit_float(values.get("p3_energy_apparent", 0)) # apparent energy l3
+            block_1101.add_32bit_float(values.get("l1_energy_apparent", 0)) # apparent energy l1
+            block_1101.add_32bit_float(values.get("l2_energy_apparent", 0)) # apparent energy l2
+            block_1101.add_32bit_float(values.get("l3_energy_apparent", 0)) # apparent energy l3
             block_1101.add_32bit_float(values.get("power_factor", 0)) # power factor
-            block_1101.add_32bit_float(values.get("p1_power_factor", 0)) # power factor l1
-            block_1101.add_32bit_float(values.get("p2_power_factor", 0)) # power factor l2
-            block_1101.add_32bit_float(values.get("p3_power_factor", 0)) # power factor l3
+            block_1101.add_32bit_float(values.get("l1_power_factor", 0)) # power factor l1
+            block_1101.add_32bit_float(values.get("l2_power_factor", 0)) # power factor l2
+            block_1101.add_32bit_float(values.get("l3_power_factor", 0)) # power factor l3
             block_1101.add_32bit_float(values.get("power_reactive", 0)) # total reactive power
-            block_1101.add_32bit_float(values.get("p1_power_reactive", 0)) # reactive power l1
-            block_1101.add_32bit_float(values.get("p2_power_reactive", 0)) # reactive power l2
-            block_1101.add_32bit_float(values.get("p3_power_reactive", 0)) # reactive power l3
+            block_1101.add_32bit_float(values.get("l1_power_reactive", 0)) # reactive power l1
+            block_1101.add_32bit_float(values.get("l2_power_reactive", 0)) # reactive power l2
+            block_1101.add_32bit_float(values.get("l3_power_reactive", 0)) # reactive power l3
             block_1101.add_32bit_float(values.get("power_apparent", 0)) # total apparent power
-            block_1101.add_32bit_float(values.get("p1_power_apparent", 0)) # apparent power l1
-            block_1101.add_32bit_float(values.get("p2_power_apparent", 0)) # apparent power l2
-            block_1101.add_32bit_float(values.get("p3_power_apparent", 0)) # apparent power l3
-            block_1101.add_32bit_float(values.get("p1_current", 0)) # current l1
-            block_1101.add_32bit_float(values.get("p2_current", 0)) # current l2
-            block_1101.add_32bit_float(values.get("p3_current", 0)) # current l3
+            block_1101.add_32bit_float(values.get("l1_power_apparent", 0)) # apparent power l1
+            block_1101.add_32bit_float(values.get("l2_power_apparent", 0)) # apparent power l2
+            block_1101.add_32bit_float(values.get("l3_power_apparent", 0)) # apparent power l3
+            block_1101.add_32bit_float(values.get("l1_current", 0)) # current l1
+            block_1101.add_32bit_float(values.get("l2_current", 0)) # current l2
+            block_1101.add_32bit_float(values.get("l3_current", 0)) # current l3
             block_1101.add_32bit_float(values.get("demand_power_active", 0)) # demand power
             block_1101.add_32bit_float(values.get("minimum_demand_power_active", 0)) # minimum demand power
             block_1101.add_32bit_float(values.get("maximum_demand_power_active", 0)) # maximum demand power
             block_1101.add_32bit_float(values.get("demand_power_apparent", 0)) # apparent demand power
-            block_1101.add_32bit_float(values.get("p1_demand_power_active", 0)) # demand power l1
-            block_1101.add_32bit_float(values.get("p2_demand_power_active", 0)) # demand power l2
-            block_1101.add_32bit_float(values.get("p3_demand_power_active", 0)) # demand power l3
+            block_1101.add_32bit_float(values.get("l1_demand_power_active", 0)) # demand power l1
+            block_1101.add_32bit_float(values.get("l2_demand_power_active", 0)) # demand power l2
+            block_1101.add_32bit_float(values.get("l3_demand_power_active", 0)) # demand power l3
             ctx.setValues(3, 1100, block_1101.to_registers())
         except Exception as e:
             logger.critical(f"{this_t.name}: {e}")
@@ -195,8 +195,8 @@ if __name__ == "__main__":
                 block_1701.add_32bit_int(confparser[meter].getint("serial_number", fallback=default_config["meters"]["serial_number"])) # serial number
                 block_1701.add_32bit_int(0) # uptime (s)
                 block_1701.add_32bit_int(0) # total uptime (s)
-                block_1701.add_16bit_int(0) # wattnode model
-                block_1701.add_16bit_int(26) # firmware version
+                block_1701.add_16bit_int(202) # wattnode model
+                block_1701.add_16bit_int(31) # firmware version
                 block_1701.add_16bit_int(0) # wattnode options
                 block_1701.add_16bit_int(0) # error status
                 block_1701.add_16bit_int(0) # power fail count
