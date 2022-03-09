@@ -312,7 +312,6 @@ def t_update(ctx, SE7K_CTX, stop, module, device, refresh):
 
             # use the values from the SE-MTR-3Y-400V-A SE Meter
             values = values["connected_meters"]["Meter1"]      
-            logger.info(values.get('power_int', 0)*10**values.get('power_scale_int', 0))
 
             if logger.isEnabledFor(logging.DEBUG):
                 logger.info("current:"+str(values.get('current_int', 0)))

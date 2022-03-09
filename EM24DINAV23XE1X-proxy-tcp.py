@@ -98,8 +98,6 @@ def t_update(ctx, stop, module, device, refresh):
 
             meterValues = values["connected_meters"]["Meter1"]      
 
-            logger.info(values.get('power_active'))
-
             if logger.isEnabledFor(logging.DEBUG):
                 logger.info("current:")
                 logger.info(values.get('l1_current'))
