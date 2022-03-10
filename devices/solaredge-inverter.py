@@ -152,7 +152,6 @@ def values(device):
         "l3_demand_power_active": 0.0,
     }
 
-    values |= SE_WNC_3Y_400_MB_K1_values  
 
-    return values
+    return dict(list(values.items()) + list(SE_WNC_3Y_400_MB_K1_values.items()))
     # append type to key

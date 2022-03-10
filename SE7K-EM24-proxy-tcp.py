@@ -303,7 +303,9 @@ def t_update(ctx, SE7K_CTX, stop, module, device, refresh):
 
     while not stop.is_set():
         try:
+            logger.debug('before t_update_se7k ')
             t_update_se7k(SE7K_CTX, stop, module, device, refresh)
+            logger.debug('after t_update_se7k ')
 
             values = module.values(device)
             if not values:

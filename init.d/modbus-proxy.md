@@ -1,4 +1,4 @@
-die modbus-proxy datei muss in /etc/init.d als ausführbare datei kopiert werden.
+the modbus-proxy file must be stored in /etc/init.d and flagged executable.
 
 systemctl start modbus-proxy
 systemctl enable modbus-proxy

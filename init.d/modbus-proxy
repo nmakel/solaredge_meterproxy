@@ -19,7 +19,7 @@
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 DESC="modbus proxy daemon"
 NAME=modbus-proxy
-DAEMON=/home/martin/gitHubClones/solaredge_meterproxy/SE7K-proxy-tcp.d.sh
+DAEMON=/home/martin/gitHubClones/solaredge_meterproxy/SE7K-EM24-proxy-tcp.d.sh
 PIDFILE=/var/run/modbus-proxy.pid
 SCRIPTNAME=/etc/init.d/"$NAME"
 
