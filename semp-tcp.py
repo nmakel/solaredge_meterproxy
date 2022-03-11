@@ -112,7 +112,7 @@ if __name__ == "__main__":
             "port": 5502,
             "framer": "socket",
             "log_level": "INFO",
-            "meters": 'Meter1'
+            "meters": ''
         },
         "meters": {
             "dst_address": 2,
