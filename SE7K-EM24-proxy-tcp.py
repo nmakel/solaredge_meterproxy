@@ -29,7 +29,7 @@ class EM24SlaveContext(ModbusSlaveContext):
 
 
 class ModbusMyTcpServer(ModbusTcpServer):
-    clientCounter = 0
+    clientCounter={}
 
     def process_request(self, request, client):
         """ Callback for connecting a new client thread
@@ -37,9 +37,12 @@ class ModbusMyTcpServer(ModbusTcpServer):
         :param request: The request to handle
         :param client: The address of the client
         """
-        self.clientCounter += 1
+        self.clientCounter[client[0]] = self.clientCounter.get(client[0],0) + 1
+        
         logger = logging.getLogger()
-        logger.info("Started thread to serve client at " + str(client) + " clientCounter = " + str(self.clientCounter))
+        if self.clientCounter[client[0]]%1000 == 1:
+            logger.info("Started thread to serve client at " + str(client[0]) + " clientCounter = " + str(self.clientCounter[client[0]]) + " request"+ str(request))
+
         super().process_request(request,client)
 
     def shutdown(self):
@@ -202,7 +205,13 @@ def t_update_se7k(ctx, stop, module, device, refresh):
         values = module.values(device)
 
         if not values:
-            return
+            logger.info("no values read from device so discard")
+            return 
+        
+        if values.get("energy_total_int") == 0:
+            logger.info("energy_total_int not set")
+        if values.get("frequency_int") == 0:
+            logger.info("power_ac_int not set so discard update")
 
         block_40000 = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
         block_40000.add_string("SunS") 
@@ -292,6 +301,8 @@ def t_update_se7k(ctx, stop, module, device, refresh):
 
     except Exception as e:
         logger.critical(f"{this_t.name}: {e}")
+        return 
+    return         
 
 
 
@@ -304,7 +315,8 @@ def t_update(ctx, SE7K_CTX, stop, module, device, refresh):
     while not stop.is_set():
         try:
             logger.debug('before t_update_se7k ')
-            t_update_se7k(SE7K_CTX, stop, module, device, refresh)
+            if not t_update_se7k(SE7K_CTX, stop, module, device, refresh):
+                logger.debug('update not succesful t_update_se7k ')
             logger.debug('after t_update_se7k ')
 
             values = module.values(device)
