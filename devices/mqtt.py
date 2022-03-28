@@ -11,24 +11,29 @@ logger = logging.getLogger()
 
 
 def on_connect(client, userdata, flags, rc):
-    logger.info(
-        f"MQTT connected to {userdata['host']}:{userdata['port']} - topic: '{userdata['meterValuesTopic']}' with result code {rc}.")
+    logger.info(f"Connected to MQTT: {userdata['host']}:{userdata['port']}/{userdata['meterValuesTopic']}")
+
     client.subscribe(userdata["meterValuesTopic"])
+
     if userdata['willTopic'] is not None:
-        client.publish(userdata['willTopic'], "MeterProxy Connected " +
-                       str(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")))
+        client.publish(
+            userdata['willTopic'],
+            "MeterProxy Connected " + str(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
+        )
 
 
 def on_message(client, userdata, message):
     global lastValues
-    logger.debug(F'Received message: {message.payload.decode("utf-8")}')
+
+    logger.debug(f"MQTT message received: {message.payload.decode('utf-8')}")
+
     decoded_message = str(message.payload.decode("utf-8"))
     lastValues = json.loads(decoded_message)
 
 
 def on_disconnect(client, userdata, rc):
     if rc != 0:
-        logger.info(F"Unexpected MQTT disconnection, with result code {rc}.")
+        logger.info(f"MQTT disconnected unexpectedly: {rc}")
 
 
 def device(config):
@@ -59,15 +64,14 @@ def device(config):
         client.on_connect = on_connect
         client.on_message = on_message
         client.on_disconnect = on_disconnect
+
         if willTopic is not None:
             client.will_set(willTopic, payload=willMsg, qos=0, retain=False)
+
         client.connect(host, port, keepalive)
         client.loop_start()
-        logger.debug(
-            f"Started MQTT connection to server - topic: {host}:{port}  - {meterValuesTopic}")
     except:
-        logger.critical(
-            f"MQTT connection failed: {host}:{port} - {meterValuesTopic}")
+        logger.warning(f"MQTT connection failed: {host}:{port}/{meterValuesTopic}")
 
     return {
         "client": client,
@@ -83,6 +87,7 @@ def device(config):
 def values(device):
     if not device:
         return {}
+
     return lastValues
 
     #  MQTT input is a json with one or more of the below elements
