@@ -1,9 +1,10 @@
+import datetime
+import json
 import logging
 import sys
 import time
-import json
+
 import paho.mqtt.client as mqtt
-from datetime import datetime
 
 lastValues = {}
 logger = logging.getLogger()
@@ -15,7 +16,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe(userdata["meterValuesTopic"])
     if userdata['willTopic'] is not None:
         client.publish(userdata['willTopic'], "MeterProxy Connected " +
-                       str(datetime.now().strftime("%d/%m/%Y %H:%M:%S")))
+                       str(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")))
 
 
 def on_message(client, userdata, message):
