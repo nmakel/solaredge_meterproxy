@@ -20,11 +20,11 @@ import json
 import paho.mqtt.client as mqtt
 from datetime import datetime
 
-__author__ = ["Marcel Verpaalen"]
+__author__ = ["Jacques Mulders"]
 __version__ = "1.0"
 __copyright__ = "Copyright 2022, Marcel Verpaalen"
 __license__ = "GPL"
-__credits__ = ["NMakel"]
+__credits__ = ["NMakel", "Marcel Verpaalen"]
 
 class MovingAverage(object):
     def __init__(self, size):
