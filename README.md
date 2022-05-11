@@ -141,6 +141,55 @@ The `values()` function is called every `refresh_rate` seconds. It gets passed t
 
 Single phase devices should put the single phase values in the generic _and_ first phase specific values, for example: `power_active` and `p1_power_active`, but also `voltage_ln` and `p1n_voltage`.
 
+### DSMR Reader
+
+if you are already using DSMR reader you can export the data via mqtt.
+in DSMR reader go to the configuration screen, MQTT section, (Data source) Telegram: JSON.
+the minimum needed;
+
+```
+[mapping]
+# READING FIELD = JSON FIELD
+electricity_delivered_1 = electricityImportedT1
+electricity_returned_1 = electricityExportedT1
+electricity_delivered_2 = electricityImportedT2
+electricity_returned_2 = electricityExportedT2
+electricity_currently_delivered = powerImportedActual
+electricity_currently_returned = powerExportedActual
+phase_voltage_l1 = instantaneousVoltageL1
+phase_voltage_l2 = instantaneousVoltageL2
+phase_voltage_l3 = instantaneousVoltageL3
+phase_power_current_l1 = instantaneousCurrentL1
+phase_power_current_l2 = instantaneousCurrentL2
+phase_power_current_l3 = instantaneousCurrentL3
+phase_currently_delivered_l1 = instantaneousActivePowerL1Plus
+phase_currently_delivered_l2 = instantaneousActivePowerL2Plus
+phase_currently_delivered_l3 = instantaneousActivePowerL3Plus
+phase_currently_returned_l1 = instantaneousActivePowerL1Min
+phase_currently_returned_l2 = instantaneousActivePowerL2Min
+phase_currently_returned_l3 = instantaneousActivePowerL3Min
+```
+
+this json message will be send, when activated, on the 'dsmr/json' topic, this topic can be adjusted.
+i'm using a [waveshare usb to rs485/modbus module](https://www.waveshare.com/usb-to-rs485.htm)
+
+config example;
+
+```
+[server]
+device = /dev/ttyUSB0
+baud = 9600
+timeout = 0.1
+log_level = INFO
+meters = meter1
+
+[meter1]
+type=mqttP1Dsmr-reader
+host=<IP of MQTT broker>
+port=<Port of MQTT broker>
+meterValuesTopic=dsmr/json
+willTopic=dsmr/will
+```
 
 ## Contributing
 
