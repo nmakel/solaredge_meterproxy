@@ -143,7 +143,7 @@ Single phase devices should put the single phase values in the generic _and_ fir
 
 ### DSMR Reader
 
-if you are already using DSMR reader you can export the data via mqtt.
+if you are already using [DSMR reader](https://dsmr-reader.readthedocs.io/) you can export the data via mqtt.
 in DSMR reader go to the configuration screen, MQTT section, (Data source) Telegram: JSON.
 the minimum needed;
 
