@@ -254,7 +254,7 @@ if __name__ == "__main__":
             logger.info(f"Starting {t}")
 
         server = StartTcpServer(
-            server_ctx,
+            context=server_ctx,
             framer=framer,
             identity=identity,
             address=(

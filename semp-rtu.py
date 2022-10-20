@@ -246,7 +246,7 @@ if __name__ == "__main__":
             logger.info(f"Starting {t}")
 
         StartSerialServer(
-            server_ctx,
+            context=server_ctx,
             framer=ModbusRtuFramer,
             identity=identity,
             port=confparser["server"].get("device", fallback=default_config["server"]["device"]),
