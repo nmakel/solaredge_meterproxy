@@ -8,7 +8,7 @@ import sys
 import threading
 import time
 
-from pymodbus.server.sync import StartTcpServer
+from pymodbus.server import StartTcpServer
 from pymodbus.constants import Endian
 from pymodbus.device import ModbusDeviceIdentification
 from pymodbus.transaction import ModbusSocketFramer
