@@ -1,4 +1,4 @@
-pymodbus>=3.0.0
+pymodbus==3.4.1
 influxdb>=5.3.0
 requests>=2.23.0
 sdm_modbus>=0.6.0
