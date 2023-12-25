@@ -8,7 +8,7 @@ import sys
 import threading
 import time
 
-from pymodbus.server.sync import StartTcpServer
+from pymodbus.server import StartTcpServer
 from pymodbus.constants import Endian
 from pymodbus.device import ModbusDeviceIdentification
 from pymodbus.transaction import ModbusSocketFramer
@@ -254,7 +254,7 @@ if __name__ == "__main__":
             logger.info(f"Starting {t}")
 
         server = StartTcpServer(
-            server_ctx,
+            context=server_ctx,
             framer=framer,
             identity=identity,
             address=(
