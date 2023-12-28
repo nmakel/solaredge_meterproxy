@@ -11,20 +11,22 @@
 """
 
 from __future__ import division
-from collections import deque
 
+import json
 import logging
 import sys
 import time
-import json
-import paho.mqtt.client as mqtt
+from collections import deque
 from datetime import datetime
+
+import paho.mqtt.client as mqtt
 
 __author__ = ["Marcel Verpaalen"]
 __version__ = "1.0"
 __copyright__ = "Copyright 2022, Marcel Verpaalen"
 __license__ = "GPL"
 __credits__ = ["NMakel"]
+
 
 class MovingAverage(object):
     def __init__(self, size):
@@ -52,30 +54,42 @@ demandL1Avg = MovingAverage(180)
 demandL2Avg = MovingAverage(180)
 demandL3Avg = MovingAverage(180)
 
+
 def on_connect(client, userdata, flags, rc):
     logger.info(
-        f"MQTT connected to {userdata['host']}:{userdata['port']} - topic: '{userdata['meterValuesTopic']}' with result code {rc}.")
+        f"MQTT connected to {userdata['host']}:{userdata['port']} - topic: '{userdata['meterValuesTopic']}' with result code {rc}."
+    )
     client.subscribe(userdata["meterValuesTopic"])
-    if userdata['willTopic'] is not None:
-        client.publish(userdata['willTopic'], "MeterProxy Connected " +
-                       str(datetime.now().strftime("%d/%m/%Y %H:%M:%S")))
+    if userdata["willTopic"] is not None:
+        client.publish(
+            userdata["willTopic"], "MeterProxy Connected " + str(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
+        )
 
 
 def on_message(client, userdata, message):
     global lastValues
-#   logger.debug("Dump variable %s " %  json.dumps( userdata, indent=4, sort_keys=True))
+    #   logger.debug("Dump variable %s " %  json.dumps( userdata, indent=4, sort_keys=True))
     decoded_message = str(message.payload.decode("utf-8"))
     lastValues = json.loads(decoded_message)
     # Calc net power average
-    lastValues ['demand_power_active'] = demandAvg.next ( lastValues['powerImportedActual'] - lastValues['powerExportedActual'] )
-    lastValues ['l1_demand_power_active'] = demandL1Avg.next( lastValues['instantaneousActivePowerL1Plus'] - lastValues['instantaneousActivePowerL1Min'] )
-    lastValues ['l2_demand_power_active'] = demandL2Avg.next( lastValues['instantaneousActivePowerL2Plus'] - lastValues['instantaneousActivePowerL2Min'] )
-    lastValues ['l3_demand_power_active'] = demandL3Avg.next( lastValues['instantaneousActivePowerL3Plus'] - lastValues['instantaneousActivePowerL3Min'] )
-    logger.debug(F'Received message in {message.topic}, avg demand: {lastValues ["demand_power_active"]}')
+    lastValues["demand_power_active"] = demandAvg.next(
+        lastValues["powerImportedActual"] - lastValues["powerExportedActual"]
+    )
+    lastValues["l1_demand_power_active"] = demandL1Avg.next(
+        lastValues["instantaneousActivePowerL1Plus"] - lastValues["instantaneousActivePowerL1Min"]
+    )
+    lastValues["l2_demand_power_active"] = demandL2Avg.next(
+        lastValues["instantaneousActivePowerL2Plus"] - lastValues["instantaneousActivePowerL2Min"]
+    )
+    lastValues["l3_demand_power_active"] = demandL3Avg.next(
+        lastValues["instantaneousActivePowerL3Plus"] - lastValues["instantaneousActivePowerL3Min"]
+    )
+    logger.debug(f'Received message in {message.topic}, avg demand: {lastValues ["demand_power_active"]}')
+
 
 def on_disconnect(client, userdata, rc):
     if rc != 0:
-        logger.info(F"Unexpected MQTT disconnection, with result code {rc}.")
+        logger.info(f"Unexpected MQTT disconnection, with result code {rc}.")
 
 
 def device(config):
@@ -93,13 +107,10 @@ def device(config):
     meterValuesTopic = config.get("meterValuesTopic", fallback="meter")
     willTopic = config.get("willTopic", fallback=None)
     willMsg = config.get("willMsg", fallback="MeterProxy Disconnected")
+    offset_import = config.get("offset_import", fallback=0)
+    offset_export = config.get("offset_export", fallback=0)
 
-    topics = {
-        "host": host,
-        "port": port,
-        "meterValuesTopic": meterValuesTopic,
-        "willTopic": willTopic
-    }
+    topics = {"host": host, "port": port, "meterValuesTopic": meterValuesTopic, "willTopic": willTopic}
 
     try:
         client = mqtt.Client(userdata=topics)
@@ -110,11 +121,9 @@ def device(config):
             client.will_set(willTopic, payload=willMsg, qos=0, retain=False)
         client.connect(host, port, keepalive)
         client.loop_start()
-        logger.debug(
-            f"Started MQTT connection to server - topic: {host}:{port}  - {meterValuesTopic}")
+        logger.debug(f"Started MQTT connection to server - topic: {host}:{port}  - {meterValuesTopic}")
     except:
-        logger.critical(
-            f"MQTT connection failed: {host}:{port} - {meterValuesTopic}")
+        logger.critical(f"MQTT connection failed: {host}:{port} - {meterValuesTopic}")
 
     return {
         "client": client,
@@ -123,7 +132,9 @@ def device(config):
         "keepalive": keepalive,
         "meterValuesTopic": meterValuesTopic,
         "willTopic": willTopic,
-        "willMsg": willMsg
+        "willMsg": willMsg,
+        "offset_import": offset_import,
+        "offset_export": offset_export
     }
 
 
@@ -133,43 +144,49 @@ def values(device):
     global lastValues
     submitValues = {}
 
-    submitValues['l1n_voltage'] = lastValues['instantaneousVoltageL1']
-    submitValues['l2n_voltage'] = lastValues['instantaneousVoltageL2']
-    submitValues['l3n_voltage'] = lastValues['instantaneousVoltageL3']
-    submitValues['voltage_ln']  = lastValues['instantaneousVoltageL1']
-    submitValues['frequency'] = 50
+    submitValues["l1n_voltage"] = lastValues["instantaneousVoltageL1"]
+    submitValues["l2n_voltage"] = lastValues["instantaneousVoltageL2"]
+    submitValues["l3n_voltage"] = lastValues["instantaneousVoltageL3"]
+    submitValues["voltage_ln"] = lastValues["instantaneousVoltageL1"]
+    submitValues["frequency"] = 50
 
-    submitValues ['power_active'] = lastValues['powerImportedActual'] - lastValues['powerExportedActual']
-    submitValues ['l1_power_active']= lastValues['instantaneousActivePowerL1Plus'] - lastValues['instantaneousActivePowerL1Min']
-    submitValues ['l2_power_active']= lastValues['instantaneousActivePowerL2Plus'] - lastValues['instantaneousActivePowerL2Min']
-    submitValues ['l3_power_active']= lastValues['instantaneousActivePowerL3Plus'] - lastValues['instantaneousActivePowerL3Min']
+    submitValues["power_active"] = lastValues["powerImportedActual"] - lastValues["powerExportedActual"]
+    submitValues["l1_power_active"] = (
+        lastValues["instantaneousActivePowerL1Plus"] - lastValues["instantaneousActivePowerL1Min"]
+    )
+    submitValues["l2_power_active"] = (
+        lastValues["instantaneousActivePowerL2Plus"] - lastValues["instantaneousActivePowerL2Min"]
+    )
+    submitValues["l3_power_active"] = (
+        lastValues["instantaneousActivePowerL3Plus"] - lastValues["instantaneousActivePowerL3Min"]
+    )
 
-    P1Current=False
-    if (P1Current):
-        submitValues['l1_current'] = lastValues[ 'instantaneousCurrentL1'] 
-        submitValues['l2_current'] = lastValues[ 'instantaneousCurrentL2'] 
-        submitValues['l3_current'] = lastValues[ 'instantaneousCurrentL3'] 
+    P1Current = False
+    if P1Current:
+        submitValues["l1_current"] = lastValues["instantaneousCurrentL1"]
+        submitValues["l2_current"] = lastValues["instantaneousCurrentL2"]
+        submitValues["l3_current"] = lastValues["instantaneousCurrentL3"]
     else:
-        #calculate current as P1 provided current is rounded to integers
-        submitValues['l1_current'] = abs ( submitValues ['l1_power_active'] ) / lastValues['instantaneousVoltageL1']
-        submitValues['l2_current'] = abs ( submitValues ['l2_power_active'] ) / lastValues['instantaneousVoltageL2']
-        submitValues['l3_current'] = abs ( submitValues ['l3_power_active'] ) / lastValues['instantaneousVoltageL3']
+        # calculate current as P1 provided current is rounded to integers
+        submitValues["l1_current"] = abs(submitValues["l1_power_active"]) / lastValues["instantaneousVoltageL1"]
+        submitValues["l2_current"] = abs(submitValues["l2_power_active"]) / lastValues["instantaneousVoltageL2"]
+        submitValues["l3_current"] = abs(submitValues["l3_power_active"]) / lastValues["instantaneousVoltageL3"]
 
-    submitValues ['demand_power_active'] = lastValues ['demand_power_active'] 
-    submitValues ['l1_demand_power_active'] = lastValues ['l1_demand_power_active']
-    submitValues ['l2_demand_power_active'] = lastValues ['l2_demand_power_active']
-    submitValues ['l3_demand_power_active'] = lastValues ['l3_demand_power_active']
+    submitValues["demand_power_active"] = lastValues["demand_power_active"]
+    submitValues["l1_demand_power_active"] = lastValues["l1_demand_power_active"]
+    submitValues["l2_demand_power_active"] = lastValues["l2_demand_power_active"]
+    submitValues["l3_demand_power_active"] = lastValues["l3_demand_power_active"]
 
-    submitEnergy=True
-    if (submitEnergy):
-        submitValues['import_energy_active'] = lastValues['electricityImported'] / 1000.0
-        submitValues ["l1_import_energy_active"] = lastValues['electricityImported'] / 1000.0
-        submitValues['export_energy_active'] = lastValues['electricityExported'] / 1000.0
-        submitValues ["l1_export_energy_active"] = lastValues["electricityExported"] / 1000.0
-        submitValues['energy_active'] =  submitValues['import_energy_active'] - submitValues['export_energy_active'] 
+    submitEnergy = True
+    if submitEnergy:
+        submitValues["import_energy_active"] = (lastValues["electricityImported"] - device.offset_import) / 1000.0
+        submitValues["l1_import_energy_active"] = (lastValues["electricityImported"] - device.offset_import) / 1000.0
+        submitValues["export_energy_active"] = (lastValues["electricityExported"] - device.offset_export) / 1000.0
+        submitValues["l1_export_energy_active"] = (lastValues["electricityExported"] - device.offset_export) / 1000.0
+        submitValues["energy_active"] = submitValues["import_energy_active"] - submitValues["export_energy_active"]
     submitValues["_input"] = lastValues
 
-    logger.debug("Dump values %s " %  json.dumps( submitValues, indent=4, sort_keys=True))
+    logger.debug("Dump values %s " % json.dumps(submitValues, indent=4, sort_keys=True))
 
     return submitValues
 
@@ -228,4 +245,14 @@ def values(device):
     # "demand_power_apparent"
     # "l1_demand_power_active"
     # "l2_demand_power_active"
+    # "l3_demand_power_active"
+    # "l3_demand_power_active"
+    # "l3_demand_power_active"
+    # "l3_demand_power_active"
+    # "l3_demand_power_active"
+    # "l3_demand_power_active"
+    # "l3_demand_power_active"
+    # "l3_demand_power_active"
+    # "l3_demand_power_active"
+    # "l3_demand_power_active"
     # "l3_demand_power_active"
