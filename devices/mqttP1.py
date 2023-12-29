@@ -179,10 +179,10 @@ def values(device):
 
     submitEnergy = True
     if submitEnergy:
-        submitValues["import_energy_active"] = (lastValues["electricityImported"] - device.offset_import) / 1000.0
-        submitValues["l1_import_energy_active"] = (lastValues["electricityImported"] - device.offset_import) / 1000.0
-        submitValues["export_energy_active"] = (lastValues["electricityExported"] - device.offset_export) / 1000.0
-        submitValues["l1_export_energy_active"] = (lastValues["electricityExported"] - device.offset_export) / 1000.0
+        submitValues["import_energy_active"] = (lastValues["electricityImported"] - int (device["offset_import"])) / 1000.0
+        submitValues["l1_import_energy_active"] = (lastValues["electricityImported"] - int(device["offset_import"])) / 1000.0
+        submitValues["export_energy_active"] = (lastValues["electricityExported"] - int(device["offset_export"])) / 1000.0
+        submitValues["l1_export_energy_active"] = (lastValues["electricityExported"] - int(device["offset_export"])) / 1000.0
         submitValues["energy_active"] = submitValues["import_energy_active"] - submitValues["export_energy_active"]
     submitValues["_input"] = lastValues
 
