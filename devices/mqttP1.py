@@ -14,8 +14,6 @@ from __future__ import division
 
 import json
 import logging
-import sys
-import time
 from collections import deque
 from datetime import datetime
 
@@ -29,16 +27,25 @@ __credits__ = ["NMakel"]
 
 
 class MovingAverage(object):
+    """
+    A class that calculates the moving average of a given window size.
+    """
     def __init__(self, size):
         """
         Initialize your data structure here.
+        
+        :param size: The size of the moving average window.
         :type size: int
         """
         self.queue = deque(maxlen=size)
 
     def next(self, val):
         """
+        Add a new value to the moving average window and return the updated average.
+        
+        :param val: The new value to be added to the moving average window.
         :type val: int
+        :return: The updated average of the values in the moving average window.
         :rtype: float
         """
         self.queue.append(val)
@@ -122,8 +129,8 @@ def device(config):
         client.connect(host, port, keepalive)
         client.loop_start()
         logger.debug(f"Started MQTT connection to server - topic: {host}:{port}  - {meterValuesTopic}")
-    except:
-        logger.critical(f"MQTT connection failed: {host}:{port} - {meterValuesTopic}")
+    except Exception as e:
+        logger.critical(f"MQTT connection failed: {host}:{port} - {meterValuesTopic}: {e}")
 
     return {
         "client": client,
@@ -184,9 +191,10 @@ def values(device):
         submitValues["export_energy_active"] = (lastValues["electricityExported"] - int(device["offset_export"])) / 1000.0
         submitValues["l1_export_energy_active"] = (lastValues["electricityExported"] - int(device["offset_export"])) / 1000.0
         submitValues["energy_active"] = submitValues["import_energy_active"] - submitValues["export_energy_active"]
+        submitValues["l1_energy_active"] = submitValues["import_energy_active"] - submitValues["export_energy_active"]
     submitValues["_input"] = lastValues
 
-    logger.debug("Dump values %s " % json.dumps(submitValues, indent=4, sort_keys=True))
+    logger.debug(f"Dump values {json.dumps(submitValues, indent=4, sort_keys=True)}")
 
     return submitValues
 
