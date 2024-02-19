@@ -104,3 +104,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+*.bak
+out*.txt
+nohup.out
+/bak
+
