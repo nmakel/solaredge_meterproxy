@@ -11,7 +11,6 @@
 import logging
 
 import paho.mqtt.client as mqtt
-#import paho
 
 lastValues = {}
 logger = logging.getLogger()
@@ -28,18 +27,17 @@ def on_message(client, userdata, message):
 
     topicmap = userdata['topicmap']
     if message.topic == f"userdata['topic']/status":
-        logger.info(f"status: {message.payload}")
         if message.payload.decode("utf-8") == "online":
             logger.debug(f"Status is online")
         else:
-            logger.debug(f"Status is not online, cleaning buffer")
-            lastValues.clear()
+            logger.debug(f"Status is not online, setting power vlaues to 0")
+            lastValues["power_active"] = 0
+            lastValues["l1_power_active"] = 0
+            lastValues["l1_current"] = 0
     elif message.topic in topicmap:
-        if(isinstance(topicmap[message.topic], str)):
-            lastValues[topicmap[message.topic]] = float(message.payload)
-        else:
-            for key in topicmap[message.topic]:
-                lastValues[key] = float(message.payload)
+        logger.debug(f"message {message.topic} is in map")
+        for entry in topicmap[message.topic]:
+            lastValues[entry[0]] = float(message.payload) * entry[1]
     else:
         logger.debug(f"MQTT ignored unknown topic {message.topic}")
 
@@ -73,18 +71,22 @@ def device(config):
     keepalive = config.getint("keepalive", fallback=60)
     topic = config.get("topic", fallback="deye")
 
+    """ The topicmap is used for mapping the Deye names to the one within the proxy.
+        Per MQTT topic an array of proxy keys has to be given. The array entries are arrays again.
+        The first value of the array is the name within the proxy, the second vlaue is a scaling
+        factor. Set it to -1 to invert something. Currently not really needed, but who knows.
+    """
     userdata = {
         "host": host,
         "port": port,
         "topic": topic,
         "topicmap":  {
-            f"{topic}/total_energy": "energy_active",
-            f"{topic}/ac/active_power": "power_active",
-            f"{topic}/l1/power_active": "l1_power_active",
-            f"{topic}/l1/voltage": ["voltage_ln", "l1n_voltage"],
-            f"{topic}/ac/freq": "frequency",
-            f"{topic}/total_energy": ["l1_energy_active", "l1_export_energy_active"],
-            f"{topic}/l1/current": "l1_current",
+            f"{topic}/total_energy": [ ["energy_active", 1] ],
+            f"{topic}/ac/l1/power": [ ["l1_power_active", 1], ["active_power", 1] ],
+            f"{topic}/ac/l1/voltage": [ ["voltage_ln", 1], ["l1n_voltage", 1] ],
+            f"{topic}/ac/freq": [ ["frequency", 1] ],
+            f"{topic}/total_energy": [ ["l1_energy_active", 1], ["l1_export_energy_active", 1] ],
+            f"{topic}/ac/l1/current": [ ["l1_current", 1] ],
         }
     }
 
