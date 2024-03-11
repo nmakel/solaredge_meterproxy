@@ -9,12 +9,13 @@
 """
 
 import logging
+import time
 
 import paho.mqtt.client as mqtt
 
 lastValues = {}
 logger = logging.getLogger()
-
+reconnect_delay = 10 # count of seconds between connection retries
 
 def on_connect(client, userdata, flags, rc):
     logger.info(f"Connected to MQTT: {userdata['host']}:{userdata['port']}/{userdata['topic']}")
@@ -26,11 +27,11 @@ def on_message(client, userdata, message):
     logger.debug(f"MQTT message received: {message.topic}:{message.payload.decode('utf-8')}")
 
     topicmap = userdata['topicmap']
-    if message.topic == f"userdata['topic']/status":
+    if message.topic == f"userdata['topic']/logger_status":
         if message.payload.decode("utf-8") == "online":
-            logger.debug(f"Status is online")
+            logger.debug(f"Logger Status is online")
         else:
-            logger.debug(f"Status is not online, setting power vlaues to 0")
+            logger.debug(f"Logger Status is not online, setting power vlaues to 0")
             lastValues["power_active"] = 0
             lastValues["l1_power_active"] = 0
             lastValues["l1_current"] = 0
@@ -45,8 +46,7 @@ def on_message(client, userdata, message):
 def on_disconnect(client, userdata, rc):
     if rc != 0:
         logger.warning(f"MQTT disconnected unexpectedly: {rc}, trying to reconnect")
-    reconnect_delay = 10
-    while true:
+    while True:
         time.sleep(reconnect_delay)
         try:
             client.reconnect()
@@ -90,16 +90,20 @@ def device(config):
         }
     }
 
-    try:
-        client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION1, userdata=userdata)
-        client.on_connect = on_connect
-        client.on_message = on_message
-        client.on_disconnect = on_disconnect
+    connected = False
+    while not connected:
+        try:
+            client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION1, userdata=userdata)
+            client.on_connect = on_connect
+            client.on_message = on_message
+            client.on_disconnect = on_disconnect
 
-        client.connect(host, port, keepalive)
-        client.loop_start()
-    except Exception as err:
-        logger.error(f"MQTT connection failed: {host}:{port}/{topic} ({err=})")
+            client.connect(host, port, keepalive)
+            client.loop_start()
+            connected = True
+        except Exception as err:
+            logger.error(f"MQTT connection failed: {host}:{port}/{topic} ({err=}). Retrying in {reconnect_delay}s.")
+            time.sleep(reconnect_delay)
 
     return {
         "client": client,
